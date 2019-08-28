@@ -1,0 +1,20 @@
+.Button {
+    padding: 8px 14px 9px;
+    background-color: #7146CE;
+    color: #FEFEFE;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.Round {
+    border-radius: 50px;
+}
+
+.White {
+    border: 1px solid #7146CE;
+    background: transparent;
+    color: #7146CE
+}

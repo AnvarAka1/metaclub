@@ -1,0 +1,10 @@
+.Grid {
+    width: 1290px;
+    margin: auto
+}
+
+@media (max-width: 1290) {
+    .Grid {
+        width: 100%;
+    }
+}

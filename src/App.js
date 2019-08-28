@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+import React, { Component } from "react";
+import Layout from "./containers/Layout/Layout";
+import AboutPage from "./containers/AboutPage/AboutPage";
+import { Route, Switch, Redirect, withRouter } from "react-router-dom";
+class App extends Component {
+  state = {
+    lang: 0,
+    isLangHover: false
+  };
+  langHoverHandler = () => {
+    this.setState({
+      isLangHover: true
+    });
+  };
+  langUnhoverHandler = () => {
+    this.setState({
+      isLangHover: false
+    });
+  };
+  langChangeHandler = (event, id) => {
+    this.setState({
+      lang: id
+    });
+  };
+  render() {
+    return (
+      <div className="App">
+        <Layout
+          lang={this.state.lang}
+          isLangHover={this.state.isLangHover}
+          langHover={this.langHoverHandler}
+          langChange={this.langChangeHandler}
+          langUnhover={this.langUnhoverHandler}
         >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+          <Switch>
+            <Route path="/" component={AboutPage} />
+            <Redirect from="*" to="/" />
+          </Switch>
+        </Layout>
+      </div>
+    );
+  }
 }
 
-export default App;
+export default withRouter(App);

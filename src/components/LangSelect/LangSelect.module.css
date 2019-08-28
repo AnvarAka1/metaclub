@@ -1,0 +1,39 @@
+.LangSelect {
+    position: relative;
+}
+
+.LangSelect img {
+    border-radius: 50%;
+}
+
+.Ul {
+    position: absolute;
+    top: 100%;
+    border: 1px solid #e0e0e0;
+    width: 100px;
+}
+
+.Ul li {
+    background: white;
+    cursor: pointer;
+    padding: 2px 3px;
+    border-bottom: 1px #e0e0e0 dashed;
+    transition: all .3s ease
+}
+
+.Ul li p {
+    transition: all .3s ease
+}
+
+.Ul li:hover {
+    color: white;
+    background: #7146CE
+}
+
+.Ul li:hover p {
+    color: #ffffff;
+}
+
+.disp {
+    display: none;
+}
