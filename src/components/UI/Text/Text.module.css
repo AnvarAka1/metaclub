@@ -1,4 +1,4 @@
-.Header {
+.Text {
     position: relative;
 }
 
@@ -24,22 +24,16 @@
     width: 50px;
     height: 2px;
     background: #7146CE;
-
 }
 
 .Margin {
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin: 15px 0;
 }
 
-.MarginBottom {
-    margin-bottom: 15px;
+.MarginBottomBig {
+    margin-bottom: 40px;
 }
 
-.PaddingBottom {
-    padding-bottom: 15px;
-}
-
-.Center {
-    text-align: center;
+.Part {
+    width: 70%;
 }

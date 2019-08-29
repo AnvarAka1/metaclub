@@ -6,7 +6,12 @@ const header = props => {
     classes[props.headerClass],
     props.thin ? classes.Thin : null,
     props.thick ? classes.Thick : null,
-    props.normal ? classes.Normal : null
+    props.normal ? classes.Normal : null,
+    props.hasLine ? classes.Line : null,
+    props.mtb ? classes.Margin : null,
+    props.mb ? classes.MarginBottom : null,
+    props.pb ? classes.PaddingBottom : null,
+    props.center ? classes.Center : null
   ];
   const headerStyle = props.headerStyle;
   let header = null;
