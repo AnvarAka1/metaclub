@@ -1,0 +1,13 @@
+.Header {}
+
+.Thin {
+    font-weight: 100;
+}
+
+.Thick {
+    font-weight: bold;
+}
+
+.Normal {
+    font-weight: normal;
+}

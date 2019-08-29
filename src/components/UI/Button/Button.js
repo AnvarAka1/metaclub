@@ -12,7 +12,8 @@ const button = props => {
     props.accent ? classes.Accent : null,
     props.sharp ? classes.Sharp : null,
     props.flatten ? classes.Flatten : null,
-    props.padding ? classes.Padding : null
+    props.padding ? classes.Padding : null,
+    props.wide ? classes.Wide : null
   ];
   return (
     <button

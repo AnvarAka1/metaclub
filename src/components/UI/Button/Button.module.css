@@ -18,3 +18,11 @@
     background: transparent;
     color: #7146CE
 }
+
+.Flatten {
+    border-radius: 5px
+}
+
+.Wide {
+    width: 100%;
+}

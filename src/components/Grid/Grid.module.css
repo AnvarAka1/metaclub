@@ -1,10 +1,10 @@
-.Grid {
-    width: 1290px;
-    margin: auto
+.Container {
+    width: 1290px !important;
+    margin: auto !important
 }
 
-@media (max-width: 1290) {
-    .Grid {
-        width: 100%;
+@media (max-width: 1290px) {
+    .Container {
+        width: 100% !important;
     }
 }

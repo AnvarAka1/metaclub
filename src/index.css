@@ -16,6 +16,7 @@ body {
 p,
 a {
   color: #777777;
+  text-decoration: none;
 }
 
 h1,
@@ -36,7 +37,7 @@ h2 {
   font-size: 44px;
 }
 
-h2 {
+h3 {
   font-size: 36px;
 }
 
@@ -50,6 +51,90 @@ h5 {
 
 p {
   font-size: 18px;
+}
+
+.accent {
+  color: #7146CE;
+}
+
+@media(max-width: 1290px) {
+
+  h1 {
+    font-size: 56px;
+  }
+
+  h2 {
+    font-size: 40px;
+  }
+
+  h3 {
+    font-size: 28px;
+  }
+
+  h4 {
+    font-size: 22px;
+  }
+
+  h5 {
+    font-size: 16px;
+  }
+
+  p {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 960px) {
+  h1 {
+    font-size: 48px;
+  }
+
+  h2 {
+    font-size: 36px;
+  }
+
+  h3 {
+    font-size: 24px;
+  }
+
+  h4 {
+    font-size: 18px;
+  }
+
+  h5 {
+    font-size: 14px;
+  }
+
+  p {
+    font-size: 14px;
+  }
+}
+
+@media(max-width: 600px) {
+
+  h1 {
+    font-size: 42px;
+  }
+
+  h2 {
+    font-size: 30px;
+  }
+
+  h3 {
+    font-size: 20px;
+  }
+
+  h4 {
+    font-size: 16px;
+  }
+
+  h5 {
+    font-size: 12px;
+  }
+
+  p {
+    font-size: 12px;
+  }
 }
 
 code {

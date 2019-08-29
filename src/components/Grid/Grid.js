@@ -4,9 +4,16 @@ import Grid from "@material-ui/core/Grid";
 
 const grid = props => {
   return (
-    <div className={classes.Grid}>
-      <Grid {...props}>{props.children}</Grid>
-    </div>
+    <Grid
+      {...props}
+      className={[
+        classes.Grid,
+        classes[props.gridClass],
+        props.con ? classes.Container : null
+      ].join(" ")}
+    >
+      {props.children}
+    </Grid>
   );
 };
 export default grid;
