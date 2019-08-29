@@ -7,58 +7,99 @@ class App extends Component {
   state = {
     footerForm: {
       name: {
-        type: "input",
+        inputType: "input",
         config: {
+          name: "name",
           placeholder: "Ваше имя",
           type: "text"
+        },
+        grid: {
+          sm: 6,
+          xs: 12
         },
         value: ""
       },
       email: {
-        type: "input",
+        inputType: "input",
         config: {
-          placeholder: "Ваше эл.почта",
+          name: "email",
+          placeholder: "Ваша эл.почта",
           type: "email"
+        },
+        grid: {
+          sm: 6,
+          xs: 12
         },
         value: ""
       },
       text: {
-        type: "textarea",
+        inputType: "textarea",
         config: {
+          name: "message",
           placeholder: "Отзыв / Вопрос / Предложение",
+
           type: "text"
+        },
+        grid: {
+          sm: 12,
+          xs: 12
         },
         value: ""
       }
     },
     lang: 0,
-    isLangHover: false
+    isLangHover: false,
+    drawerLeft: true
   };
-  langHoverHandler = () => {
-    this.setState({
-      isLangHover: true
+  componentDidMount() {
+    // set placeholders
+  }
+  toggleDrawerHandler = () => {
+    this.setState({ drawerLeft: false });
+  };
+  langHandler = () => {
+    const titles = {
+      name: ["Ваше имя", "Your name"],
+      email: ["Ваша эл.почта", "Your email"],
+      text: ["Отзыв / Вопрос / Предложение", "Message"]
+    };
+    const langs = 2;
+    const form = { ...this.state.footerForm };
+    const nextLang = (this.state.lang + 1) % langs;
+    // eslint-disable-next-line
+    for (let e in form) {
+      form[e].config.placeholder = titles[e][nextLang];
+    }
+
+    this.setState(prevState => {
+      return {
+        lang: (prevState.lang + 1) % langs,
+        footerForm: form
+      };
     });
   };
-  langUnhoverHandler = () => {
-    this.setState({
-      isLangHover: false
-    });
+  inputChangeHandler = (event, inputIdentifier) => {
+    const footerForm = {
+      ...this.state.footerForm
+    };
+    footerForm[inputIdentifier].value = event.target.value;
+    this.setState({ footerForm: footerForm });
   };
-  langChangeHandler = (event, id) => {
-    this.setState({
-      lang: id
-    });
+  footerFormSubmitHandler = event => {
+    event.preventDefault();
+    // axios
   };
   render() {
     return (
       <div className="App">
         <Layout
           lang={this.state.lang}
-          isLangHover={this.state.isLangHover}
-          langHover={this.langHoverHandler}
-          langChange={this.langChangeHandler}
-          langUnhover={this.langUnhoverHandler}
+          langClicked={this.langHandler}
+          drawerLeft={this.state.drawerLeft}
+          toggleDrawer={this.toggleDrawerHandler}
           footerForm={this.state.footerForm}
+          inputChanged={this.inputChangeHandler}
+          formSubmitted={this.footerFormSubmitHandler}
         >
           <Switch>
             <Route path="/" component={AboutPage} />

@@ -1,12 +1,75 @@
+.AppBar {
+    background: #FFFFFF;
+    box-shadow: 0px 5px 10px #E5E5E5;
+    padding: 11px 0;
+}
+
 .NavigationItems {
     width: 100%;
     display: flex;
     flex-flow: row;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
     font-size: 14px;
 }
 
 .NavigationItems li {
     list-style-type: none;
+}
+
+.Buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+.Buttons button {
+    height: 40px;
+    margin-right: 20px;
+}
+
+
+
+@media (max-width: 1290px) {
+    .NavigationItems {
+        padding-left: 25px;
+        padding-right: 25px;
+        font-size: 12px;
+    }
+
+    .Buttons button {
+        font-size: 12px;
+        margin-right: 10px;
+        height: 30px;
+    }
+}
+
+@media (max-width: 960px) {
+    .NavigationItems {
+        padding-left: 25px;
+        padding-right: 25px;
+        font-size: 12px;
+    }
+
+    .Buttons button {
+        font-size: 12px;
+        margin-right: 5px;
+        height: 25px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+    }
+}
+
+@media (max-width: 600px) {
+    .NavigationItems {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .Buttons button {
+        font-size: 10px;
+        margin-right: 5px;
+        height: 20px;
+        padding: 0px 8px;
+    }
 }

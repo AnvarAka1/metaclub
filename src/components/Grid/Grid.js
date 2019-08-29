@@ -6,7 +6,11 @@ const grid = props => {
   return (
     <Grid
       {...props}
-      className={[classes.Grid, props.con ? classes.Container : null].join(" ")}
+      className={[
+        classes.Grid,
+        classes[props.gridClass],
+        props.con ? classes.Container : null
+      ].join(" ")}
     >
       {props.children}
     </Grid>

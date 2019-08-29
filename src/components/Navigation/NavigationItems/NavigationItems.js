@@ -1,8 +1,9 @@
 import React from "react";
 import classes from "./NavigationItems.module.css";
 import { NavLink } from "react-router-dom";
-
-import Logo from "../../../assets/images/logo.png";
+import Logo from "../../Logo/Logo";
+import Hidden from "@material-ui/core/Hidden";
+// import Logo from "../../../assets/images/logo.png";
 import NavigationItem from "./NavigationItem/NavigationItem";
 import Button from "../../UI/Button/Button";
 import LangSelect from "../../LangSelect/LangSelect";
@@ -17,7 +18,6 @@ const navigationItems = props => {
       </NavigationItem>
     );
   });
-  console.log(navItems.buttons);
   const buttons = navItems.buttons.map(button => {
     return (
       <Button key={button.title} {...button.type} clicked={button.clicked}>
@@ -28,28 +28,32 @@ const navigationItems = props => {
 
   // return statement
   return (
-    <Grid con container justify="center">
-      <ul className={classes.NavigationItems}>
-        {/* Logo */}
-        <li>
-          <NavLink to="/">
-            <img src={Logo} alt={"Logo"}></img>
-          </NavLink>
-        </li>
-        {/* navigation */}
-        {navigationItems}
-        {/* Sign In and Reg */}
-        {buttons}
-        {/* Language selector */}
-        <LangSelect
-          lang={props.lang}
-          langChange={props.langChange}
-          isLangHover={props.isLangHover}
-          langHover={props.langHover}
-          langUnhover={props.langUnhover}
-        ></LangSelect>
-      </ul>
-    </Grid>
+    <nav>
+      <div className={classes.AppBar}>
+        <Grid con="true" container justify="center">
+          <ul className={classes.NavigationItems}>
+            {/* Logo */}
+            <li>
+              <NavLink to="/">
+                {/* <img src={Logo} alt={"Logo"}></img> */}
+                <Logo></Logo>
+              </NavLink>
+            </li>
+            {/* navigation */}
+            <Hidden smDown>{navigationItems}</Hidden>
+            {/* Sign In and Reg */}
+            <div className={classes.Buttons}>
+              {buttons}
+              {/* Language selector */}
+              <LangSelect
+                lang={props.lang}
+                langClicked={props.langClicked}
+              ></LangSelect>
+            </div>
+          </ul>
+        </Grid>
+      </div>
+    </nav>
   );
 };
 

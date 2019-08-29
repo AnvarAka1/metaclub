@@ -1,0 +1,31 @@
+.Input {
+    background: #FEFEFE;
+    border: 1px solid #DADADA;
+    box-sizing: border-box;
+    border-radius: 5px;
+    width: 100%;
+    padding: 6px 15px;
+    font-size: 14px;
+}
+
+
+
+.Input:focus {
+    outline: none;
+
+}
+
+.Textarea {
+    min-height: 140px
+}
+
+@media (max-width: 1290px) {}
+
+@media (max-width: 960px) {
+    .Input {
+        padding: 5px 12px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 600px) {}
