@@ -16,6 +16,7 @@ body {
 p,
 a {
   color: #777777;
+  text-decoration: none;
 }
 
 h1,
@@ -36,7 +37,7 @@ h2 {
   font-size: 44px;
 }
 
-h2 {
+h3 {
   font-size: 36px;
 }
 

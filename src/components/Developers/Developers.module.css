@@ -1,0 +1,10 @@
+.Developers {
+    text-align: center;
+    font-size: 18px;
+    line-height: 30px;
+}
+
+.Developers a {
+    font-weight: bold;
+    color: #7146CE;
+}

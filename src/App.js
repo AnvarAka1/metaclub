@@ -2,8 +2,35 @@ import React, { Component } from "react";
 import Layout from "./containers/Layout/Layout";
 import AboutPage from "./containers/AboutPage/AboutPage";
 import { Route, Switch, Redirect, withRouter } from "react-router-dom";
+
 class App extends Component {
   state = {
+    footerForm: {
+      name: {
+        type: "input",
+        config: {
+          placeholder: "Ваше имя",
+          type: "text"
+        },
+        value: ""
+      },
+      email: {
+        type: "input",
+        config: {
+          placeholder: "Ваше эл.почта",
+          type: "email"
+        },
+        value: ""
+      },
+      text: {
+        type: "textarea",
+        config: {
+          placeholder: "Отзыв / Вопрос / Предложение",
+          type: "text"
+        },
+        value: ""
+      }
+    },
     lang: 0,
     isLangHover: false
   };
@@ -31,6 +58,7 @@ class App extends Component {
           langHover={this.langHoverHandler}
           langChange={this.langChangeHandler}
           langUnhover={this.langUnhoverHandler}
+          footerForm={this.state.footerForm}
         >
           <Switch>
             <Route path="/" component={AboutPage} />

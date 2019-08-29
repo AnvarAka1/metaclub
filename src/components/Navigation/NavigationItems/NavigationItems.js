@@ -28,7 +28,7 @@ const navigationItems = props => {
 
   // return statement
   return (
-    <Grid container justify="center">
+    <Grid con container justify="center">
       <ul className={classes.NavigationItems}>
         {/* Logo */}
         <li>

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import classes from "./Layout.module.css";
 import AppBar from "../../components/Navigation/AppBar/AppBar";
+import Footer from "../../components/Footer/Footer";
 class Layout extends Component {
   render() {
     return (
@@ -13,6 +14,7 @@ class Layout extends Component {
           langUnhover={this.props.langUnhover}
         ></AppBar>
         {this.props.children}
+        <Footer></Footer>
       </div>
     );
   }
