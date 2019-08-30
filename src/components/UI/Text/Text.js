@@ -10,6 +10,8 @@ const text = props => {
     props.normal ? classes.Normal : null,
     props.hasLine ? classes.Line : null,
     props.mtb ? classes.Margin : null,
+    props.mtbBig ? classes.MarginBig : null,
+    props.mt ? classes.MarginTop : null,
     props.mbBig ? classes.MarginBottomBig : null,
     props.part ? classes.Part : null
   ];

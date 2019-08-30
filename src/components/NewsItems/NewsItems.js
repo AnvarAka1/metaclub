@@ -2,6 +2,7 @@ import React from "react";
 // import classes from "./NewsItems.module.css";
 import NewsItem from "./NewsItem/NewsItem";
 import Grid from "../Grid/Grid";
+
 const newsItems = props => {
   return (
     <>

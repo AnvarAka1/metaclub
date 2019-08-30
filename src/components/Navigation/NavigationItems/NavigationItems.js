@@ -74,13 +74,16 @@ const languageSelect = props => {
           "How to get paid on MHC?",
           "UzHow to get paid on MHC?"
         ],
-        link: "/"
+        link: "/mhc"
       },
-      { title: ["Калькулятор", "Calculator", "UzUzCalculator"], link: "/" },
-      { title: ["Ноды", "Nodes", "UzNodes"], link: "/" },
-      { title: ["Статьи", "Articles", "UzArticles"], link: "/" },
-      { title: ["F.A.Q", "F.A.Q", "UzF.A.Q"], link: "/" },
-      { title: ["Контакты", "Contacts", "UzContacts"], link: "/" }
+      {
+        title: ["Калькулятор", "Calculator", "UzUzCalculator"],
+        link: "/calculator"
+      },
+      { title: ["Ноды", "Nodes", "UzNodes"], link: "/nodes" },
+      { title: ["Статьи", "Articles", "UzArticles"], link: "/articles" },
+      { title: ["F.A.Q", "F.A.Q", "UzF.A.Q"], link: "/faq" },
+      { title: ["Контакты", "Contacts", "UzContacts"], link: "/contacts" }
     ],
     buttons: [
       {

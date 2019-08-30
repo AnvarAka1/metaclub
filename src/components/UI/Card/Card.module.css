@@ -1,0 +1,16 @@
+.Card {
+    padding: 30px 0
+}
+
+.BorderBottom {
+    border-bottom: #E2E2E2 1px solid;
+}
+
+.Scroll {
+    overflow: scroll;
+}
+
+.Scroll::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}

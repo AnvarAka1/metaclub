@@ -30,6 +30,14 @@
     margin: 15px 0;
 }
 
+.MarginTop {
+    margin-top: 15px
+}
+
+.MarginBig {
+    margin: 30px 0;
+}
+
 .MarginBottomBig {
     margin-bottom: 40px;
 }

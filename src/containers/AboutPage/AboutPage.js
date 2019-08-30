@@ -56,6 +56,11 @@ class AboutPage extends Component {
           </Header>
         </Grid>
         <Grid item xs={12}>
+          <Header center normal h3 mtb>
+            Server Statistics
+          </Header>
+        </Grid>
+        <Grid item xs={12}>
           <Header center h3 normal mtb>
             News / Media
           </Header>

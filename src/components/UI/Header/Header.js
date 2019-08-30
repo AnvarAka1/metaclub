@@ -9,6 +9,7 @@ const header = props => {
     props.normal ? classes.Normal : null,
     props.hasLine ? classes.Line : null,
     props.mtb ? classes.Margin : null,
+    props.mtbBig ? classes.MarginBig : null,
     props.mb ? classes.MarginBottom : null,
     props.pb ? classes.PaddingBottom : null,
     props.center ? classes.Center : null
