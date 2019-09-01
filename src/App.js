@@ -6,6 +6,7 @@ import AboutPage from "./containers/AboutPage/AboutPage";
 import FaqPage from "./containers/FaqPage/FaqPage";
 import ArticlesPage from "./containers/ArticlesPage/ArticlesPage";
 import ProfilePage from "./containers/ProfilePage/ProfilePage";
+import Mhc from "./containers/Mhc/Mhc";
 const cookies = new Cookies();
 class App extends Component {
   state = {
@@ -140,6 +141,7 @@ class App extends Component {
             <Route path="/about" component={AboutPage} />
             <Route path="/articles" component={ArticlesPage} />
             <Route path="/profiles/:id" component={ProfilePage} />
+            <Route path="/mhc" component={Mhc} />
             <Redirect from="*" to="/about" />
           </Switch>
         </Layout>

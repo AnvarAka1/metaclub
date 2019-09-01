@@ -75,14 +75,19 @@ export class ArticlesPage extends Component {
   };
   render() {
     return (
-      <Grid item xs={12} style={{ marginTop: "50px" }}>
-        <Grid container spacing={5}>
-          <Grid item sm={3} xs={12}>
-            <Menu clicked={this.categoryHandler} menu={this.state.menu}></Menu>
-          </Grid>
-          <Grid item md={8} sm={9} xs={12}>
-            <Grid container spacing={5}>
-              <NewsItems wide news={this.state.filteredArticles}></NewsItems>
+      <Grid con="true" container spacing={3}>
+        <Grid item xs={12} style={{ marginTop: "50px" }}>
+          <Grid container spacing={5}>
+            <Grid item sm={3} xs={12}>
+              <Menu
+                clicked={this.categoryHandler}
+                menu={this.state.menu}
+              ></Menu>
+            </Grid>
+            <Grid item md={8} sm={9} xs={12}>
+              <Grid container spacing={5}>
+                <NewsItems wide news={this.state.filteredArticles}></NewsItems>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>

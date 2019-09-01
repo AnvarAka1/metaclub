@@ -16,14 +16,13 @@ const text = props => {
     props.mbBig ? classes.MarginBottomBig : null,
     props.part ? classes.Part : null
   ];
+  const textStyles = {
+    ...props.textStyle,
+    color: props.color ? props.color : "#777",
+    fontSize: props.size ? props.size : null
+  };
   return (
-    <p
-      className={textClasses.join(" ")}
-      style={{
-        color: props.color ? props.color : "#777",
-        fontSize: props.size ? props.size : null
-      }}
-    >
+    <p className={textClasses.join(" ")} style={textStyles}>
       {props.children}
     </p>
   );

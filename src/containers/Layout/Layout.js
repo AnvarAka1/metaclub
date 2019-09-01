@@ -4,11 +4,10 @@ import Drawer from "@material-ui/core/Drawer";
 import NavigationItems from "../../components/Navigation/NavigationItems/NavigationItems";
 import Footer from "../../components/Footer/Footer";
 import Hidden from "@material-ui/core/Hidden";
-import Grid from "../../components/Grid/Grid";
 class Layout extends Component {
   render() {
     return (
-      <div className={classes.Layout}>
+      <div className={[classes.Layout].join(" ")}>
         <NavigationItems
           lang={this.props.lang}
           langClicked={this.props.langClicked}
@@ -27,11 +26,7 @@ class Layout extends Component {
             ></NavigationItems>
           </Drawer>
         </Hidden>
-        <div className={classes.Container}>
-          <Grid con="true" container spacing={3}>
-            {this.props.children}
-          </Grid>
-        </div>
+        <div className={classes.Container}>{this.props.children}</div>
         <Footer
           lang={this.props.lang}
           footerForm={this.props.footerForm}
