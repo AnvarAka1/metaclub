@@ -5,7 +5,10 @@ const card = props => {
   const cardClasses = [
     classes.Card,
     props.bb ? classes.BorderBottom : null,
-    props.scroll ? classes.Scroll : null
+    props.scroll ? classes.Scroll : null,
+    props.accent ? classes.AccentGradient : null,
+    props.server ? classes.Server : null,
+    props.mb ? classes.MarginBottom : null
   ];
   return <div className={cardClasses.join(" ")}>{props.children}</div>;
 };

@@ -2,6 +2,10 @@
     position: relative;
 }
 
+.Light {
+    color: #F7F7F7
+}
+
 .Thin {
     font-weight: 100;
 }
@@ -41,10 +45,26 @@
     margin-bottom: 15px;
 }
 
+.MarginBottomBig {
+    margin-bottom: 30px;
+}
+
 .PaddingBottom {
     padding-bottom: 15px;
 }
 
 .Center {
     text-align: center;
+}
+
+.Green {
+    color: #3AFF89
+}
+
+.Pointer {
+    cursor: pointer;
+}
+
+.Accent {
+    color: #796DE8;
 }

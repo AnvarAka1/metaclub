@@ -4,19 +4,14 @@ import NewsItem from "./NewsItem/NewsItem";
 import Grid from "../Grid/Grid";
 
 const newsItems = props => {
-  return (
-    <>
-      <Grid item xs={props.xs} sm={props.sm}>
-        <NewsItem></NewsItem>
+  const news = props.news.map(newsItem => {
+    return (
+      <Grid key={newsItem.id} item xs={12} sm={props.wide ? 12 : 4}>
+        <NewsItem key={newsItem.id} {...newsItem}></NewsItem>
       </Grid>
-      <Grid item xs={props.xs} sm={props.sm}>
-        <NewsItem></NewsItem>
-      </Grid>
-      <Grid item xs={props.xs} sm={props.sm}>
-        <NewsItem></NewsItem>
-      </Grid>
-    </>
-  );
+    );
+  });
+  return <>{news}</>;
 };
 
 export default newsItems;

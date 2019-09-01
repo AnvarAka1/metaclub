@@ -1,0 +1,13 @@
+.Ul {}
+
+.Li {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 15px 0
+}
+
+.Active {
+    color: #796DE8;
+}

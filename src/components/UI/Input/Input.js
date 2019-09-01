@@ -2,7 +2,10 @@ import React from "react";
 import classes from "./Input.module.css";
 
 const input = props => {
-  const inputClasses = [classes.Input];
+  const inputClasses = [
+    classes.Input,
+    props.serverInput ? classes.Server : null
+  ];
   let input;
   switch (props.elementConfig.inputType) {
     case "input":

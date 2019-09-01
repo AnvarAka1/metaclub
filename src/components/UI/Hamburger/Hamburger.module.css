@@ -1,0 +1,17 @@
+.Hamburger {
+    display: inline-block;
+    width: 25px;
+    cursor: pointer;
+    margin: 0 5px 0 10px
+}
+
+.Hamburger div {
+    height: 3px;
+    width: 100%;
+    background: #000;
+    border-radius: 2px
+}
+
+.Center {
+    margin: 5px 0;
+}

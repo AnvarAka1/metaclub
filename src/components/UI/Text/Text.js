@@ -5,6 +5,7 @@ const text = props => {
   const textClasses = [
     classes.Text,
     classes[props.textClass],
+    props.transition ? classes.Transition : null,
     props.thin ? classes.Thin : null,
     props.thick ? classes.Thick : null,
     props.normal ? classes.Normal : null,

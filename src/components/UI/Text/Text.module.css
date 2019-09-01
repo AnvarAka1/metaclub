@@ -45,3 +45,11 @@
 .Part {
     width: 70%;
 }
+
+.Hidden {
+    display: none;
+}
+
+.Transition {
+    transition: all .5s ease
+}

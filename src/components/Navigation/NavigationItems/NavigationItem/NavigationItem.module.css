@@ -1,16 +1,50 @@
-.NavigationItem {}
-
 .NavigationItem a {
     display: inline-block;
     width: 100%;
     height: 100%;
     text-decoration: none;
-    padding: 15px 0;
     transition: border .5s ease;
+}
+
+.Horizontal {
+    display: block;
+}
+
+.Horizontal a {
+    padding: 15px 0;
     border-bottom: 2px transparent solid
 }
 
-.NavigationItem a:hover {
+.Horizontal a:hover {
     border-bottom: 2px #7146CE solid;
 
+}
+
+.Horizontal .ActiveLink {
+    border-bottom: 2px #7146CE solid;
+}
+
+.ActiveSideDrawerLink {
+    color: #7146CE
+}
+
+.Vertical {
+    display: none;
+
+}
+
+.Vertical a {
+    padding: 10px 10px
+}
+
+
+
+@media(max-width: 960px) {
+    .Horizontal {
+        display: none;
+    }
+
+    .Vertical {
+        display: block;
+    }
 }

@@ -61,6 +61,10 @@ img {
   color: #7146CE;
 }
 
+.green {
+  color: #3AFF89
+}
+
 @media(max-width: 1290px) {
 
   h1 {

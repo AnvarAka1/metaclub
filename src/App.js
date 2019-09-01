@@ -4,7 +4,7 @@ import Cookies from "universal-cookie";
 import Layout from "./containers/Layout/Layout";
 import AboutPage from "./containers/AboutPage/AboutPage";
 import FaqPage from "./containers/FaqPage/FaqPage";
-
+import ArticlesPage from "./containers/ArticlesPage/ArticlesPage";
 const cookies = new Cookies();
 class App extends Component {
   state = {
@@ -52,8 +52,9 @@ class App extends Component {
     },
     lang: 0,
     isLangHover: false,
-    drawerLeft: true
+    drawerLeft: false
   };
+
   componentDidMount() {
     const lang = cookies.get("lang");
     console.log("State is", this.state.lang);
@@ -96,6 +97,10 @@ class App extends Component {
 
     cookies.set("lang", nextLang, { expires: date });
   };
+  hamburgerHandler = () => {
+    console.log("CLICKED!");
+    this.setState({ drawerLeft: true });
+  };
   inputChangeHandler = (event, inputIdentifier) => {
     const footerForm = {
       ...this.state.footerForm
@@ -120,6 +125,7 @@ class App extends Component {
         <Layout
           lang={this.state.lang}
           langClicked={this.langHandler}
+          hambClicked={this.hamburgerHandler}
           drawerLeft={this.state.drawerLeft}
           toggleDrawer={this.toggleDrawerHandler}
           footerForm={this.state.footerForm}
@@ -129,6 +135,7 @@ class App extends Component {
           <Switch>
             <Route path="/faq" component={FaqPage} />
             <Route path="/about" component={AboutPage} />
+            <Route path="/articles" component={ArticlesPage} />
             <Redirect from="*" to="/about" />
           </Switch>
         </Layout>

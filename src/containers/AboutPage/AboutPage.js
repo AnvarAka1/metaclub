@@ -7,8 +7,50 @@ import FirstImage from "../../assets/images/about/first.png";
 import SecondImage from "../../assets/images/about/second.png";
 import HorizontalImages from "../../components/HorizontalImages/HorizontalImages";
 import Text from "../../components/UI/Text/Text";
+import ServerCards from "../../components/ServerCards/ServerCards";
 import NewsItems from "../../components/NewsItems/NewsItems";
+import Photo from "../../assets/images/news/news.png";
 class AboutPage extends Component {
+  state = {
+    news: [
+      {
+        id: 0,
+        image: Photo,
+        title: "Community - Blockchain.io Ambassador Program",
+        date: "31 August 2019",
+        views: 27,
+        comments: 27,
+        catId: 1
+      },
+      {
+        id: 1,
+        image: Photo,
+        title: "Community",
+        date: "30 August 2019",
+        views: 26,
+        comments: 28,
+        catId: 2
+      },
+      {
+        id: 2,
+        image: Photo,
+        title: "Blockchain.io",
+        date: "29 August 2019",
+        views: 25,
+        comments: 29,
+        catId: 1
+      },
+      {
+        id: 3,
+        image: Photo,
+        title: "Ambassador",
+        date: "28 August 2019",
+        views: 24,
+        comments: 30,
+        catId: 1
+      }
+    ]
+  };
   render() {
     return (
       <>
@@ -60,6 +102,10 @@ class AboutPage extends Component {
             Server Statistics
           </Header>
         </Grid>
+        <Grid item xs={1}></Grid>
+        <Grid item xs={10}>
+          <ServerCards></ServerCards>
+        </Grid>
         <Grid item xs={12}>
           <Header center h3 normal mtb>
             News / Media
@@ -67,7 +113,7 @@ class AboutPage extends Component {
         </Grid>
 
         {/* Pass some state */}
-        <NewsItems xs={12} sm={4}></NewsItems>
+        <NewsItems news={this.state.news}></NewsItems>
         <div style={{ textAlign: "center", width: "100%" }}>
           <Button big grey buttonStyle={{ marginTop: "30px" }}>
             More news
