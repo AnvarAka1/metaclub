@@ -3,6 +3,10 @@
     margin: auto !important
 }
 
+.MarginTop {
+    margin-top: 50px !important;
+}
+
 @media (max-width: 1290px) {
     .Container {
         width: 100% !important;

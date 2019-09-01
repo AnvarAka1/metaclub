@@ -9,6 +9,7 @@ const navigationItem = props => {
   return (
     <li className={navigationItemClasses.join(" ")}>
       <NavLink
+        onClick={props.drawerClosed}
         to={props.link}
         activeClassName={
           props.vertical ? classes.ActiveSideDrawerLink : classes.ActiveLink

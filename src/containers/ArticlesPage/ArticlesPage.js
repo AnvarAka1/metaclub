@@ -6,7 +6,7 @@ import NewsItems from "../../components/NewsItems/NewsItems";
 export class ArticlesPage extends Component {
   state = {
     menu: [
-      { id: 0, title: "все", count: 48, active: true },
+      { id: 0, title: "Все", count: 48, active: true },
       { id: 1, title: "Образование", count: 23, active: false },
       { id: 2, title: "Экономика", count: 5, active: false },
       { id: 3, title: "Политика", count: 10, active: false },
@@ -75,14 +75,19 @@ export class ArticlesPage extends Component {
   };
   render() {
     return (
-      <Grid item xs={12} style={{ marginTop: "50px" }}>
-        <Grid container spacing={5}>
-          <Grid item sm={3} xs={12}>
-            <Menu clicked={this.categoryHandler} menu={this.state.menu}></Menu>
-          </Grid>
-          <Grid item md={8} sm={9} xs={12}>
-            <Grid container spacing={5}>
-              <NewsItems wide news={this.state.filteredArticles}></NewsItems>
+      <Grid con="true" container spacing={3}>
+        <Grid item xs={12} style={{ marginTop: "50px" }}>
+          <Grid container spacing={5}>
+            <Grid item sm={3} xs={12}>
+              <Menu
+                clicked={this.categoryHandler}
+                menu={this.state.menu}
+              ></Menu>
+            </Grid>
+            <Grid item md={8} sm={9} xs={12}>
+              <Grid container spacing={5}>
+                <NewsItems wide news={this.state.filteredArticles}></NewsItems>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>

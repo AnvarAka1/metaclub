@@ -20,7 +20,10 @@ const header = props => {
     props.pb ? classes.PaddingBottom : null,
     props.center ? classes.Center : null
   ];
-  const headerStyle = props.headerStyle;
+  const headerStyle = {
+    ...props.headerStyle,
+    color: props.color ? props.color : null
+  };
   let header = null;
   if (props.h1) {
     header = (

@@ -12,48 +12,59 @@ const serverCard = props => {
       <Header h4 light>
         beartorrent|cn|90/95|@bear_nodes
       </Header>
-      <div className={classes.Horizontal}>
-        <div style={{ width: "18%" }} className={classes.Cell}>
-          <div>
-            <Header h4 light normal>
-              Region:
-            </Header>
-            <Header h4 light>
-              America
-            </Header>
-          </div>
-        </div>
-        <div style={{ width: "23%" }} className={classes.Cell}>
-          <div>
-            <Header h4 light normal>
-              Node role:
-            </Header>
-            <Header h4 light green>
-              Peer Node
-            </Header>
-          </div>
-        </div>
-        <div style={{ width: "19%" }} className={classes.Cell}>
-          <div>
-            <Header h4 light normal>
-              Node ROI:
-            </Header>
-            <Header h4 light>
-              1.057438 #MHC
-            </Header>
-          </div>
-        </div>
-        <div style={{ width: "38%" }} className={classes.Cell}>
-          <div>
-            <Header h4 light normal>
-              Founded from delegators:
-            </Header>
-            <Header h4 light>
-              1669899.545578 #MHC
-            </Header>
-          </div>
-        </div>
-      </div>
+      <table className={classes.Table}>
+        <thead>
+          <tr>
+            <th>
+              <Header h4 light normal>
+                Region:
+              </Header>
+            </th>
+            <th>
+              <Header h4 light normal>
+                Node role:
+              </Header>
+            </th>
+            <th>
+              <Header h4 light normal>
+                Node ROI:
+              </Header>
+            </th>
+            <th>
+              <Header h4 light normal>
+                Founded from delegators:
+              </Header>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <Header h4 light>
+                America
+              </Header>
+            </td>
+
+            <td>
+              <Header h4 light>
+                Peer Node
+              </Header>
+            </td>
+
+            <td>
+              <Header h4 light>
+                1.057438 #MHC
+              </Header>
+            </td>
+
+            <td>
+              <Header h4 light>
+                1669899.545578 #MHC
+              </Header>
+            </td>
+          </tr>
+        </tbody>
+      </table>
       <ServerSubCard text={text}></ServerSubCard>
     </Card>
   );

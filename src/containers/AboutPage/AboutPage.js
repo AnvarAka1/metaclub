@@ -53,7 +53,7 @@ class AboutPage extends Component {
   };
   render() {
     return (
-      <>
+      <Grid con="true" container spacing={3}>
         <Grid item sm={7}>
           <Header h1>
             Blockchain <span className="accent">4.0</span>
@@ -115,11 +115,13 @@ class AboutPage extends Component {
         {/* Pass some state */}
         <NewsItems news={this.state.news}></NewsItems>
         <div style={{ textAlign: "center", width: "100%" }}>
-          <Button big grey buttonStyle={{ marginTop: "30px" }}>
-            More news
-          </Button>
+          <NavLink to="/articles">
+            <Button big grey buttonStyle={{ marginTop: "30px" }}>
+              More news
+            </Button>
+          </NavLink>
         </div>
-      </>
+      </Grid>
     );
   }
 }

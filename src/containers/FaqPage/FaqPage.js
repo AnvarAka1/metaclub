@@ -47,7 +47,7 @@ class FaqPage extends Component {
   };
   render() {
     return (
-      <>
+      <Grid con="true" container spacing={3}>
         <Grid item xs={1}></Grid>
         <Grid item xs={10}>
           <Header mtbBig h3 center thin>
@@ -60,7 +60,7 @@ class FaqPage extends Component {
             ></QuestionCards>
           </Paper>
         </Grid>
-      </>
+      </Grid>
     );
   }
 }

@@ -1,23 +1,26 @@
-.Horizontal {
+.Table {
     border-top: 1px solid #D5D5D5;
     border-bottom: 1px solid #D5D5D5;
-    display: flex;
     box-sizing: border-box;
-    padding: 10px 0 30px;
-    margin: 15px 0
+    margin: 15px 0;
+    padding: 15px 0;
+    width: 100%;
+    border-spacing: 0
 }
 
-.Cell {
+.Table th {
+    text-align: left;
+}
+
+.Table td,
+.Table th {
+    text-align: center;
     border-right: 1px rgba(255, 255, 255, 0.5) solid;
-    /* padding: 0 20px; */
+
 
 }
 
-.Cell>div {
-    /* width: 80%; */
-    margin: 0 auto;
-}
-
-.Cell {
-    white-space: nowrap
+.Table td:last-child,
+.Table th:last-child {
+    border-right: none
 }
