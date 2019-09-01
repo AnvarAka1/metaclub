@@ -14,6 +14,7 @@ const navigationItems = props => {
   const navigationItems = navItems.nav.map(navItem => {
     return (
       <NavigationItem
+        drawerClosed={props.drawerClosed}
         key={navItem.title}
         vertical={props.vertical}
         link={navItem.link}
@@ -22,7 +23,7 @@ const navigationItems = props => {
       </NavigationItem>
     );
   });
-  props.vertical ? console.log(navItems) : console.log("");
+
   const buttons = navItems.buttons.map(button => {
     return (
       <Button key={button.title} {...button.type} clicked={button.clicked}>
@@ -46,7 +47,7 @@ const navigationItems = props => {
         langClicked={props.langClicked}
       ></LangSelect>
       <Hidden mdUp>
-        <Hamburger clicked={props.hambClicked}></Hamburger>
+        <Hamburger clicked={props.drawerOpened}></Hamburger>
       </Hidden>
     </li>
   );
@@ -90,7 +91,7 @@ const languageSelect = props => {
       },
       {
         title: [
-          "Как зарабатывать МНС?",
+          "Как зарабатывать на MHC?",
           "How to get paid on MHC?",
           "UzHow to get paid on MHC?"
         ],

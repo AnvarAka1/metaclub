@@ -115,9 +115,11 @@ class AboutPage extends Component {
         {/* Pass some state */}
         <NewsItems news={this.state.news}></NewsItems>
         <div style={{ textAlign: "center", width: "100%" }}>
-          <Button big grey buttonStyle={{ marginTop: "30px" }}>
-            More news
-          </Button>
+          <NavLink to="/articles">
+            <Button big grey buttonStyle={{ marginTop: "30px" }}>
+              More news
+            </Button>
+          </NavLink>
         </div>
       </>
     );

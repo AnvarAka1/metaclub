@@ -5,6 +5,7 @@ import Layout from "./containers/Layout/Layout";
 import AboutPage from "./containers/AboutPage/AboutPage";
 import FaqPage from "./containers/FaqPage/FaqPage";
 import ArticlesPage from "./containers/ArticlesPage/ArticlesPage";
+import ProfilePage from "./containers/ProfilePage/ProfilePage";
 const cookies = new Cookies();
 class App extends Component {
   state = {
@@ -68,9 +69,6 @@ class App extends Component {
     }
   }
 
-  toggleDrawerHandler = () => {
-    this.setState({ drawerLeft: false });
-  };
   langHandler = () => {
     const titles = {
       name: ["Ваше имя", "Your name"],
@@ -97,9 +95,13 @@ class App extends Component {
 
     cookies.set("lang", nextLang, { expires: date });
   };
-  hamburgerHandler = () => {
-    console.log("CLICKED!");
+  openDrawerHandler = () => {
+    console.log("Opened");
     this.setState({ drawerLeft: true });
+  };
+  closeDrawerHandler = () => {
+    console.log("Closed");
+    this.setState({ drawerLeft: false });
   };
   inputChangeHandler = (event, inputIdentifier) => {
     const footerForm = {
@@ -125,7 +127,8 @@ class App extends Component {
         <Layout
           lang={this.state.lang}
           langClicked={this.langHandler}
-          hambClicked={this.hamburgerHandler}
+          drawerOpened={this.openDrawerHandler}
+          drawerClosed={this.closeDrawerHandler}
           drawerLeft={this.state.drawerLeft}
           toggleDrawer={this.toggleDrawerHandler}
           footerForm={this.state.footerForm}
@@ -136,6 +139,7 @@ class App extends Component {
             <Route path="/faq" component={FaqPage} />
             <Route path="/about" component={AboutPage} />
             <Route path="/articles" component={ArticlesPage} />
+            <Route path="/profiles/:id" component={ProfilePage} />
             <Redirect from="*" to="/about" />
           </Switch>
         </Layout>

@@ -12,7 +12,7 @@ class Layout extends Component {
         <NavigationItems
           lang={this.props.lang}
           langClicked={this.props.langClicked}
-          hambClicked={this.props.hambClicked}
+          drawerOpened={this.props.drawerOpened}
         />
         <Hidden mdUp>
           <Drawer
@@ -20,7 +20,11 @@ class Layout extends Component {
             anchor="right"
             onClose={this.props.toggleDrawer}
           >
-            <NavigationItems lang={this.props.lang} vertical></NavigationItems>
+            <NavigationItems
+              lang={this.props.lang}
+              vertical
+              drawerClosed={this.props.drawerClosed}
+            ></NavigationItems>
           </Drawer>
         </Hidden>
         <div className={classes.Container}>

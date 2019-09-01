@@ -9,6 +9,7 @@ const grid = props => {
       className={[
         classes.Grid,
         classes[props.gridClass],
+        props.mt ? classes.MarginTop : null,
         props.con ? classes.Container : null
       ].join(" ")}
     >
