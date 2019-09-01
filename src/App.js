@@ -1,8 +1,11 @@
 import React, { Component } from "react";
+import { Route, Switch, Redirect, withRouter } from "react-router-dom";
+import Cookies from "universal-cookie";
 import Layout from "./containers/Layout/Layout";
 import AboutPage from "./containers/AboutPage/AboutPage";
-import { Route, Switch, Redirect, withRouter } from "react-router-dom";
-
+import FaqPage from "./containers/FaqPage/FaqPage";
+import ArticlesPage from "./containers/ArticlesPage/ArticlesPage";
+const cookies = new Cookies();
 class App extends Component {
   state = {
     footerForm: {
@@ -49,11 +52,22 @@ class App extends Component {
     },
     lang: 0,
     isLangHover: false,
-    drawerLeft: true
+    drawerLeft: false
   };
+
   componentDidMount() {
+    const lang = cookies.get("lang");
+    console.log("State is", this.state.lang);
+    console.log("cookie is", lang);
     // set placeholders
+    if (lang !== "undefined") {
+      console.log("Lang is set");
+    }
+    if (lang !== this.state.lang && lang !== "undefined") {
+      this.setState({ lang: lang });
+    }
   }
+
   toggleDrawerHandler = () => {
     this.setState({ drawerLeft: false });
   };
@@ -63,6 +77,8 @@ class App extends Component {
       email: ["Ваша эл.почта", "Your email"],
       text: ["Отзыв / Вопрос / Предложение", "Message"]
     };
+    console.log("Cookie lang is ", cookies.getAll());
+    console.log("LANG is ", this.state.lang);
     const langs = 2;
     const form = { ...this.state.footerForm };
     const nextLang = (this.state.lang + 1) % langs;
@@ -77,6 +93,13 @@ class App extends Component {
         footerForm: form
       };
     });
+    const date = new Date("2099");
+
+    cookies.set("lang", nextLang, { expires: date });
+  };
+  hamburgerHandler = () => {
+    console.log("CLICKED!");
+    this.setState({ drawerLeft: true });
   };
   inputChangeHandler = (event, inputIdentifier) => {
     const footerForm = {
@@ -89,12 +112,20 @@ class App extends Component {
     event.preventDefault();
     // axios
   };
+  testHandler = () => {
+    const date = new Date("2099");
+    console.log(date);
+    cookies.set("something", "hello", {
+      expires: date
+    });
+  };
   render() {
     return (
       <div className="App">
         <Layout
           lang={this.state.lang}
           langClicked={this.langHandler}
+          hambClicked={this.hamburgerHandler}
           drawerLeft={this.state.drawerLeft}
           toggleDrawer={this.toggleDrawerHandler}
           footerForm={this.state.footerForm}
@@ -102,8 +133,10 @@ class App extends Component {
           formSubmitted={this.footerFormSubmitHandler}
         >
           <Switch>
-            <Route path="/" component={AboutPage} />
-            <Redirect from="*" to="/" />
+            <Route path="/faq" component={FaqPage} />
+            <Route path="/about" component={AboutPage} />
+            <Route path="/articles" component={ArticlesPage} />
+            <Redirect from="*" to="/about" />
           </Switch>
         </Layout>
       </div>

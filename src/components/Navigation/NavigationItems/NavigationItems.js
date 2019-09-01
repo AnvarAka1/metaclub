@@ -7,17 +7,22 @@ import Hidden from "@material-ui/core/Hidden";
 import NavigationItem from "./NavigationItem/NavigationItem";
 import Button from "../../UI/Button/Button";
 import LangSelect from "../../LangSelect/LangSelect";
-
+import Hamburger from "../../UI/Hamburger/Hamburger";
 import Grid from "../../Grid/Grid";
 const navigationItems = props => {
   const navItems = languageSelect(props);
   const navigationItems = navItems.nav.map(navItem => {
     return (
-      <NavigationItem key={navItem.title} link={navItem.link}>
+      <NavigationItem
+        key={navItem.title}
+        vertical={props.vertical}
+        link={navItem.link}
+      >
         {navItem.title}
       </NavigationItem>
     );
   });
+  props.vertical ? console.log(navItems) : console.log("");
   const buttons = navItems.buttons.map(button => {
     return (
       <Button key={button.title} {...button.type} clicked={button.clicked}>
@@ -25,31 +30,46 @@ const navigationItems = props => {
       </Button>
     );
   });
+  const logo = props.vertical ? null : (
+    <li>
+      <NavLink to="/">
+        <Logo></Logo>
+      </NavLink>
+    </li>
+  );
+  const rightNav = props.vertical ? null : (
+    <li className={classes.Buttons}>
+      {buttons}
+      {/* Language selector */}
+      <LangSelect
+        lang={props.lang}
+        langClicked={props.langClicked}
+      ></LangSelect>
+      <Hidden mdUp>
+        <Hamburger clicked={props.hambClicked}></Hamburger>
+      </Hidden>
+    </li>
+  );
 
-  // return statement
   return (
     <nav>
-      <div className={classes.AppBar}>
-        <Grid con="true" container justify="center">
-          <ul className={classes.NavigationItems}>
+      <div className={props.vertical ? classes.VerticalAppBar : classes.AppBar}>
+        <Grid con={props.vertical ? null : "true"} container justify="center">
+          <ul
+            className={
+              props.vertical
+                ? classes.VerticalNavigationItems
+                : classes.NavigationItems
+            }
+          >
             {/* Logo */}
-            <li>
-              <NavLink to="/">
-                {/* <img src={Logo} alt={"Logo"}></img> */}
-                <Logo></Logo>
-              </NavLink>
-            </li>
+            {logo}
             {/* navigation */}
-            <Hidden smDown>{navigationItems}</Hidden>
+            {navigationItems}
+            {/* SideDrawer Navigation */}
+
             {/* Sign In and Reg */}
-            <div className={classes.Buttons}>
-              {buttons}
-              {/* Language selector */}
-              <LangSelect
-                lang={props.lang}
-                langClicked={props.langClicked}
-              ></LangSelect>
-            </div>
+            {rightNav}
           </ul>
         </Grid>
       </div>
@@ -74,13 +94,16 @@ const languageSelect = props => {
           "How to get paid on MHC?",
           "UzHow to get paid on MHC?"
         ],
-        link: "/"
+        link: "/mhc"
       },
-      { title: ["Калькулятор", "Calculator", "UzUzCalculator"], link: "/" },
-      { title: ["Ноды", "Nodes", "UzNodes"], link: "/" },
-      { title: ["Статьи", "Articles", "UzArticles"], link: "/" },
-      { title: ["F.A.Q", "F.A.Q", "UzF.A.Q"], link: "/" },
-      { title: ["Контакты", "Contacts", "UzContacts"], link: "/" }
+      {
+        title: ["Калькулятор", "Calculator", "UzUzCalculator"],
+        link: "/calculator"
+      },
+      { title: ["Ноды", "Nodes", "UzNodes"], link: "/nodes" },
+      { title: ["Статьи", "Articles", "UzArticles"], link: "/articles" },
+      { title: ["F.A.Q", "F.A.Q", "UzF.A.Q"], link: "/faq" },
+      { title: ["Контакты", "Contacts", "UzContacts"], link: "/contacts" }
     ],
     buttons: [
       {

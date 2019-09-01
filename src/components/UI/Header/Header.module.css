@@ -1,4 +1,10 @@
-.Header {}
+.Header {
+    position: relative;
+}
+
+.Light {
+    color: #F7F7F7
+}
 
 .Thin {
     font-weight: 100;
@@ -10,4 +16,55 @@
 
 .Normal {
     font-weight: normal;
+}
+
+.Line {}
+
+.Line:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 50px;
+    height: 2px;
+    background: #7146CE;
+
+}
+
+.Margin {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.MarginBig {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.MarginBottom {
+    margin-bottom: 15px;
+}
+
+.MarginBottomBig {
+    margin-bottom: 30px;
+}
+
+.PaddingBottom {
+    padding-bottom: 15px;
+}
+
+.Center {
+    text-align: center;
+}
+
+.Green {
+    color: #3AFF89
+}
+
+.Pointer {
+    cursor: pointer;
+}
+
+.Accent {
+    color: #796DE8;
 }

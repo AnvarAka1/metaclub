@@ -30,7 +30,7 @@ const footer = props => {
   };
 
   return (
-    <footer>
+    <footer className={classes.FooterWrapper}>
       <div className={classes.Footer}>
         <Grid container con="true">
           <Grid item xs={12}>

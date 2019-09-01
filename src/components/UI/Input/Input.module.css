@@ -19,6 +19,13 @@
     min-height: 140px
 }
 
+.Server {
+    background-color: #fff;
+    opacity: .3;
+    padding: 14px 120px;
+    color: rgb(78, 78, 78)
+}
+
 @media (max-width: 1290px) {}
 
 @media (max-width: 960px) {

@@ -12,6 +12,7 @@ class Layout extends Component {
         <NavigationItems
           lang={this.props.lang}
           langClicked={this.props.langClicked}
+          hambClicked={this.props.hambClicked}
         />
         <Hidden mdUp>
           <Drawer
@@ -19,7 +20,7 @@ class Layout extends Component {
             anchor="right"
             onClose={this.props.toggleDrawer}
           >
-            LALALA
+            <NavigationItems lang={this.props.lang} vertical></NavigationItems>
           </Drawer>
         </Hidden>
         <div className={classes.Container}>

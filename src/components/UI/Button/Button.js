@@ -13,7 +13,8 @@ const button = props => {
     props.sharp ? classes.Sharp : null,
     props.flatten ? classes.Flatten : null,
     props.padding ? classes.Padding : null,
-    props.wide ? classes.Wide : null
+    props.wide ? classes.Wide : null,
+    props.big ? classes.Big : null
   ];
   return (
     <button
