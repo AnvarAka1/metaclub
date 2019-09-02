@@ -7,6 +7,10 @@
     margin-top: 50px !important;
 }
 
+.MarginBottomBig {
+    margin-bottom: 100px;
+}
+
 @media (max-width: 1290px) {
     .Container {
         width: 100% !important;

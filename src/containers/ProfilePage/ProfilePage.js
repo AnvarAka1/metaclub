@@ -58,7 +58,7 @@ export class ProfilePage extends Component {
     return (
       <>
         <Grid item xs={12} mt="true">
-          <Grid container spacing={5}>
+          <Grid container con="true" spacing={5}>
             <Grid item sm={5} md={3} xs={12}>
               <ProfileCard
                 lang={this.state.lang}

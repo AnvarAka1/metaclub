@@ -8,9 +8,17 @@ const card = props => {
     props.scroll ? classes.Scroll : null,
     props.accent ? classes.AccentGradient : null,
     props.server ? classes.Server : null,
-    props.mb ? classes.MarginBottom : null
+    props.mb ? classes.MarginBottom : null,
+    props.comment ? classes.Comment : null
   ];
-  return <div className={cardClasses.join(" ")}>{props.children}</div>;
+  return (
+    <div
+      style={{ backgroundColor: props.color ? props.color : null }}
+      className={cardClasses.join(" ")}
+    >
+      {props.children}
+    </div>
+  );
 };
 
 export default card;
