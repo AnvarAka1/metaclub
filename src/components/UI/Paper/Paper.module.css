@@ -12,3 +12,19 @@
     border-radius: 0;
 
 }
+
+.Comment {
+    background: #FFFFFF;
+    border: 1px solid #EDEDED;
+    box-sizing: border-box;
+    padding: 0px 25px 25px;
+    margin-top: 30px;
+}
+
+.Article {
+    margin: 0;
+    padding: 0;
+    padding-bottom: 40px;
+    border-bottom: 2px solid #E5E5E5;
+    margin-bottom: 65px;
+}

@@ -22,7 +22,11 @@ const text = props => {
     fontSize: props.size ? props.size : null
   };
   return (
-    <p className={textClasses.join(" ")} style={textStyles}>
+    <p
+      onClick={props.clicked ? props.clicked : null}
+      className={textClasses.join(" ")}
+      style={textStyles}
+    >
       {props.children}
     </p>
   );
