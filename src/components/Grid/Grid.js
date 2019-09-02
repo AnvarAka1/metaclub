@@ -10,6 +10,7 @@ const grid = props => {
         classes.Grid,
         classes[props.gridClass],
         props.mt ? classes.MarginTop : null,
+        props.mbbig ? classes.MarginBottomBig : null,
         props.con ? classes.Container : null
       ].join(" ")}
     >
