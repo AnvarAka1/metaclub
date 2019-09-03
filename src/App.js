@@ -60,12 +60,14 @@ class App extends Component {
 
   componentDidMount() {
     const lang = cookies.get("lang");
-
+    console.log("typeof lang", typeof lang);
+    console.log("lang", lang);
     // set placeholders
     if (lang !== this.state.lang && typeof lang !== "undefined") {
       console.log("here");
       this.setState({ lang: lang });
     }
+    console.log("state lang", this.state.lang);
   }
   navigationHandler = (event, id) => {
     if (id) {
@@ -146,7 +148,6 @@ class App extends Component {
             <Route path="/mhc" component={Mhc} />
             <Redirect from="*" to="/about" />
           </Switch>
-          asdada
         </Layout>
       </div>
     );
