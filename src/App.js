@@ -62,9 +62,8 @@ class App extends Component {
     const lang = cookies.get("lang");
 
     // set placeholders
-    if (lang !== "undefined") {
-    }
-    if (lang !== this.state.lang && lang !== "undefined") {
+    if (lang !== this.state.lang && typeof lang !== "undefined") {
+      console.log("here");
       this.setState({ lang: lang });
     }
   }
