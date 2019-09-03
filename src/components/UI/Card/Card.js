@@ -9,7 +9,8 @@ const card = props => {
     props.accent ? classes.AccentGradient : null,
     props.server ? classes.Server : null,
     props.mb ? classes.MarginBottom : null,
-    props.comment ? classes.Comment : null
+    props.comment ? classes.Comment : null,
+    props.calc ? classes.CalculatorCard : null
   ];
   return (
     <div

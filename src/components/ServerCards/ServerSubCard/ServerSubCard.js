@@ -7,10 +7,10 @@ const serverSubCard = props => {
     <div className={classes.ServerSubCard}>
       <div className={classes.Background}></div>
       <div className={classes.Foreground}>
-        <Text>
-          {props.text}
+        <div className={classes.Box}>
+          <Text>{props.text}</Text>
           <img src={CpIcon} alt="Copy" onClick={props.clicked}></img>
-        </Text>
+        </div>
       </div>
     </div>
   );

@@ -1,0 +1,36 @@
+.rangeslider {
+    background: #D6D6D6;
+}
+
+.rangeslider,
+.rangeslider .rangeslider__fill {
+    box-shadow: none
+}
+
+.rangeslider-horizontal {
+    height: 11px
+}
+
+.rangeslider .rangeslider__handle {
+    background: #7146CE;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    position: absolute;
+    box-shadow: none;
+    height: 20px;
+    width: 20px
+}
+
+.rangeslider .rangeslider__handle:after {
+    content: none
+}
+
+.rangeslider-horizontal .rangeslider__fill {
+    background-color: #7146CE;
+}
+
+.rangeslider .rangeslider__handle:focus {
+    border: none;
+    outline: none
+}

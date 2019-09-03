@@ -35,3 +35,9 @@
 
     padding: 10px 40px 30px
 }
+
+.CalculatorCard {
+    background: #ECECEC;
+    border-radius: 5px;
+    padding: 30px
+}

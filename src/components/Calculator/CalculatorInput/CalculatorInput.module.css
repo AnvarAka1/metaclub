@@ -1,0 +1,26 @@
+.CalculatorInput {
+    text-align: center;
+}
+
+.Count {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 0;
+}
+
+.CalculatorInput button {
+    border-radius: 2px
+}
+
+@media (max-width: 600px) {
+    .Count input {
+        width: 100px
+    }
+
+    .CalculatorInput button {
+        width: 90px;
+        font-size: 10px;
+    }
+}

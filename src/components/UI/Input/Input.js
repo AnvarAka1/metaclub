@@ -4,7 +4,10 @@ import classes from "./Input.module.css";
 const input = props => {
   const inputClasses = [
     classes.Input,
-    props.serverInput ? classes.Server : null
+    props.serverInput ? classes.Server : null,
+    props.elementConfig.inputClass
+      ? classes[props.elementConfig.inputClass]
+      : null
   ];
   let input;
   if (props.elementConfig) {
@@ -28,6 +31,17 @@ const input = props => {
             {...props.elementConfig.config}
             value={props.elementConfig.value}
           ></textarea>
+        );
+        break;
+      case "range":
+        inputClasses.push(classes.Range);
+        input = (
+          <input
+            className={inputClasses.join(" ")}
+            {...props.elementConfig.config}
+            onChange={props.changed}
+            value={props.elementConfig.value}
+          ></input>
         );
         break;
       default:

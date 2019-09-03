@@ -70,7 +70,12 @@ class App extends Component {
       this.setState({ lang: lang });
     }
   }
-
+  navigationHandler = (event, id) => {
+    if (id) {
+      this.props.history.push("/about/id");
+      // window.top(id);
+    }
+  };
   langHandler = () => {
     const titles = {
       name: ["Ваше имя", "Your name"],
@@ -127,6 +132,7 @@ class App extends Component {
     return (
       <div className="App">
         <Layout
+          navigationClicked={this.navigationHandler}
           lang={this.state.lang}
           langClicked={this.langHandler}
           drawerOpened={this.openDrawerHandler}

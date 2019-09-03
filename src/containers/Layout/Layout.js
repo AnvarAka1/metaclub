@@ -9,6 +9,7 @@ class Layout extends Component {
     return (
       <div className={[classes.Layout].join(" ")}>
         <NavigationItems
+          navigationClicked={this.props.navigationClicked}
           lang={this.props.lang}
           langClicked={this.props.langClicked}
           drawerOpened={this.props.drawerOpened}
@@ -20,6 +21,7 @@ class Layout extends Component {
             onClose={this.props.toggleDrawer}
           >
             <NavigationItems
+              navigationClicked={this.props.navigationClicked}
               lang={this.props.lang}
               vertical
               drawerClosed={this.props.drawerClosed}

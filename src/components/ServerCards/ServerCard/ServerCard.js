@@ -8,30 +8,30 @@ const serverCard = props => {
     ? props.value
     : "app://ForgingMHC #!/delegation/server/0x00fveasd215fsa6f2sa34f8wqf12v3xc16xb54vc65b1vc2n";
   return (
-    <Card server mb>
-      <Header h4 light>
+    <Card server mb scroll>
+      <Header h5 light>
         beartorrent|cn|90/95|@bear_nodes
       </Header>
       <table className={classes.Table}>
         <thead>
           <tr>
             <th>
-              <Header h4 light normal>
+              <Header h5 light normal>
                 Region:
               </Header>
             </th>
             <th>
-              <Header h4 light normal>
+              <Header h5 light normal>
                 Node role:
               </Header>
             </th>
             <th>
-              <Header h4 light normal>
+              <Header h5 light normal>
                 Node ROI:
               </Header>
             </th>
             <th>
-              <Header h4 light normal>
+              <Header h5 light normal>
                 Founded from delegators:
               </Header>
             </th>
@@ -40,25 +40,25 @@ const serverCard = props => {
         <tbody>
           <tr>
             <td>
-              <Header h4 light>
+              <Header h5 light>
                 America
               </Header>
             </td>
 
             <td>
-              <Header h4 light>
+              <Header h5 light>
                 Peer Node
               </Header>
             </td>
 
             <td>
-              <Header h4 light>
+              <Header h5 light>
                 1.057438 #MHC
               </Header>
             </td>
 
             <td>
-              <Header h4 light>
+              <Header h5 light>
                 1669899.545578 #MHC
               </Header>
             </td>

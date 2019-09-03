@@ -29,18 +29,25 @@
     background: transparent
 }
 
+.Box {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%
+}
+
 .Foreground p {
     line-height: 24px;
     color: #EAEAEA;
     text-align: center;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .Foreground img {
     width: 15px;
-    position: absolute;
-    right: -30px;
-    top: 0;
-    bottom: 0;
-    margin: auto 0;
-    cursor: pointer
+    cursor: pointer;
+    margin-left: 10px;
 }

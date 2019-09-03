@@ -1,0 +1,35 @@
+.RangeWrapper {
+    position: relative;
+    padding: 0px 110px;
+    box-sizing: border-box;
+    margin-top: 30px
+}
+
+.Range {
+    padding-top: 20px;
+    position: relative;
+}
+
+.Box {
+    position: absolute;
+    top: 0;
+    padding: 0 15px;
+    white-space: nowrap;
+    font-size: 13px;
+}
+
+.Left {
+    z-index: 20;
+}
+
+.Right {
+    right: 0
+}
+
+@media(max-width: 1290px) {
+    .RangeWrapper {
+
+        padding: 20px;
+
+    }
+}

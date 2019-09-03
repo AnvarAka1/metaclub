@@ -87,7 +87,7 @@ const languageSelect = props => {
     nav: [
       {
         title: ["О проекте", "About Project", "UzAbout Project"],
-        link: "/about"
+        link: "/about/news"
       },
       {
         title: [

@@ -14,7 +14,8 @@ const text = props => {
     props.mtbBig ? classes.MarginBig : null,
     props.mt ? classes.MarginTop : null,
     props.mbBig ? classes.MarginBottomBig : null,
-    props.part ? classes.Part : null
+    props.part ? classes.Part : null,
+    props.small ? classes.Small : null
   ];
   const textStyles = {
     ...props.textStyle,
