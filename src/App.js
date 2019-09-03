@@ -146,6 +146,7 @@ class App extends Component {
             <Route path="/mhc" component={Mhc} />
             <Redirect from="*" to="/about" />
           </Switch>
+          asdada
         </Layout>
       </div>
     );
