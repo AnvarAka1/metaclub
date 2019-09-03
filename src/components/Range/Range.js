@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "./Range.module.css";
-import Input from "../UI/Input/Input";
+
 import Slider from "react-rangeslider";
 import "react-rangeslider/lib/index.css";
 import "./Range.css";

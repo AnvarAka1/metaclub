@@ -60,11 +60,9 @@ class App extends Component {
 
   componentDidMount() {
     const lang = cookies.get("lang");
-    console.log("State is", this.state.lang);
-    console.log("cookie is", lang);
+
     // set placeholders
     if (lang !== "undefined") {
-      console.log("Lang is set");
     }
     if (lang !== this.state.lang && lang !== "undefined") {
       this.setState({ lang: lang });
@@ -82,8 +80,7 @@ class App extends Component {
       email: ["Ваша эл.почта", "Your email"],
       text: ["Отзыв / Вопрос / Предложение", "Message"]
     };
-    console.log("Cookie lang is ", cookies.getAll());
-    console.log("LANG is ", this.state.lang);
+
     const langs = 2;
     const form = { ...this.state.footerForm };
     const nextLang = (this.state.lang + 1) % langs;
@@ -103,11 +100,9 @@ class App extends Component {
     cookies.set("lang", nextLang, { expires: date });
   };
   openDrawerHandler = () => {
-    console.log("Opened");
     this.setState({ drawerLeft: true });
   };
   closeDrawerHandler = () => {
-    console.log("Closed");
     this.setState({ drawerLeft: false });
   };
   inputChangeHandler = (event, inputIdentifier) => {
@@ -123,7 +118,7 @@ class App extends Component {
   };
   testHandler = () => {
     const date = new Date("2099");
-    console.log(date);
+
     cookies.set("something", "hello", {
       expires: date
     });

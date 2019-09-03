@@ -41,7 +41,7 @@ class FaqPage extends Component {
     const index = questionsArray.findIndex(question => {
       return question.id === id;
     });
-    console.log("index = ", index);
+
     questionsArray[index].opened = !questionsArray[index].opened;
     this.setState({ questionsArray: questionsArray });
   };

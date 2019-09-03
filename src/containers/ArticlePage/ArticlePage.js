@@ -91,7 +91,6 @@ export class ArticlePage extends Component {
   viewProfileHandler = (event, id) => {
     // redirect
 
-    // console.log(`profiles/${id}`);
     this.props.history.push(`/profiles/${id}`);
   };
   render() {

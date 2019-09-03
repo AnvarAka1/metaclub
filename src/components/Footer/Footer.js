@@ -13,7 +13,7 @@ const footer = props => {
   for (let key in props.footerForm) {
     footerForm.push({ key: key, elementConfig: props.footerForm[key] });
   }
-  // console.log(footerForm);
+
   const form = footerForm.map(f => {
     return (
       <Grid item key={f.key} {...f.elementConfig.grid}>
