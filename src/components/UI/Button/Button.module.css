@@ -1,40 +1,54 @@
 .Button {
-    padding: 8px 14px 9px;
-    background-color: #7146CE;
-    color: #FEFEFE;
-    outline: none;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 14px;
-    display: inline-block;
+	padding: 8px 14px 9px;
+	background-color: #7146ce;
+	color: #fefefe;
+	outline: none;
+	border: none;
+	cursor: pointer;
+	font-weight: bold;
+	font-size: 14px;
+	display: inline-block;
+	transition: all .5s ease;
 }
 
 .Round {
-    border-radius: 50px;
+	border-radius: 50px;
 }
 
 .White {
-    border: 1px solid #7146CE;
-    background: transparent;
-    color: #7146CE
+	border: 1px solid #7146ce;
+	background: transparent;
+	color: #7146ce;
 }
 
 .Grey {
-    color: #333333;
-    border: 1px solid #333;
-    background: transparent;
+	color: #333333;
+	border: 1px solid #333;
+	background: transparent;
 }
 
 .Flatten {
-    border-radius: 5px
+	border-radius: 5px;
 }
 
 .Wide {
-    width: 100%;
+	width: 100%;
 }
 
 .Big {
-    font-size: 18px;
-    padding: 12px 28px
+	font-size: 18px;
+	padding: 12px 28px;
+}
+.Accent {
+	background-color: #7146ce;
+	color: #fff;
+}
+
+.Transparent {
+	background-color: #fff;
+	color: #7146ce;
+}
+.Transparent:hover {
+	background-color: #7146ce;
+	color: #fff;
 }

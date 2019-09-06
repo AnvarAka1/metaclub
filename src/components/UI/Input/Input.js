@@ -5,9 +5,9 @@ const input = props => {
   const inputClasses = [
     classes.Input,
     props.serverInput ? classes.Server : null,
-    props.elementConfig.inputClass
-      ? classes[props.elementConfig.inputClass]
-      : null
+    props.elementConfig.inputClass &&
+       classes[props.elementConfig.inputClass]
+    
   ];
   let input;
   if (props.elementConfig) {

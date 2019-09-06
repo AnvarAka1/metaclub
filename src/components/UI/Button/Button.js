@@ -2,29 +2,26 @@ import React from "react";
 import classes from "./Button.module.css";
 
 const button = props => {
-  const buttonClasses = [
-    classes.Button,
-    props.buttonClass ? classes[props.buttonClass] : null,
-    props.buttonAddClass ? classes[props.buttonAddClass] : null,
-    props.round ? classes.Round : null,
-    props.grey ? classes.Grey : null,
-    props.white ? classes.White : null,
-    props.accent ? classes.Accent : null,
-    props.sharp ? classes.Sharp : null,
-    props.flatten ? classes.Flatten : null,
-    props.padding ? classes.Padding : null,
-    props.wide ? classes.Wide : null,
-    props.big ? classes.Big : null
-  ];
-  return (
-    <button
-      className={buttonClasses.join(" ")}
-      style={props.buttonStyle}
-      onClick={props.clicked}
-    >
-      {props.children}
-    </button>
-  );
+	const buttonClasses = [
+		classes.Button,
+		props.buttonClass && classes[props.buttonClass],
+		props.buttonAddClass && classes[props.buttonAddClass],
+		props.round && classes.Round,
+		props.grey && classes.Grey,
+		props.white && classes.White,
+		props.accent && classes.Accent,
+		props.transparent && classes.Transparent,
+		props.sharp && classes.Sharp,
+		props.flatten && classes.Flatten,
+		props.padding && classes.Padding,
+		props.wide && classes.Wide,
+		props.big && classes.Big
+	];
+	return (
+		<button className={buttonClasses.join(" ")} style={props.buttonStyle} onClick={props.clicked}>
+			{props.children}
+		</button>
+	);
 };
 
 export default button;
