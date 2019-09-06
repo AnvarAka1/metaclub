@@ -8,10 +8,11 @@ const langSelect = props => {
 	//   { id: 0, title: "Ru", image: null },
 	//   { id: 1, title: "En", image: null }
 	// ];
-
+	// console.log("Lang is currently = ", typeof props.lang);
 	return (
 		<div className={classes.LangSelect} onClick={props.langClicked}>
-			<img src={props.lang ? EnIcon : RuIcon} alt={"lang"} />
+			{/* eslint-disable-next-line*/}
+			<img src={props.lang == "1" ? EnIcon : RuIcon} alt={"lang"} />
 		</div>
 	);
 };
