@@ -79,10 +79,25 @@
 	.Buttons button {
 		font-size: 10px;
 		margin-right: 5px;
-		height: 20px;
+		height: 24px;
 		padding: 0px 8px;
 	}
 	.Buttons button img {
 		width: 10px;
+	}
+}
+@media (max-width: 400px) {
+	.NavigationItems {
+		padding-left: 5px;
+		padding-right: 0px;
+	}
+	.Buttons button {
+		font-size: 9px;
+		margin-right: 5px;
+		height: 20px;
+		padding: 0px 4px;
+	}
+	.Buttons button img {
+		width: 8px;
 	}
 }
