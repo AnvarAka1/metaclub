@@ -129,6 +129,11 @@ class AboutPage extends Component {
 		event.preventDefault();
 		// const value = this.state.calculator.input.value;
 	};
+	articleHandler = (event, id) => {
+		event.preventDefault();
+		this.props.history.push(`/articles/${id}`);
+		window.scrollTo({ top: "0" });
+	};
 	render() {
 		return (
 			<Grid con="true" container spacing={3}>
@@ -208,7 +213,7 @@ class AboutPage extends Component {
 				</Grid>
 
 				{/* Pass some state */}
-				<NewsItems news={this.state.news} limit={3} />
+				<NewsItems articleClicked={this.articleHandler} news={this.state.news} limit={3} />
 				<div style={{ textAlign: "center", width: "100%" }}>
 					<NavLink to="/articles">
 						<Button big grey buttonStyle={{ marginTop: "30px" }}>

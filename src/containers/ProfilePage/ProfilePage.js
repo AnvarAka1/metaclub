@@ -54,6 +54,11 @@ export class ProfilePage extends Component {
   };
 
   componentDidMount() {}
+  articleHandler = (event, id) => {
+		event.preventDefault();
+    this.props.history.push(`/articles/${id}`);
+    window.scrollTo({ top: "0" });
+	};
   render() {
     return (
       <>
@@ -66,7 +71,7 @@ export class ProfilePage extends Component {
               ></ProfileCard>
             </Grid>
             <Grid item md={8} sm={7} xs={12}>
-              <NewsItems news={this.state.articles} wide></NewsItems>
+              <NewsItems articleClicked={this.articleHandler} news={this.state.articles} wide></NewsItems>
             </Grid>
           </Grid>
         </Grid>

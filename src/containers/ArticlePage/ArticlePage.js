@@ -92,6 +92,7 @@ export class ArticlePage extends Component {
     // redirect
 
     this.props.history.push(`/profiles/${id}`);
+    window.scrollTo({ top: "0" });
   };
   render() {
     return (
