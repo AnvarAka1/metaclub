@@ -44,8 +44,22 @@ const input = props => {
           ></input>
         );
         break;
+        case "checkbox":
+          inputClasses.push(classes.Checkbox);
+          input = (
+            
+            <label className={classes.Label}><input
+              className={inputClasses.join(" ")}
+              onChange={props.changed}
+              value={props.elementConfig.value}
+              {...props.elementConfig.config}
+            ></input>
+            {props.elementConfig.config.label}</label>
+            
+          );
+          break;
       default:
-        input = (
+        input = (          
           <input
             className={inputClasses.join(" ")}
             onChange={props.changed}
@@ -59,7 +73,9 @@ const input = props => {
     input = "Input";
   }
 
-  return <>{input}</>;
+  return <>{input}
+  
+  </>;
 };
 
 export default input;

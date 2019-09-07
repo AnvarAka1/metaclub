@@ -9,7 +9,15 @@
 		width: 120px;
 	}
 }
-
+@media (max-width: 960px) {
+	.Logo.Vertical {
+		display: inline-block;
+		width: 300px;
+		/* height: auto; */
+		padding: 10px 60px;
+		/* box-sizing: border-box; */
+	}
+}
 @media (max-width: 600px) {
 	.Logo {
 		width: 100px;

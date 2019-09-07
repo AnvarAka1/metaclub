@@ -50,7 +50,7 @@
 	cursor: pointer;
 	margin-left: 10px;
 }
-input {
+.Foreground input {
 	position: absolute;
 	background-color: transparent;
 	color: transparent;
@@ -63,4 +63,9 @@ input {
 	top: 0;
 	z-index: -9999;
 	/* border: solid 4px red; */
+}
+.Foreground input::-webkit-scrollbar {
+	background: transparent;
+	width: 0;
+	height: 0;
 }

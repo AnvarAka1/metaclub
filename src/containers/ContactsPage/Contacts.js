@@ -5,6 +5,8 @@ import Input from "../../components/UI/Input/Input";
 import Button from "../../components/UI/Button/Button";
 import Hidden from "@material-ui/core/Hidden";
 import Text from "../../components/UI/Text/Text";
+import MsgImage from "../../assets/images/contact/message.png";
+import Tilt from "react-tilt";
 export class Contacts extends Component {
 	state = {
 		footerForm: {
@@ -98,14 +100,21 @@ export class Contacts extends Component {
 
 		return (
 			<Grid con="true" container>
-				<Grid item xs={12}>
+				<Hidden smDown>
+					<Grid item sm={6}>
+						<div style={{ paddingTop: "100px", textAlign: "center" }}>
+							<Tilt>
+								<img style={{ width: "70%" }} src={MsgImage} alt="Contact us" />
+							</Tilt>
+						</div>
+					</Grid>
+				</Hidden>
+				<Grid item xs={12} sm={12} md={6}>
 					<Header mtbBig h3 center thin>
 						Contact Us
 					</Header>
-				</Grid>
-				<Grid item xs={12}>
-					<form onSubmit={this.formSubmitHandler}>
-						<Grid container con="true" spacing={3}>
+					<form style={{ padding: "0 20px" }} onSubmit={this.formSubmitHandler}>
+						<Grid container spacing={3}>
 							<Grid item xs={12}>
 								<Header h5>Детали вашей заявки</Header>
 								<Text mtb>

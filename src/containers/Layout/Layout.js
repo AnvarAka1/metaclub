@@ -14,11 +14,11 @@ class Layout extends Component {
 				config: {
 					type: "email",
 					name: "email",
-					placeholder: "Name"
+					placeholder: "Email"
 				},
 				grid: {
 					xs: 12,
-					sm: 6
+					sm: 12
 				},
 				value: ""
 			},
@@ -27,11 +27,11 @@ class Layout extends Component {
 				config: {
 					type: "password",
 					name: "password",
-					placeholder: "Name"
+					placeholder: "Password"
 				},
 				grid: {
 					xs: 12,
-					sm: 6
+					sm: 12
 				},
 				value: ""
 			},
@@ -39,11 +39,13 @@ class Layout extends Component {
 				inputType: "checkbox",
 				config: {
 					name: "remember",
-					placeholder: "Name"
+					placeholder: "",
+					type: "checkbox",
+					label: "Запомнить меня"
 				},
 				grid: {
 					xs: 12,
-					sm: 6
+					sm: 12
 				},
 				value: ""
 			}
@@ -58,7 +60,7 @@ class Layout extends Component {
 				},
 				grid: {
 					xs: 12,
-					sm: 6
+					sm: 12
 				},
 				value: ""
 			},
@@ -67,11 +69,11 @@ class Layout extends Component {
 				config: {
 					type: "text",
 					name: "phone",
-					placeholder: "Name"
+					placeholder: "Phone number"
 				},
 				grid: {
 					xs: 12,
-					sm: 6
+					sm: 12
 				},
 				value: ""
 			},
@@ -80,11 +82,11 @@ class Layout extends Component {
 				config: {
 					type: "email",
 					name: "email",
-					placeholder: "Name"
+					placeholder: "Email"
 				},
 				grid: {
 					xs: 12,
-					sm: 6
+					sm: 12
 				},
 				value: ""
 			},
@@ -93,11 +95,11 @@ class Layout extends Component {
 				config: {
 					type: "password",
 					name: "fpassword",
-					placeholder: "Name"
+					placeholder: "Password"
 				},
 				grid: {
 					xs: 12,
-					sm: 6
+					sm: 12
 				},
 				value: ""
 			},
@@ -106,11 +108,11 @@ class Layout extends Component {
 				config: {
 					type: "password",
 					name: "spassword",
-					placeholder: "Name"
+					placeholder: "Confirm password"
 				},
 				grid: {
 					xs: 12,
-					sm: 6
+					sm: 12
 				},
 				value: ""
 			},
@@ -118,11 +120,13 @@ class Layout extends Component {
 				inputType: "checkbox",
 				config: {
 					name: "accept",
-					placeholder: "Name"
+					placeholder: "",
+					type: "checkbox",
+					label: "Я принимаю условия пользовательского соглашения"
 				},
 				grid: {
 					xs: 12,
-					sm: 6
+					sm: 12
 				},
 				value: ""
 			},
@@ -130,11 +134,13 @@ class Layout extends Component {
 				inputType: "checkbox",
 				config: {
 					name: "subscribe",
-					placeholder: "Name"
+					placeholder: "",
+					type: "checkbox",
+					label: "Подписаться на еженедельные рассылки"
 				},
 				grid: {
 					xs: 12,
-					sm: 6
+					sm: 12
 				},
 				value: ""
 			}

@@ -23,7 +23,6 @@ class App extends Component {
 		// console.log("lang", lang);
 		// set placeholders
 		if (lang !== this.state.lang && typeof lang !== "undefined") {
-			
 			this.setState({ lang: lang });
 		}
 		// console.log("state lang", this.state.lang);

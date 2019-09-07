@@ -14,10 +14,15 @@
 	right: 0;
 	margin: 100px auto;
 	display: inline-block;
-	width: 720px;
+	width: 400px;
 	z-index: 100;
 	max-height: 100%;
 	border-radius: 10px;
+}
+.ModalWrapper::-webkit-scrollbar {
+	background: transparent;
+	width: 0;
+	height: 0;
 }
 .Modal::-webkit-scrollbar {
 	background: transparent;
@@ -25,7 +30,7 @@
 	height: 0;
 }
 
-@media (max-width: 730px) {
+@media (max-width: 450px) {
 	.Modal {
 		width: 90%;
 	}

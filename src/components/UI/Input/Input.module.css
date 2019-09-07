@@ -1,152 +1,164 @@
 .Input {
-    background: #FEFEFE;
-    border: 1px solid #DADADA;
-    box-sizing: border-box;
-    border-radius: 5px;
-    width: 100%;
-    padding: 6px 15px;
-    font-size: 14px;
+	background: #fefefe;
+	border: 1px solid #dadada;
+	box-sizing: border-box;
+	border-radius: 5px;
+	width: 100%;
+	padding: 6px 15px;
+	font-size: 14px;
 }
 
-
-
 .Input:focus {
-    outline: none;
-
+	outline: none;
 }
 
 .Textarea {
-    min-height: 140px
+	min-height: 140px;
 }
 
 .Accent {
-    width: 153px;
-    border: 1px solid #7146CE;
-    box-sizing: border-box;
-    border-radius: 2px;
-    color: #7146CE;
-    margin: 0 10px
+	width: 153px;
+	border: 1px solid #7146ce;
+	box-sizing: border-box;
+	border-radius: 2px;
+	color: #7146ce;
+	margin: 0 10px;
 }
 
 .Server {
-    background-color: #fff;
-    opacity: .3;
-    padding: 14px 120px;
-    color: rgb(78, 78, 78)
+	background-color: #fff;
+	opacity: .3;
+	padding: 14px 120px;
+	color: rgb(78, 78, 78);
 }
 
 .Input[type=range] {
-    background: transparent;
-    height: 31px;
-    border: none;
-    -webkit-appearance: none;
-    margin: 10px 0;
-    width: 100%;
-    padding: 0
+	background: transparent;
+	height: 31px;
+	border: none;
+	-webkit-appearance: none;
+	margin: 10px 0;
+	width: 100%;
+	padding: 0;
 }
 
 .Input[type=range]:focus {
-    outline: none;
+	outline: none;
 }
 
 .Input[type=range]::-webkit-slider-runnable-track {
-    width: 100%;
-    height: 10px;
-    cursor: pointer;
-    animate: 0.2s;
-    box-shadow: 0px 0px 0px #000000;
-    background: #7146CE;
-    border-radius: 2px;
-    border: 0px solid #000000;
+	width: 100%;
+	height: 10px;
+	cursor: pointer;
+	animate: 0.2s;
+	box-shadow: 0px 0px 0px #000000;
+	background: #7146ce;
+	border-radius: 2px;
+	border: 0px solid #000000;
 }
 
 .Input[type=range]::-webkit-slider-thumb {
-    box-shadow: 0px 0px 0px #000000;
-    border: 0px solid #2497E3;
-    height: 25px;
-    width: 25px;
-    border-radius: 25px;
-    background: #7146CE;
-    cursor: pointer;
-    -webkit-appearance: none;
-    margin-top: -7.5px;
+	box-shadow: 0px 0px 0px #000000;
+	border: 0px solid #2497e3;
+	height: 25px;
+	width: 25px;
+	border-radius: 25px;
+	background: #7146ce;
+	cursor: pointer;
+	-webkit-appearance: none;
+	margin-top: -7.5px;
 }
 
 .Input[type=range]:focus::-webkit-slider-runnable-track {
-    background: #7146CE;
+	background: #7146ce;
 }
 
 .Input[type=range]::-moz-range-track {
-    width: 100%;
-    height: 10px;
-    cursor: pointer;
-    animate: 0.2s;
-    box-shadow: 0px 0px 0px #000000;
-    background: #7146CE;
-    border-radius: 2px;
-    border: 0px solid #000000;
+	width: 100%;
+	height: 10px;
+	cursor: pointer;
+	animate: 0.2s;
+	box-shadow: 0px 0px 0px #000000;
+	background: #7146ce;
+	border-radius: 2px;
+	border: 0px solid #000000;
 }
 
 .Input[type=range]::-moz-range-thumb {
-    box-shadow: 0px 0px 0px #000000;
-    border: 0px solid #2497E3;
-    height: 25px;
-    width: 25px;
-    border-radius: 25px;
-    background: #7146CE;
-    cursor: pointer;
+	box-shadow: 0px 0px 0px #000000;
+	border: 0px solid #2497e3;
+	height: 25px;
+	width: 25px;
+	border-radius: 25px;
+	background: #7146ce;
+	cursor: pointer;
 }
 
 .Input[type=range]::-ms-track {
-    width: 100%;
-    height: 10px;
-    cursor: pointer;
-    animate: 0.2s;
-    background: transparent;
-    border-color: transparent;
-    color: transparent;
+	width: 100%;
+	height: 10px;
+	cursor: pointer;
+	animate: 0.2s;
+	background: transparent;
+	border-color: transparent;
+	color: transparent;
 }
 
 .Input[type=range]::-ms-fill-lower {
-    background: #7146CE;
-    border: 0px solid #000000;
-    border-radius: 4px;
-    box-shadow: 0px 0px 0px #000000;
+	background: #7146ce;
+	border: 0px solid #000000;
+	border-radius: 4px;
+	box-shadow: 0px 0px 0px #000000;
 }
 
 .Input[type=range]::-ms-fill-upper {
-    background: #7146CE;
-    border: 0px solid #000000;
-    border-radius: 4px;
-    box-shadow: 0px 0px 0px #000000;
+	background: #7146ce;
+	border: 0px solid #000000;
+	border-radius: 4px;
+	box-shadow: 0px 0px 0px #000000;
 }
 
 .Input[type=range]::-ms-thumb {
-    margin-top: 1px;
-    box-shadow: 0px 0px 0px #000000;
-    border: 0px solid #2497E3;
-    height: 25px;
-    width: 25px;
-    border-radius: 25px;
-    background: #7146CE;
-    cursor: pointer;
+	margin-top: 1px;
+	box-shadow: 0px 0px 0px #000000;
+	border: 0px solid #2497e3;
+	height: 25px;
+	width: 25px;
+	border-radius: 25px;
+	background: #7146ce;
+	cursor: pointer;
 }
 
 .Input[type=range]:focus::-ms-fill-lower {
-    background: #7146CE;
+	background: #7146ce;
 }
 
 .Input[type=range]:focus::-ms-fill-upper {
-    background: #7146CE;
+	background: #7146ce;
 }
-
-@media (max-width: 1290px) {}
+.CheckboxWrapper {
+	display: flex;
+	align-items: center;
+}
+.Input[type=checkbox] {
+	display: inline-block;
+	width: auto;
+	margin-right: 5px;
+}
+.Label {
+	font-size: 12px;
+	display: flex;
+	align-items: center;
+}
+@media (max-width: 1290px) {
+}
 
 @media (max-width: 960px) {
-    .Input {
-        padding: 5px 12px;
-        font-size: 12px;
-    }
+	.Input {
+		padding: 5px 12px;
+		font-size: 12px;
+	}
 }
 
-@media (max-width: 600px) {}
+@media (max-width: 600px) {
+}

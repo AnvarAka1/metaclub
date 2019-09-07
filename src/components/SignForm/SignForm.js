@@ -40,9 +40,9 @@ const signForm = props => {
 				<Grid container spacing={3}>
 					{signForm}
 					<Hidden xsDown>
-						<Grid item sm={9} />
+						<Grid item sm={6} />
 					</Hidden>
-					<Grid item xs={12} sm={3}>
+					<Grid item xs={12} sm={6}>
 						<Button flatten wide>
 							{isSignIn ? "Login Now" : "Register Now"}
 						</Button>

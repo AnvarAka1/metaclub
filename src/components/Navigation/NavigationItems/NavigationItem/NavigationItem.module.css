@@ -1,50 +1,47 @@
 .NavigationItem a {
-    display: inline-block;
-    width: 100%;
-    height: 100%;
-    text-decoration: none;
-    transition: border .5s ease;
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+	text-decoration: none;
+	transition: border .5s ease;
 }
 
 .Horizontal {
-    display: block;
+	display: block;
 }
 
 .Horizontal a {
-    padding: 15px 0;
-    border-bottom: 2px transparent solid
+	padding: 15px 0;
+	border-bottom: 2px transparent solid;
 }
 
 .Horizontal a:hover {
-    border-bottom: 2px #7146CE solid;
-
+	border-bottom: 2px #7146ce solid;
 }
 
 .Horizontal .ActiveLink {
-    border-bottom: 2px #7146CE solid;
+	border-bottom: 2px #7146ce solid;
 }
 
 .ActiveSideDrawerLink {
-    color: #7146CE
+	color: #7146ce;
 }
 
 .Vertical {
-    display: none;
-
+	display: none;
 }
 
 .Vertical a {
-    padding: 10px 10px
+	padding: 10px 50px;
+	border-bottom: 1px #e0e0e0 solid;
 }
 
+@media (max-width: 960px) {
+	.Horizontal {
+		display: none;
+	}
 
-
-@media(max-width: 960px) {
-    .Horizontal {
-        display: none;
-    }
-
-    .Vertical {
-        display: block;
-    }
+	.Vertical {
+		display: block;
+	}
 }

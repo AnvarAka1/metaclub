@@ -34,13 +34,14 @@ const navigationItems = props => {
 			</Button>
 		);
 	});
-	const logo = props.vertical ? null : (
+	const logo = (
 		<li>
 			<NavLink to="/">
-				<Logo />
+				<Logo vertical={props.vertical && props.vertical} />
 			</NavLink>
 		</li>
 	);
+
 	const rightNav = props.vertical ? null : (
 		<li className={classes.Buttons}>
 			{buttons}
