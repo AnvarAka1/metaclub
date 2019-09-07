@@ -2,13 +2,17 @@ import React from "react";
 import ServerCard from "./ServerCard/ServerCard";
 
 const serverCards = props => {
-  return (
-    <div>
-      <ServerCard></ServerCard>
-      <ServerCard></ServerCard>
-      <ServerCard></ServerCard>
-    </div>
-  );
+	const serverCards = props.serverCards.map(serverCard => {
+		return (
+			<ServerCard
+				key={serverCard.id}
+				serverCard={serverCard}
+        copied={props.copied}
+        
+			/>
+		);
+	});
+	return <>{serverCards}</>;
 };
 
 export default serverCards;

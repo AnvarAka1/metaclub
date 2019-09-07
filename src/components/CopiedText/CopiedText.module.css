@@ -1,0 +1,12 @@
+.CopiedText {
+	position: fixed;
+	bottom: 30px;
+	left: 0;
+	right: 0;
+	width: 220px;
+	padding: 5px 10px;
+	border-radius: 5px;
+	margin: 0 auto;
+	background: rgba(0, 0, 0, .5);
+	z-index: 21;
+}

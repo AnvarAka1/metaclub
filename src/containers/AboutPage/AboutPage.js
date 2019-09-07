@@ -12,6 +12,7 @@ import Calculator from "../../components/Calculator/Calculator";
 import NewsItems from "../../components/NewsItems/NewsItems";
 import Photo from "../../assets/images/news/news.png";
 import Hidden from "@material-ui/core/Hidden";
+import CopiedText from '../../components/CopiedText/CopiedText';
 class AboutPage extends Component {
 	state = {
 		news: [
@@ -49,7 +50,7 @@ class AboutPage extends Component {
 				config: {
 					type: "range"
 				},
-				value: 0
+				value: 512
 			},
 			input: {
 				inputType: "input",
@@ -105,9 +106,46 @@ class AboutPage extends Component {
 					],
 					percentage: "+0.58 %"
 				}
-			]
-		}
+			],
+			copied: false
+		},
+		serverCards: [
+			{
+				id: 0,
+				name: "beartorrent|cn|90/95|@bear_nodes",
+				region: "America",
+				role: "Peer Node",
+				roi: "1.057438 #MHC",
+				delegators: "1669899.545578 #MHC",
+				value: "a2n"
+			},
+			{
+				id: 1,
+				name: "beartorrent|cn|90/95|@bear_nodes",
+				region: "America",
+				role: "Peer Node",
+				roi: "1.057438 #MHC",
+				delegators: "1669899.545578 #MHC",
+				value: "app://ForgingMHC #!/delegation/server/0x00fveasd215fsa6f2sa34f8wqf12v3xc16xb54vc65b1vc2n"
+			},
+			{
+				id: 2,
+				name: "beartorrent|cn|90/95|@bear_nodes",
+				region: "America",
+				role: "Peer Node",
+				roi: "1.057438 #MHC",
+				delegators: "1669899.545578 #MHC",
+				value: "app://ForgingMHC #!/delegation/server/0x00fveasd215fsa6f2sa34f8wqf12v3xc16xb54vc65b1vc2n"
+			}
+		]
 	};
+	componentDidUpdate() {
+		if (this.state.copied) {
+			setTimeout(() => {
+				this.setState({ copied: false });
+			}, 3000);
+		}
+	}
 	rangeChangeHandlerTest = event => {
 		const value = event.target.value;
 		const calculator = { ...this.state.calculator };
@@ -134,8 +172,13 @@ class AboutPage extends Component {
 		this.props.history.push(`/articles/${id}`);
 		window.scrollTo({ top: "0" });
 	};
+	copyHandler = () => {
+		this.setState({ copied: true });
+	};
+	
 	render() {
 		return (
+			<>
 			<Grid con="true" container spacing={3}>
 				<Grid item sm={7}>
 					<div>
@@ -202,7 +245,7 @@ class AboutPage extends Component {
 					<Grid item xs={1} />
 				</Hidden>
 				<Grid item md={10} sm={12} xs={12}>
-					<ServerCards />
+					<ServerCards serverCards={this.state.serverCards} copied={this.copyHandler} />
 				</Grid>
 				<Grid item xs={12}>
 					<div id="news">
@@ -222,6 +265,8 @@ class AboutPage extends Component {
 					</NavLink>
 				</div>
 			</Grid>
+			<CopiedText view={this.state.copied}></CopiedText>
+			</>
 		);
 	}
 }
