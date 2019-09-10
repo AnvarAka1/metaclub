@@ -22,13 +22,21 @@ const signForm = props => {
 			</Grid>
 		);
 	});
+	const button = isSignIn ? (
+		<Button flatten wide disabled={!props.isSignInValid}>
+			Login Now
+		</Button>
+	) : (
+		<Button flatten wide disabled={!props.isSignUpValid}>
+			Register Now
+		</Button>
+	);
 	return (
 		<div className={classes.SignForm}>
 			<div className={classes.Buttons}>
 				<Button wide buttonClass={isSignIn ? "Accent" : "Transparent"} clicked={props.signInClicked}>
 					Sign in
 				</Button>
-
 				<Button wide white buttonClass={!isSignIn ? "Accent" : "Transparent"} clicked={props.signUpClicked}>
 					Sign up
 				</Button>
@@ -36,16 +44,14 @@ const signForm = props => {
 			<Header mbBig center h4>
 				{isSignIn ? "Sign in" : "Sign up"}
 			</Header>
-			<form onSubmit={props.submitted}>
+			<form onSubmit={props.formSubmitted}>
 				<Grid container spacing={3}>
 					{signForm}
 					<Hidden xsDown>
 						<Grid item sm={6} />
 					</Hidden>
 					<Grid item xs={12} sm={6}>
-						<Button flatten wide>
-							{isSignIn ? "Login Now" : "Register Now"}
-						</Button>
+						{button}
 					</Grid>
 				</Grid>
 			</form>

@@ -4,10 +4,7 @@ import Card from "../../UI/Card/Card";
 import Header from "../../UI/Header/Header";
 import ServerSubCard from "../ServerSubCard/ServerSubCard";
 const serverCard = props => {
-	const { id, name, region, role, roi, delegators, value } = props.serverCard;
-	const text = value
-		? value
-		: "app://ForgingMHC #!/delegation/server/0x00fveasd215fsa6f2sa34f8wqf12v3xc16xb54vc65b1vc2n";
+	const { id, name, region, node_role, node_roi, capitalization, link } = props.serverCard;
 	return (
 		<Card server mb scroll>
 			<Header h5 light>
@@ -48,25 +45,25 @@ const serverCard = props => {
 
 						<td>
 							<Header h5 light>
-								{role}
+								{node_role}
 							</Header>
 						</td>
 
 						<td>
 							<Header h5 light>
-								{roi}
+								{node_roi} #MHC
 							</Header>
 						</td>
 
 						<td>
 							<Header h5 light>
-								{delegators}
+								{capitalization} #MHC
 							</Header>
 						</td>
 					</tr>
 				</tbody>
 			</table>
-			<ServerSubCard id={id} copied={props.copied} text={text} />
+			<ServerSubCard id={id} copied={props.copied} text={link} />
 		</Card>
 	);
 };

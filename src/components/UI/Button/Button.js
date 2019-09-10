@@ -18,7 +18,12 @@ const button = props => {
 		props.big && classes.Big
 	];
 	return (
-		<button className={buttonClasses.join(" ")} style={props.buttonStyle} onClick={props.clicked}>
+		<button
+			className={buttonClasses.join(" ")}
+			disabled={props.disabled}
+			style={props.buttonStyle}
+			onClick={props.clicked}
+		>
 			{props.children}
 		</button>
 	);

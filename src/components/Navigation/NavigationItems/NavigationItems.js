@@ -2,7 +2,7 @@ import React from "react";
 import classes from "./NavigationItems.module.css";
 import { NavLink } from "react-router-dom";
 import Logo from "../../Logo/Logo";
-import PrlIcon from "../../../assets/images/icons/profile.png";
+
 import SinIcon from "../../../assets/images/icons/signin.png";
 import Hidden from "@material-ui/core/Hidden";
 // import Logo from "../../../assets/images/logo.png";
@@ -44,7 +44,7 @@ const navigationItems = props => {
 
 	const rightNav = props.vertical ? null : (
 		<li className={classes.Buttons}>
-			{buttons}
+			{!props.isAuthorized && buttons}
 			{/* Language selector */}
 			<LangSelect lang={props.lang} langClicked={props.langClicked} />
 			<Hidden mdUp>
@@ -82,7 +82,7 @@ const languageSelect = props => {
 		nav: [
 			{
 				title: [ "О проекте", "About Project", "UzAbout Project" ],
-				link: "/about/news"
+				link: "/about"
 			},
 			{
 				title: [ "Как зарабатывать?", "How to get paid?", "UzHow to get paid" ],
@@ -103,13 +103,13 @@ const languageSelect = props => {
 				type: { round: true, white: true },
 				icon: SinIcon,
 				clicked: props.signInClicked
-			},
-			{
-				title: [ "Регистрация", "Register", "UzRegister" ],
-				icon: PrlIcon,
-				type: { round: true },
-				clicked: props.signUpClicked
 			}
+			// {
+			// 	title: [ "Регистрация", "Register", "UzRegister" ],
+			// 	icon: PrlIcon,
+			// 	type: { round: true },
+			// 	clicked: props.signUpClicked
+			// }
 		]
 	};
 	const navItems = {};

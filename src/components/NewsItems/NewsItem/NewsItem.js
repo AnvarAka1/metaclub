@@ -6,7 +6,7 @@ import Header from "../../UI/Header/Header";
 const newsItem = props => {
 	return (
 		<div className={classes.NewsItem} onClick={props.clicked && props.clicked}>
-			<NavLink to="/news">
+			<NavLink to={`/articles/${props.id}`}>
 				<div className={classes.Image}>
 					<img src={props.image} alt="news" />
 				</div>

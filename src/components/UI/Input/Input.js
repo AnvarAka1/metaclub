@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "./Input.module.css";
-
+import Text from '../Text/Text';
 const input = props => {
   const inputClasses = [
     classes.Input,
@@ -9,6 +9,11 @@ const input = props => {
        classes[props.elementConfig.inputClass]
     
   ];
+  let errMessage;
+  if(!props.elementConfig.isValid && props.elementConfig.touched && props.elementConfig.validation){
+    inputClasses.push(classes.Invalid);
+    errMessage = <Text small>{props.elementConfig.errMessage}</Text>;
+  }
   let input;
   if (props.elementConfig) {
     switch (props.elementConfig.inputType) {
@@ -73,8 +78,10 @@ const input = props => {
     input = "Input";
   }
 
-  return <>{input}
   
+  return <>
+  {input}
+  {errMessage}
   </>;
 };
 

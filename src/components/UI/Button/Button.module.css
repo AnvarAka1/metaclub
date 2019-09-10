@@ -10,6 +10,9 @@
 	display: inline-block;
 	transition: all .5s ease;
 }
+.Button:disabled {
+	background-color: grey;
+}
 
 .Round {
 	border-radius: 50px;

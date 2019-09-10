@@ -15,7 +15,10 @@
 .Textarea {
 	min-height: 140px;
 }
-
+.Invalid {
+	border: none;
+	border: 1px red solid;
+}
 .Accent {
 	width: 153px;
 	border: 1px solid #7146ce;

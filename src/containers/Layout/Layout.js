@@ -6,6 +6,8 @@ import Footer from "../../components/Footer/Footer";
 import Hidden from "@material-ui/core/Hidden";
 import Modal from "../../components/Modal/Modal";
 import SignForm from "../../components/SignForm/SignForm";
+import { connect } from "react-redux";
+import * as actions from "../../store/actions/index";
 class Layout extends Component {
 	state = {
 		signIn: {
@@ -20,6 +22,14 @@ class Layout extends Component {
 					xs: 12,
 					sm: 12
 				},
+				validation: {
+					required: true,
+					minChar: 6,
+					maxChar: 20
+				},
+				isValid: false,
+				errMessage: "",
+				touched: false,
 				value: ""
 			},
 			password: {
@@ -33,6 +43,13 @@ class Layout extends Component {
 					xs: 12,
 					sm: 12
 				},
+				validation: {
+					required: true,
+					minChar: 6,
+					maxChar: 20
+				},
+				isValid: false,
+				touched: false,
 				value: ""
 			},
 			remember: {
@@ -47,6 +64,7 @@ class Layout extends Component {
 					xs: 12,
 					sm: 12
 				},
+				isValid: true,
 				value: ""
 			}
 		},
@@ -62,6 +80,13 @@ class Layout extends Component {
 					xs: 12,
 					sm: 12
 				},
+				validation: {
+					required: true,
+					minChar: 6,
+					maxChar: 20
+				},
+				isValid: false,
+				touched: false,
 				value: ""
 			},
 			phone: {
@@ -75,6 +100,11 @@ class Layout extends Component {
 					xs: 12,
 					sm: 12
 				},
+				validation: {
+					required: true
+				},
+				isValid: false,
+				touched: false,
 				value: ""
 			},
 			email: {
@@ -88,6 +118,13 @@ class Layout extends Component {
 					xs: 12,
 					sm: 12
 				},
+				validation: {
+					required: true,
+					minChar: 6,
+					maxChar: 20
+				},
+				isValid: false,
+				touched: false,
 				value: ""
 			},
 			fpassword: {
@@ -101,6 +138,13 @@ class Layout extends Component {
 					xs: 12,
 					sm: 12
 				},
+				validation: {
+					required: true,
+					minChar: 6,
+					maxChar: 20
+				},
+				isValid: false,
+				touched: false,
 				value: ""
 			},
 			spassword: {
@@ -114,6 +158,13 @@ class Layout extends Component {
 					xs: 12,
 					sm: 12
 				},
+				validation: {
+					required: true,
+					minChar: 6,
+					maxChar: 20
+				},
+				isValid: false,
+				touched: false,
 				value: ""
 			},
 			accept: {
@@ -128,6 +179,7 @@ class Layout extends Component {
 					xs: 12,
 					sm: 12
 				},
+				isValid: true,
 				value: ""
 			},
 			subscribe: {
@@ -142,11 +194,20 @@ class Layout extends Component {
 					xs: 12,
 					sm: 12
 				},
+				isValid: true,
 				value: ""
 			}
 		},
+		isSignInValid: false,
+		isSignUpValid: false,
 		isSignIn: true,
 		isModalOpened: false
+	};
+	formSubmitHandler = event => {
+		event.preventDefault();
+		const { name, email, fpassword } = this.state.signUp;
+		console.log(name.value, email.value, fpassword.value);
+		this.props.onAuth(name.value, email.value, fpassword.value, null, null, true);
 	};
 	signInClickedHandler = event => {
 		event.preventDefault();
@@ -162,19 +223,73 @@ class Layout extends Component {
 	inputChangedHandler = (event, inputIdentifier) => {
 		let form = {};
 		form = this.state.isSignIn ? { ...this.state.signIn } : { ...this.state.signUp };
-
+		const { isValid, errMessage } = this.checkValidity(event.target.value, form[inputIdentifier].validation);
 		form[inputIdentifier].value = event.target.value;
+		form[inputIdentifier].touched = true;
+		form[inputIdentifier].isValid = isValid;
+		form[inputIdentifier].errMessage = errMessage;
 		if (this.state.isSignIn) {
-			this.setState({ signIn: form });
+			const valid = this.checkFormValidity();
+			this.setState({ signIn: form, isSignInValid: valid });
 		} else {
-			this.setState({ signUp: form });
+			const valid = this.checkFormValidity();
+			this.setState({ signUp: form, isSignUpValid: valid });
 		}
 	};
-
+	checkFormValidity = () => {
+		let validForm = true;
+		if (this.state.isSignIn) {
+			const form = { ...this.state.signIn };
+			// eslint-disable-next-line
+			for (let key in form) {
+				console.log("IS VALID = ", form[key].isValid);
+				validForm = form[key].isValid && validForm;
+			}
+		} else {
+			const form = { ...this.state.signUp };
+			// eslint-disable-next-line
+			for (let key in form) {
+				validForm = form[key].isValid && validForm;
+			}
+		}
+		return validForm;
+	};
+	checkValidity = (value, rules) => {
+		let isValid = true;
+		let errMessage = "";
+		if (!rules) {
+			console.log("Here");
+			return { isValid: true, errMessage: "" };
+		}
+		if (rules.required) {
+			isValid = value.trim() !== "" && isValid;
+			if (!isValid && errMessage.trim() === "") {
+				errMessage = "This field must be filled";
+			}
+		}
+		if (rules.minChar) {
+			isValid = value.length >= rules.minChar && isValid;
+			if (!isValid && errMessage.trim() === "") {
+				errMessage = "Minimum characters must be more than " + rules.minChar;
+			}
+		}
+		if (rules.maxChar) {
+			isValid = value.length <= rules.maxChar && isValid;
+			if (!isValid && errMessage.trim() === "") {
+				errMessage = "Maximum characters must be less than " + rules.maxChar;
+			}
+		}
+		if (rules.required) {
+		}
+		return { isValid: isValid, errMessage: errMessage };
+	};
 	render() {
 		const modal = this.state.isModalOpened && (
 			<Modal opened={this.state.isModalOpened} backdropClicked={this.backdropHandler}>
 				<SignForm
+					formSubmitted={this.formSubmitHandler}
+					isSignInValid={this.state.isSignInValid}
+					isSignUpValid={this.state.isSignUpValid}
 					isSignIn={this.state.isSignIn}
 					signIn={this.state.signIn}
 					signUp={this.state.signUp}
@@ -189,6 +304,7 @@ class Layout extends Component {
 				{modal}
 				<div className={[ classes.Layout ].join(" ")}>
 					<NavigationItems
+						isAuthorized={this.props.isAuthorized}
 						navigationClicked={this.props.navigationClicked}
 						lang={this.props.lang}
 						langClicked={this.props.langClicked}
@@ -214,9 +330,20 @@ class Layout extends Component {
 						submitted={this.props.formSubmitted}
 					/>
 				</div>
+				<button onClick={this.props.logout} />
 			</React.Fragment>
 		);
 	}
 }
 
-export default Layout;
+const mapStateToProps = state => {
+	return { isAuthorized: state.auth.token !== null };
+};
+const mapDispatchToProps = dispatch => {
+	return {
+		onAuth: (name, email, password, avatar, position, isSignup) =>
+			dispatch(actions.auth(name, email, password, avatar, position, isSignup)),
+		logout: () => dispatch(actions.logout())
+	};
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Layout);
