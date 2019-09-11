@@ -11,7 +11,7 @@ import * as actions from "../../store/actions/index";
 class Layout extends Component {
 	state = {
 		signIn: {
-			email: {
+			inEmail: {
 				inputType: "input",
 				config: {
 					type: "email",
@@ -32,7 +32,7 @@ class Layout extends Component {
 				touched: false,
 				value: ""
 			},
-			password: {
+			inPassword: {
 				inputType: "input",
 				config: {
 					type: "password",
@@ -52,7 +52,7 @@ class Layout extends Component {
 				touched: false,
 				value: ""
 			},
-			remember: {
+			inRemember: {
 				inputType: "checkbox",
 				config: {
 					name: "remember",
@@ -69,7 +69,7 @@ class Layout extends Component {
 			}
 		},
 		signUp: {
-			name: {
+			upName: {
 				inputType: "input",
 				config: {
 					type: "text",
@@ -89,7 +89,7 @@ class Layout extends Component {
 				touched: false,
 				value: ""
 			},
-			phone: {
+			upPhone: {
 				inputType: "input",
 				config: {
 					type: "text",
@@ -107,7 +107,7 @@ class Layout extends Component {
 				touched: false,
 				value: ""
 			},
-			email: {
+			upEmail: {
 				inputType: "input",
 				config: {
 					type: "email",
@@ -127,7 +127,7 @@ class Layout extends Component {
 				touched: false,
 				value: ""
 			},
-			fpassword: {
+			upFpassword: {
 				inputType: "input",
 				config: {
 					type: "password",
@@ -147,7 +147,7 @@ class Layout extends Component {
 				touched: false,
 				value: ""
 			},
-			spassword: {
+			upSpassword: {
 				inputType: "input",
 				config: {
 					type: "password",
@@ -167,7 +167,7 @@ class Layout extends Component {
 				touched: false,
 				value: ""
 			},
-			accept: {
+			upAccept: {
 				inputType: "checkbox",
 				config: {
 					name: "accept",
@@ -182,7 +182,7 @@ class Layout extends Component {
 				isValid: true,
 				value: ""
 			},
-			subscribe: {
+			upSubscribe: {
 				inputType: "checkbox",
 				config: {
 					name: "subscribe",
@@ -203,11 +203,41 @@ class Layout extends Component {
 		isSignIn: true,
 		isModalOpened: false
 	};
+	componentDidUpdate() {
+		if (this.props.isFormFlush) {
+			let signIn = { ...this.state.signIn };
+			let signUp = { ...this.state.signUp };
+			// eslint-disable-next-line
+			for (let key in signIn) {
+				signIn[key].value = "";
+			}
+			// eslint-disable-next-line
+			for (let key in signUp) {
+				signUp[key].value = "";
+			}
+
+			this.setState({
+				isSignIn: true,
+				isModalOpened: false,
+				isSignInValid: false,
+				isSignUpValid: false,
+				flushForms: false,
+				signIn: signIn,
+				signUp: signUp
+			});
+			this.props.onFormFlush();
+		}
+	}
 	formSubmitHandler = event => {
 		event.preventDefault();
-		const { name, email, fpassword } = this.state.signUp;
-		console.log(name.value, email.value, fpassword.value);
-		this.props.onAuth(name.value, email.value, fpassword.value, null, null, true);
+		const { upName, upEmail, upFpassword } = this.state.signUp;
+		const { inEmail, inPassword } = this.state.signIn;
+		// console.log("values = ", name.value, email.value, fpassword.value);
+		if (this.state.isSignIn) {
+			this.props.onAuth(null, inEmail.value, inPassword.value, null, null, this.state.isSignIn);
+		} else {
+			this.props.onAuth(upName.value, upEmail.value, upFpassword.value, null, null, this.state.isSignIn);
+		}
 	};
 	signInClickedHandler = event => {
 		event.preventDefault();
@@ -304,6 +334,7 @@ class Layout extends Component {
 				{modal}
 				<div className={[ classes.Layout ].join(" ")}>
 					<NavigationItems
+						logout={this.props.onLogout}
 						isAuthorized={this.props.isAuthorized}
 						navigationClicked={this.props.navigationClicked}
 						lang={this.props.lang}
@@ -330,20 +361,23 @@ class Layout extends Component {
 						submitted={this.props.formSubmitted}
 					/>
 				</div>
-				<button onClick={this.props.logout} />
 			</React.Fragment>
 		);
 	}
 }
 
 const mapStateToProps = state => {
-	return { isAuthorized: state.auth.token !== null };
+	return {
+		isAuthorized: state.auth.token !== null,
+		isFormFlush: state.auth.formFlush
+	};
 };
 const mapDispatchToProps = dispatch => {
 	return {
 		onAuth: (name, email, password, avatar, position, isSignup) =>
 			dispatch(actions.auth(name, email, password, avatar, position, isSignup)),
-		logout: () => dispatch(actions.logout())
+		onLogout: () => dispatch(actions.logout()),
+		onFormFlush: () => dispatch(actions.authFormFlush())
 	};
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Layout);

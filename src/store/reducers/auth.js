@@ -7,10 +7,17 @@ const initialState = {
 	name: null,
 	avatar: null,
 	position: null,
-	password: null
+	password: null,
+	formFlush: false
 	//   loading: false
 };
 
+const authFormFlush = (state, action) => {
+	return {
+		...state,
+		formFlush: false
+	};
+};
 // fill all the parameters of the user
 const authSuccess = (state, action) => {
 	return {
@@ -21,7 +28,8 @@ const authSuccess = (state, action) => {
 		avatar: action.avatar,
 		position: action.position,
 		password: action.password,
-		error: null
+		error: null,
+		formFlush: true
 	};
 };
 
@@ -66,6 +74,8 @@ const reducer = (state = initialState, action) => {
 			return authFail(state, action);
 		case actionTypes.AUTH_LOGOUT:
 			return authLogout(state, action);
+		case actionTypes.AUTH_FORM_FLUSH:
+			return authFormFlush(state, action);
 		default:
 			return state;
 	}

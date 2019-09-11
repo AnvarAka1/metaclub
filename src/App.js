@@ -8,7 +8,10 @@ import ArticlesPage from "./containers/ArticlesPage/ArticlesPage";
 import ProfilePage from "./containers/ProfilePage/ProfilePage";
 import MhcPage from "./containers/MhcPage/MhcPage";
 import ArticlePage from "./containers/ArticlePage/ArticlePage";
-import ContactsPage from "./containers/ContactsPage/Contacts";
+import ContactsPage from "./containers/ContactsPage/ContactsPage";
+import ProfileSettingsPage from "./containers/ProfileSettingsPage/ProfileSettingsPage";
+import { connect } from "react-redux";
+import * as actions from "./store/actions/index";
 const cookies = new Cookies();
 class App extends Component {
 	state = {
@@ -16,7 +19,10 @@ class App extends Component {
 		isLangHover: false,
 		drawerLeft: false
 	};
-
+	constructor(props) {
+		super(props);
+		this.props.onAuthCheck();
+	}
 	componentDidMount() {
 		const lang = cookies.get("lang");
 		// console.log("typeof lang", typeof lang);
@@ -64,7 +70,10 @@ class App extends Component {
 	closeDrawerHandler = () => {
 		this.setState({ drawerLeft: false });
 	};
-
+	// logoutHandler = event => {
+	// 	event.preventDefault();
+	// 	this.props.onLogout();
+	// };
 	testHandler = () => {
 		const date = new Date("2099");
 
@@ -92,9 +101,10 @@ class App extends Component {
 						<Route path="/about" component={AboutPage} />
 						<Route path="/articles/:id" component={ArticlePage} />
 						<Route path="/articles" component={ArticlesPage} />
-						<Route path="/profiles/:id" component={ProfilePage} />
+						<Route path="/users/:id" component={ProfilePage} />
 						<Route path="/mhc" component={MhcPage} />
 						<Route path="/contacts" component={ContactsPage} />
+						<Route path="/settings" component={ProfileSettingsPage} />
 						<Redirect from="*" to="/about" />
 					</Switch>
 				</Layout>
@@ -102,5 +112,9 @@ class App extends Component {
 		);
 	}
 }
-
-export default withRouter(App);
+const mapDispatchToProps = dispatch => {
+	return {
+		onAuthCheck: () => dispatch(actions.authCheckState())
+	};
+};
+export default withRouter(connect(null, mapDispatchToProps)(App));

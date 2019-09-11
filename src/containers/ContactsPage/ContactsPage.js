@@ -7,7 +7,7 @@ import Hidden from "@material-ui/core/Hidden";
 import Text from "../../components/UI/Text/Text";
 import MsgImage from "../../assets/images/contact/message.png";
 import Tilt from "react-tilt";
-export class Contacts extends Component {
+export class ContactsPage extends Component {
 	state = {
 		footerForm: {
 			name: {
@@ -139,4 +139,4 @@ export class Contacts extends Component {
 	}
 }
 
-export default Contacts;
+export default ContactsPage;

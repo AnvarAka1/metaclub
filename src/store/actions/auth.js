@@ -6,7 +6,11 @@ export const authStart = () => {
 		type: actionTypes.AUTH_START
 	};
 };
-
+export const authFormFlush = () => {
+	return {
+		type: actionTypes.AUTH_FORM_FLUSH
+	};
+};
 export const authSuccess = (token, email, name, avatar, position, password) => {
 	return {
 		type: actionTypes.AUTH_SUCCESS,
@@ -15,7 +19,8 @@ export const authSuccess = (token, email, name, avatar, position, password) => {
 		name: name,
 		avatar: avatar,
 		position: position,
-		password: password
+		password: password,
+		formFlush: true
 	};
 };
 
@@ -34,10 +39,10 @@ export const logout = () => {
 	};
 };
 
-export const auth = (name, email, password, avatar, position, isSignup) => {
-	console.log(name, email, password, avatar, position, isSignup);
+export const auth = (name, email, password, avatar, position, isSignIn) => {
+	console.log(name, email, password, avatar, position, isSignIn);
 	email = email.trim();
-	name = name.trim();
+	name = isSignIn ? null : name.trim();
 	return dispatch => {
 		// clear error
 		dispatch(authStart());
@@ -49,25 +54,18 @@ export const auth = (name, email, password, avatar, position, isSignup) => {
 			position: position && position,
 			returnSecureToken: true
 		};
-		const urls = [ "/login", "/register" ];
+		console.log(authData);
+		const urls = [ "/register", "/login" ];
 
 		axios
 			.post(
-				urls[+isSignup],
+				urls[+isSignIn],
 				authData,
 				{
 					// config
 				}
 			)
 			.then(response => {
-				/* 
-        data:{
-          access_token: string, 
-          expires_in: 863999,
-          refresh_token: string, 
-          token_type: "Bearer"
-        }
-        */
 				console.log(response.data);
 				const data = response.data.auth;
 				console.log(data.access_token);
@@ -83,7 +81,8 @@ export const auth = (name, email, password, avatar, position, isSignup) => {
 				dispatch(checkAuthTimeout(data.expires_in));
 			})
 			.catch(error => {
-				dispatch(authFail(error.response));
+				console.log(error);
+				dispatch(authFail(error.message));
 			});
 	};
 };

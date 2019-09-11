@@ -11,6 +11,7 @@ import Button from "../../UI/Button/Button";
 import LangSelect from "../../LangSelect/LangSelect";
 import Hamburger from "../../UI/Hamburger/Hamburger";
 import Grid from "../../Grid/Grid";
+import Header from "../../UI/Header/Header";
 const navigationItems = props => {
 	const navItems = languageSelect(props);
 	const navigationItems = navItems.nav.map(navItem => {
@@ -25,15 +26,36 @@ const navigationItems = props => {
 			</NavigationItem>
 		);
 	});
+	const button = props.isAuthorized ? (
+		<React.Fragment>
+			<NavLink to="/settings">
+				<Button
+					key={navItems.button[1].title}
+					{...navItems.button[1].type}
+					clicked={navItems.button[1].clicked}
+				>
+					<img src={navItems.button[1].icon} alt={navItems.button[1].title} />
+					{navItems.button[1].title}
+				</Button>
+			</NavLink>
 
-	const buttons = navItems.buttons.map(button => {
-		return (
-			<Button key={button.title} {...button.type} clicked={button.clicked}>
-				<img src={button.icon} alt={button.title} />
-				{button.title}
-			</Button>
-		);
-	});
+			<Header
+				normal
+				color="#333"
+				clicked={props.logout}
+				h6
+				headerStyle={{ marginRight: "10px", cursor: "pointer" }}
+			>
+				Выйти
+			</Header>
+		</React.Fragment>
+	) : (
+		<Button key={navItems.button[0].title} {...navItems.button[0].type} clicked={navItems.button[0].clicked}>
+			<img src={navItems.button[0].icon} alt={navItems.button[0].title} />
+			{navItems.button[0].title}
+		</Button>
+	);
+
 	const logo = (
 		<li>
 			<NavLink to="/">
@@ -44,7 +66,7 @@ const navigationItems = props => {
 
 	const rightNav = props.vertical ? null : (
 		<li className={classes.Buttons}>
-			{!props.isAuthorized && buttons}
+			{button}
 			{/* Language selector */}
 			<LangSelect lang={props.lang} langClicked={props.langClicked} />
 			<Hidden mdUp>
@@ -99,21 +121,21 @@ const languageSelect = props => {
 		],
 		buttons: [
 			{
-				title: [ "Войти", "Sign In", "UzSign In" ],
+				title: [ "Войти", "Sign In" ],
 				type: { round: true, white: true },
 				icon: SinIcon,
 				clicked: props.signInClicked
+			},
+			{
+				title: [ "Профиль", "Profile" ],
+				type: { round: true, white: true },
+				icon: SinIcon,
+				clicked: props.profileClicked
 			}
-			// {
-			// 	title: [ "Регистрация", "Register", "UzRegister" ],
-			// 	icon: PrlIcon,
-			// 	type: { round: true },
-			// 	clicked: props.signUpClicked
-			// }
 		]
 	};
 	const navItems = {};
-	navItems.buttons = navItemsMulti.buttons.map(button => {
+	navItems.button = navItemsMulti.buttons.map(button => {
 		return {
 			title: button.title[props.lang],
 			type: button.type,

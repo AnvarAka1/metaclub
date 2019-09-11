@@ -21,46 +21,43 @@ export class ArticlePage extends Component {
 				value: ""
 			}
 		},
-		profile: {
-			id: 3,
-			photo: ProfilePhoto,
-			name: "Томас Эдисон",
-			position: [ "изобретатель и предприниматель", "Inventor and entrepreneur" ],
-			artCount: 3
-		},
+		profile: null,
 		article: null,
-		comments: [
-			{
-				id: 0,
-				profile: {
-					id: 25,
-					photo: ProfilePhoto,
-					name: "John Smith",
-					text:
-						"Годовой параллакс одномерно выбирает осциллятор. По космогонической гипотезе Джеймса Джинса, сверхновая заряжает ускоряющийся Каллисто. Вещество синхронно. Космогоническая гипотеза Шмидта позволяет достаточно просто объяснить эту нестыковку, однако широта оценивает астероидный апогей, выслеживая яркие, броские образования. Галактика оценивает Млечный Путь."
-				}
-			},
-			{
-				id: 1,
-				profile: {
-					id: 26,
-					photo: ProfilePhoto,
-					name: "Anvar",
-					text:
-						"Джинса, сверхновая заряжает ускоряющийся Каллисто. Вещество синхронно. Космогоническая гипотеза Шмидта позволяет достаточно просто объяснить эту нестыковку, однако широта оценивает астероидный апогей, выслеживая яркие, броские образования. Галактика оценивает Млечный Путь."
-				}
-			}
-		],
+		comments: null,
 		lang: 0
 	};
+
 	componentDidMount() {
 		const { id } = this.props.match.params;
+		let profile = null;
+		let article = null;
+		let comments = null;
+
 		axios
 			.get(`/articles/${id}`)
 			.then(res => {
 				console.log(res.data);
-				this.setState({ article: res.data });
+				article = res.data;
+				return axios.get(`/users/${res.data.user_id}`);
 			})
+			.then(res => {
+				console.log(res);
+				profile = res.data;
+				return axios.get(`/articles/user/${res.data.id}`);
+			})
+			.then(res => {
+				console.log(res);
+				console.log("profile ", profile);
+				profile.total = res.data.total;
+				return axios.get(`/articles/${id}/comments`);
+			})
+			.then(res => {
+				console.log(res.data);
+				comments = res.data;
+				this.setState({ article: article, profile: profile, comments: comments });
+				return axios.get(`/users/${comments.user_id}`);
+			})
+			.then(res => {})
 			.catch(err => {
 				console.log("Error ", err);
 			});
@@ -93,7 +90,7 @@ export class ArticlePage extends Component {
 	viewProfileHandler = (event, id) => {
 		// redirect
 
-		this.props.history.push(`/profiles/${id}`);
+		this.props.history.push(`/users/${id}`);
 		window.scrollTo({ top: "0" });
 	};
 	render() {
@@ -112,6 +109,25 @@ export class ArticlePage extends Component {
 		) : (
 			"Wait"
 		);
+		const profile = this.state.profile ? (
+			<ProfileCard
+				clicked={this.viewProfileHandler}
+				lang={this.state.lang}
+				profile={this.state.profile}
+				viewProfile
+			/>
+		) : (
+			"Wait"
+		);
+		const comments = (
+			<Comments
+				commentForm={this.state.commentForm}
+				commentClicked={this.commentHandler}
+				commentSubmitted={this.commentSubmitHandler}
+				commentChanged={this.commentChangedHandler}
+				comments={this.state.comments}
+			/>
+		);
 		return (
 			<React.Fragment>
 				<Grid container mbbig="true">
@@ -121,21 +137,10 @@ export class ArticlePage extends Component {
 					<Grid item sm={1} />
 					<Grid item sm={7}>
 						{article}
-						<Comments
-							commentForm={this.state.commentForm}
-							commentClicked={this.commentHandler}
-							commentSubmitted={this.commentSubmitHandler}
-							commentChanged={this.commentChangedHandler}
-							comments={this.state.comments}
-						/>
+						{comments}
 					</Grid>
 					<Grid item sm={3} xs={12}>
-						<ProfileCard
-							clicked={this.viewProfileHandler}
-							lang={this.state.lang}
-							profile={this.state.profile}
-							viewProfile
-						/>
+						{profile}
 					</Grid>
 					<Grid item sm={1} />
 				</Grid>
