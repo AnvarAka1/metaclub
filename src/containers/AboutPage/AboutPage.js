@@ -13,6 +13,7 @@ import NewsItems from "../../components/NewsItems/NewsItems";
 import Hidden from "@material-ui/core/Hidden";
 import CopiedText from "../../components/CopiedText/CopiedText";
 import axios from "../../axios-db";
+import Spinner from "../../components/Spinner/Spinner";
 class AboutPage extends Component {
 	state = {
 		news: null,
@@ -78,38 +79,11 @@ class AboutPage extends Component {
 					],
 					percentage: "+0.58 %"
 				}
-			],
-			copied: false
+			]
 		},
-		serverCards: [
-			{
-				id: 0,
-				name: "beartorrent|cn|90/95|@bear_nodes",
-				region: "America",
-				role: "Peer Node",
-				roi: "1.057438 #MHC",
-				delegators: "1669899.545578 #MHC",
-				value: "a2n"
-			},
-			{
-				id: 1,
-				name: "beartorrent|cn|90/95|@bear_nodes",
-				region: "America",
-				role: "Peer Node",
-				roi: "1.057438 #MHC",
-				delegators: "1669899.545578 #MHC",
-				value: "app://ForgingMHC #!/delegation/server/0x00fveasd215fsa6f2sa34f8wqf12v3xc16xb54vc65b1vc2n"
-			},
-			{
-				id: 2,
-				name: "beartorrent|cn|90/95|@bear_nodes",
-				region: "America",
-				role: "Peer Node",
-				roi: "1.057438 #MHC",
-				delegators: "1669899.545578 #MHC",
-				value: "app://ForgingMHC #!/delegation/server/0x00fveasd215fsa6f2sa34f8wqf12v3xc16xb54vc65b1vc2n"
-			}
-		]
+		copied: false,
+		serverCards: null,
+		loading: true
 	};
 	componentDidMount() {
 		axios
@@ -124,7 +98,7 @@ class AboutPage extends Component {
 		axios
 			.get("/servers")
 			.then(res => {
-				this.setState({ serverCards: res.data });
+				this.setState({ serverCards: res.data, loading: false });
 			})
 			.catch(err => {
 				console.log("Error ", err);
@@ -168,6 +142,16 @@ class AboutPage extends Component {
 	};
 
 	render() {
+		let serverCards = <Spinner />;
+		let news = <Spinner />;
+		if (!this.state.loading) {
+			serverCards = this.state.serverCards && (
+				<ServerCards serverCards={this.state.serverCards} copied={this.copyHandler} />
+			);
+			news = this.state.news && (
+				<NewsItems articleClicked={this.articleHandler} news={this.state.news} limit={3} />
+			);
+		}
 		return (
 			<React.Fragment>
 				<Grid con="true" container spacing={3}>
@@ -236,7 +220,7 @@ class AboutPage extends Component {
 						<Grid item xs={1} />
 					</Hidden>
 					<Grid item md={10} sm={12} xs={12}>
-						<ServerCards serverCards={this.state.serverCards} copied={this.copyHandler} />
+						{serverCards}
 					</Grid>
 					<Grid item xs={12}>
 						<div id="news">
@@ -245,9 +229,7 @@ class AboutPage extends Component {
 							</Header>
 						</div>
 					</Grid>
-
-					{/* Pass some state */}
-					<NewsItems articleClicked={this.articleHandler} news={this.state.news} limit={3} />
+					{news}
 					<div style={{ textAlign: "center", width: "100%" }}>
 						<NavLink to="/articles">
 							<Button big grey buttonStyle={{ marginTop: "30px" }}>

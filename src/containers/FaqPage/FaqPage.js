@@ -4,9 +4,12 @@ import Grid from "../../components/Grid/Grid";
 import Header from "../../components/UI/Header/Header";
 import QuestionCards from "../../components/QuestionCards/QuestionCards";
 import axios from "../../axios-db";
+import Spinner from "../../components/Spinner/Spinner";
+
 class FaqPage extends Component {
 	state = {
-		questionsArray: null
+		questionsArray: null,
+		loading: true
 	};
 
 	componentDidMount() {
@@ -14,7 +17,7 @@ class FaqPage extends Component {
 			.get("/faqs")
 			.then(res => {
 				console.log(res.data);
-				this.setState({ questionsArray: res.data });
+				this.setState({ questionsArray: res.data, loading: false });
 			})
 			.catch(err => {
 				console.log(err);
@@ -30,11 +33,12 @@ class FaqPage extends Component {
 		this.setState({ questionsArray: questionsArray });
 	};
 	render() {
-		const questions = this.state.questionsArray ? (
-			<QuestionCards toggleClicked={this.toggleHandler} questionsArray={this.state.questionsArray} />
-		) : (
-			"Wait"
-		);
+		let questions = <Spinner />;
+		if (!this.state.loading) {
+			questions = this.state.questionsArray && (
+				<QuestionCards toggleClicked={this.toggleHandler} questionsArray={this.state.questionsArray} />
+			);
+		}
 		return (
 			<Grid con="true" container spacing={3}>
 				<Grid item xs={1} />

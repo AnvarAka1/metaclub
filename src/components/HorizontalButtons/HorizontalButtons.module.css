@@ -1,0 +1,6 @@
+.HorizontalButtons {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-around;
+	border-bottom: 1px solid #e0e0e0;
+}

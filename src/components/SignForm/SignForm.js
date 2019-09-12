@@ -5,7 +5,7 @@ import Hidden from "@material-ui/core/Hidden";
 import Button from "../UI/Button/Button";
 import Header from "../UI/Header/Header";
 import Input from "../UI/Input/Input";
-
+import Spinner from "../Spinner/Spinner";
 const signForm = props => {
 	const { isSignIn, signIn, signUp } = props;
 	const signFormArray = [];
@@ -15,13 +15,20 @@ const signForm = props => {
 	for (let key in sign) {
 		signFormArray.push({ key: key, elementConfig: sign[key] });
 	}
-	const signForm = signFormArray.map(sign => {
-		return (
-			<Grid item key={sign.key} {...sign.elementConfig.grid}>
-				<Input changed={event => props.inputChanged(event, sign.key)} elementConfig={sign.elementConfig} />
-			</Grid>
-		);
-	});
+	let signForm = (
+		<Grid item xs={12}>
+			<Spinner />
+		</Grid>
+	);
+	if (!props.loading) {
+		signForm = signFormArray.map(sign => {
+			return (
+				<Grid item key={sign.key} {...sign.elementConfig.grid}>
+					<Input changed={event => props.inputChanged(event, sign.key)} elementConfig={sign.elementConfig} />
+				</Grid>
+			);
+		});
+	}
 	const button = isSignIn ? (
 		<Button flatten wide disabled={!props.isSignInValid}>
 			Login Now
@@ -47,6 +54,7 @@ const signForm = props => {
 			<form onSubmit={props.formSubmitted}>
 				<Grid container spacing={3}>
 					{signForm}
+
 					<Hidden xsDown>
 						<Grid item sm={6} />
 					</Hidden>

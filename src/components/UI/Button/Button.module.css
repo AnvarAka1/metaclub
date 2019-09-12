@@ -46,7 +46,6 @@
 	background-color: #7146ce;
 	color: #fff;
 }
-
 .Transparent {
 	background-color: #fff;
 	color: #7146ce;
@@ -54,4 +53,8 @@
 .Transparent:hover {
 	background-color: #7146ce;
 	color: #fff;
+}
+
+.Semirounded {
+	border-radius: 4px 4px 0 0;
 }

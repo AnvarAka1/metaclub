@@ -3,6 +3,7 @@ import Grid from "../../components/Grid/Grid";
 import Menu from "../../components/Menu/Menu";
 import NewsItems from "../../components/NewsItems/NewsItems";
 import axios from "../../axios-db";
+import Spinner from "../../components/Spinner/Spinner";
 export class ArticlesPage extends Component {
 	state = {
 		menu: [
@@ -14,7 +15,8 @@ export class ArticlesPage extends Component {
 				active: true
 			}
 		],
-		articles: null
+		articles: null,
+		loading: true
 	};
 	componentDidMount() {
 		axios
@@ -38,7 +40,7 @@ export class ArticlesPage extends Component {
 			}
 			console.log(catsCopy);
 
-			this.setState({ menu: cats });
+			this.setState({ menu: cats, loading: false });
 		});
 	}
 	categoryHandler = (event, id) => {
@@ -72,13 +74,14 @@ export class ArticlesPage extends Component {
 		window.scrollTo({ top: "0" });
 	};
 	render() {
-		let newsItems = "Wait";
-		let menu = "Wait";
-		newsItems = this.state.articles && (
-			<NewsItems articleClicked={this.articleHandler} wide news={this.state.articles.data} />
-		);
-		menu = this.state.menu && <Menu clicked={this.categoryHandler} menu={this.state.menu} />;
-
+		let newsItems = <Spinner />;
+		let menu = <Spinner />;
+		if (!this.state.loading) {
+			newsItems = this.state.articles && (
+				<NewsItems articleClicked={this.articleHandler} wide news={this.state.articles.data} />
+			);
+			menu = this.state.menu && <Menu clicked={this.categoryHandler} menu={this.state.menu} />;
+		}
 		return (
 			<Grid con="true" container spacing={3}>
 				<Grid item xs={12} style={{ marginTop: "50px" }}>

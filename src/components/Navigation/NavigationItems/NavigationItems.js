@@ -64,11 +64,21 @@ const navigationItems = props => {
 		</li>
 	);
 
-	const rightNav = props.vertical ? null : (
+	const rightNav = props.vertical ? (
+		<Hidden mdUp>
+			<li style={{ flexFlow: "row", justifyContent: "center" }} className={classes.Buttons}>
+				{button}
+				{/* Language selector */}
+				<LangSelect lang={props.lang} langClicked={props.langClicked} />
+			</li>
+		</Hidden>
+	) : (
 		<li className={classes.Buttons}>
-			{button}
-			{/* Language selector */}
-			<LangSelect lang={props.lang} langClicked={props.langClicked} />
+			<Hidden smDown>
+				{button}
+				{/* Language selector */}
+				<LangSelect lang={props.lang} langClicked={props.langClicked} />
+			</Hidden>
 			<Hidden mdUp>
 				<Hamburger clicked={props.drawerOpened} />
 			</Hidden>
@@ -82,12 +92,14 @@ const navigationItems = props => {
 					<ul className={props.vertical ? classes.VerticalNavigationItems : classes.NavigationItems}>
 						{/* Logo */}
 						{logo}
+						{props.vertical && rightNav}
+
 						{/* navigation */}
 						{navigationItems}
 						{/* SideDrawer Navigation */}
 
 						{/* Sign In and Reg */}
-						{rightNav}
+						{!props.vertical && rightNav}
 					</ul>
 				</Grid>
 			</div>

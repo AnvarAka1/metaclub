@@ -10,6 +10,7 @@ import MhcPage from "./containers/MhcPage/MhcPage";
 import ArticlePage from "./containers/ArticlePage/ArticlePage";
 import ContactsPage from "./containers/ContactsPage/ContactsPage";
 import ProfileSettingsPage from "./containers/ProfileSettingsPage/ProfileSettingsPage";
+import NodesPage from "./containers/NodesPage/NodesPage";
 import { connect } from "react-redux";
 import * as actions from "./store/actions/index";
 const cookies = new Cookies();
@@ -105,6 +106,7 @@ class App extends Component {
 						<Route path="/mhc" component={MhcPage} />
 						<Route path="/contacts" component={ContactsPage} />
 						<Route path="/settings" component={ProfileSettingsPage} />
+						<Route path="/nodes" component={NodesPage} />
 						<Redirect from="*" to="/about" />
 					</Switch>
 				</Layout>

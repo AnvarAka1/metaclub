@@ -8,6 +8,8 @@ import Modal from "../../components/Modal/Modal";
 import SignForm from "../../components/SignForm/SignForm";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
+// import Spinner from "../../components/Spinner/Spinner";
+
 class Layout extends Component {
 	state = {
 		signIn: {
@@ -317,6 +319,7 @@ class Layout extends Component {
 		const modal = this.state.isModalOpened && (
 			<Modal opened={this.state.isModalOpened} backdropClicked={this.backdropHandler}>
 				<SignForm
+					loading={this.props.isLoading}
 					formSubmitted={this.formSubmitHandler}
 					isSignInValid={this.state.isSignInValid}
 					isSignUpValid={this.state.isSignUpValid}
@@ -369,6 +372,7 @@ class Layout extends Component {
 const mapStateToProps = state => {
 	return {
 		isAuthorized: state.auth.token !== null,
+		isLoading: state.auth.loading,
 		isFormFlush: state.auth.formFlush
 	};
 };

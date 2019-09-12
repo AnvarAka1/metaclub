@@ -8,6 +8,8 @@ import ProfilePhoto from "../../assets/images/profile/profile.png";
 import Comments from "../../components/Comments/Comments";
 import Paper from "../../components/UI/Paper/Paper";
 import axios from "../../axios-db";
+import Spinner from "../../components/Spinner/Spinner";
+
 export class ArticlePage extends Component {
 	state = {
 		commentForm: {
@@ -24,7 +26,8 @@ export class ArticlePage extends Component {
 		profile: null,
 		article: null,
 		comments: null,
-		lang: 0
+		lang: 0,
+		loading: true
 	};
 
 	componentDidMount() {
@@ -54,10 +57,12 @@ export class ArticlePage extends Component {
 			.then(res => {
 				console.log(res.data);
 				comments = res.data;
-				this.setState({ article: article, profile: profile, comments: comments });
+				this.setState({ article: article, profile: profile, comments: comments, loading: false });
 				return axios.get(`/users/${comments.user_id}`);
 			})
-			.then(res => {})
+			.then(res => {
+				// comments
+			})
 			.catch(err => {
 				console.log("Error ", err);
 			});
@@ -94,40 +99,38 @@ export class ArticlePage extends Component {
 		window.scrollTo({ top: "0" });
 	};
 	render() {
-		const image = this.state.article ? (
-			<MainImage src={this.state.article.image} alt={this.state.article.title} />
-		) : (
-			"Wait"
-		);
-		const article = this.state.article ? (
-			<Paper blank article>
-				<Header color="#333" mb h2>
-					{this.state.article.title}
-				</Header>
-				<Text textStyle={{ lineHeight: "40px" }}>{this.state.article.body}</Text>
-			</Paper>
-		) : (
-			"Wait"
-		);
-		const profile = this.state.profile ? (
-			<ProfileCard
-				clicked={this.viewProfileHandler}
-				lang={this.state.lang}
-				profile={this.state.profile}
-				viewProfile
-			/>
-		) : (
-			"Wait"
-		);
-		const comments = (
-			<Comments
-				commentForm={this.state.commentForm}
-				commentClicked={this.commentHandler}
-				commentSubmitted={this.commentSubmitHandler}
-				commentChanged={this.commentChangedHandler}
-				comments={this.state.comments}
-			/>
-		);
+		let image = <Spinner />;
+		let article = null;
+		let profile = null;
+		let comments = null;
+		if (!this.state.loading) {
+			image = this.state.article && <MainImage src={this.state.article.image} alt={this.state.article.title} />;
+			article = this.state.article && (
+				<Paper blank article>
+					<Header color="#333" mb h2>
+						{this.state.article.title}
+					</Header>
+					<Text textStyle={{ lineHeight: "40px" }}>{this.state.article.body}</Text>
+				</Paper>
+			);
+			profile = this.state.profile && (
+				<ProfileCard
+					clicked={this.viewProfileHandler}
+					lang={this.state.lang}
+					profile={this.state.profile}
+					viewProfile
+				/>
+			);
+			comments = this.state.comments && (
+				<Comments
+					commentForm={this.state.commentForm}
+					commentClicked={this.commentHandler}
+					commentSubmitted={this.commentSubmitHandler}
+					commentChanged={this.commentChangedHandler}
+					comments={this.state.comments}
+				/>
+			);
+		}
 		return (
 			<React.Fragment>
 				<Grid container mbbig="true">

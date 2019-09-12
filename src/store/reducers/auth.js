@@ -8,8 +8,8 @@ const initialState = {
 	avatar: null,
 	position: null,
 	password: null,
-	formFlush: false
-	//   loading: false
+	formFlush: false,
+	loading: false
 };
 
 const authFormFlush = (state, action) => {
@@ -29,7 +29,8 @@ const authSuccess = (state, action) => {
 		position: action.position,
 		password: action.password,
 		error: null,
-		formFlush: true
+		formFlush: true,
+		loading: false
 	};
 };
 
@@ -37,7 +38,8 @@ const authSuccess = (state, action) => {
 const authFail = (state, action) => {
 	return {
 		...state,
-		error: action.error
+		error: action.error,
+		loading: false
 	};
 };
 
@@ -45,7 +47,8 @@ const authFail = (state, action) => {
 const authStart = (state, action) => {
 	return {
 		...state,
-		error: null
+		error: null,
+		loading: true
 	};
 };
 

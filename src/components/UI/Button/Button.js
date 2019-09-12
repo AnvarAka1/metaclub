@@ -15,7 +15,8 @@ const button = props => {
 		props.flatten && classes.Flatten,
 		props.padding && classes.Padding,
 		props.wide && classes.Wide,
-		props.big && classes.Big
+		props.big && classes.Big,
+		props.semirounded && classes.Semirounded
 	];
 	return (
 		<button

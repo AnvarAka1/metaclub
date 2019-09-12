@@ -3,11 +3,14 @@ import NewsItems from "../../components/NewsItems/NewsItems";
 import ProfileCard from "../../components/Profile/ProfileCard/ProfileCard";
 import Grid from "../../components/Grid/Grid";
 import axios from "../../axios-db";
+import Spinner from "../../components/Spinner/Spinner";
+
 export class ProfilePage extends Component {
 	state = {
 		profile: null,
 		articles: null,
-		lang: 0
+		lang: 0,
+		loading: true
 	};
 
 	componentDidMount() {
@@ -29,7 +32,7 @@ export class ProfilePage extends Component {
 			.then(res => {
 				console.log(res.data);
 				articles = res.data.data;
-				this.setState({ profile: profile, articles: articles });
+				this.setState({ profile: profile, articles: articles, loading: false });
 			})
 			.catch(err => {
 				console.log(err);
@@ -41,16 +44,14 @@ export class ProfilePage extends Component {
 		window.scrollTo({ top: "0" });
 	};
 	render() {
-		const profile = this.state.profile ? (
-			<ProfileCard lang={this.state.lang} profile={this.state.profile} />
-		) : (
-			"Wait"
-		);
-		const articles = this.state.articles ? (
-			<NewsItems articleClicked={this.articleHandler} news={this.state.articles} wide />
-		) : (
-			"Wait"
-		);
+		let profile = <Spinner />;
+		let articles = <Spinner />;
+		if (!this.state.loading) {
+			profile = this.state.profile && <ProfileCard lang={this.state.lang} profile={this.state.profile} />;
+			articles = this.state.articles && (
+				<NewsItems articleClicked={this.articleHandler} news={this.state.articles} wide />
+			);
+		}
 		return (
 			<React.Fragment>
 				<Grid item xs={12} mt="true">
