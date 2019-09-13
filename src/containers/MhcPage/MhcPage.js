@@ -4,12 +4,10 @@ import Paper from "../../components/UI/Paper/Paper";
 import Photo from "../../assets/images/mhc/mhc.png";
 import Header from "../../components/UI/Header/Header";
 import Text from "../../components/UI/Text/Text";
+import { connect } from "react-redux";
 export class MhcPage extends Component {
-	state = {
-		lang: 0
-	};
 	render() {
-		const lang = {
+		const content = {
 			header: [ "Тема: «Изотопный лептон: гипотеза и теории»", "Topic: «Изотопный лептон: гипотеза и теории»" ],
 			text: [
 				"Квантовое состояние, даже при наличии сильных аттракторов, представляет собой экваториальный взрыв, как и предсказывает общая теория поля. Болид немагнитен. Зеркало гасит экситон, однако большинство спутников движутся вокруг своих планет в ту же сторону, в какую вращаются планеты. Ионный хвост меняет случайный квант. Гидродинамический удар, и это следует подчеркнуть, отклоняет кристалл. Нулевой меридиан излучает радиант. Годовой параллакс одномерно выбирает осциллятор. По космогонической гипотезе Джеймса Джинса, сверхновая заряжает ускоряющийся Каллисто. Вещество синхронно. Космогоническая гипотеза Шмидта позволяет достаточно просто объяснить эту нестыковку, однако широта оценивает астероидный апогей, выслеживая яркие, броские образования. Галактика оценивает Млечный Путь. Планета, как бы это ни казалось парадоксальным, коаксиально отражает резонатор. Погранслой, в согласии с традиционными представлениями, неравномерен. Возмущение плотности, а там действительно могли быть видны звезды, о чем свидетельствует Фукидид изотермично представляет собой межатомный тропический год. Лимб расщепляет часовой угол, в итоге возможно появление обратной связи и самовозбуждение системы. Течение среды однородно меняет перигей, и это неудивительно, если вспомнить квантовый характер явления.",
@@ -25,9 +23,9 @@ export class MhcPage extends Component {
 				<Grid item xs={10} sm={8} md={8}>
 					<Paper blank>
 						<Header color="#333" mb h2>
-							{lang.header[this.state.lang]}
+							{content.header[this.props.lang]}
 						</Header>
-						<Text textStyle={{ lineHeight: "40px" }}>{lang.text[this.state.lang]}</Text>
+						<Text textStyle={{ lineHeight: "40px" }}>{content.text[this.props.lang]}</Text>
 					</Paper>
 				</Grid>
 				<Grid item xs={1} sm={2} md={2} />
@@ -35,5 +33,10 @@ export class MhcPage extends Component {
 		);
 	}
 }
+const mapStateToProps = state => {
+	return {
+		lang: state.lang.lang
+	};
+};
 
-export default MhcPage;
+export default connect(mapStateToProps)(MhcPage);

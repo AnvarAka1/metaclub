@@ -6,7 +6,12 @@ const calculator = props => {
 	const calculatorCard = props.calc.calcCard.map(calc => {
 		return (
 			<Grid item xs={12} sm={6} md={3} key={calc.id}>
-				<CalculatorCard currency={calc.currency} percentage={calc.percentage} date={calc.date} />
+				<CalculatorCard
+					lang={props.lang}
+					currency={calc.currency}
+					percentage={calc.percentage}
+					date={calc.date}
+				/>
 			</Grid>
 		);
 	});
@@ -14,6 +19,7 @@ const calculator = props => {
 		<Grid container spacing={5}>
 			<Grid item xs={12}>
 				<CalculatorInput
+					lang={props.lang}
 					calc={props.calc}
 					rangeChanged={props.rangeChanged}
 					inputChanged={props.inputChanged}

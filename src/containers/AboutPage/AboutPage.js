@@ -14,6 +14,7 @@ import Hidden from "@material-ui/core/Hidden";
 import CopiedText from "../../components/CopiedText/CopiedText";
 import axios from "../../axios-db";
 import Spinner from "../../components/Spinner/Spinner";
+import { connect } from "react-redux";
 class AboutPage extends Component {
 	state = {
 		news: null,
@@ -146,12 +147,38 @@ class AboutPage extends Component {
 		let news = <Spinner />;
 		if (!this.state.loading) {
 			serverCards = this.state.serverCards && (
-				<ServerCards serverCards={this.state.serverCards} copied={this.copyHandler} />
+				<ServerCards lang={this.props.lang} serverCards={this.state.serverCards} copied={this.copyHandler} />
 			);
 			news = this.state.news && (
 				<NewsItems articleClicked={this.articleHandler} news={this.state.news} limit={3} />
 			);
 		}
+		const content = {
+			first: {
+				header: [ "Революционер на криптовалютной отрасли", "Cryptocurrency Revolutionary" ],
+				text: [
+					"Это клуб для сообществу #MetaHash(MHC), Объединяющий Инвесторов, Программистов, Разработчиков и просто людей интересующей криптовалютный тематики.",
+					"This is a club for the #MetaHash (MHC) community, bringing together Investors, Programmers, Developers and just people interested in cryptocurrency topics."
+				],
+				link: [ "Подробнее »", "More details »" ]
+			},
+			second: {
+				header: [ "Что такое", "What is" ],
+				text: [
+					"это самый быстрый, надежный и децентрализованная криптавалюта в мире. Инвестирую и поддерживая децентрализованная сеть #MetaHash(MHC) вы можете зарабатывать на делигирования и форженге свои монеты.",
+					"It is the fastest, most reliable and decentralized cryptocurrency in the world. By investing in and supporting the #MetaHash (MHC) decentralized network, you can earn money by delisting and forging your coins."
+				],
+
+				link: [ "Подробнее »", "More details »" ]
+			},
+			third: {
+				header: [ "Статистика серверов", "Server statistics" ]
+			},
+			fourth: {
+				header: [ "Новости / Медиа", "News / Media" ],
+				link: [ "Больше новостей", "More news" ]
+			}
+		};
 		return (
 			<React.Fragment>
 				<Grid con="true" container spacing={3}>
@@ -161,15 +188,14 @@ class AboutPage extends Component {
 								Blockchain <span className="accent">4.0</span>
 							</Header>
 							<Header h2 thin mtb>
-								<span className="accent">#MetaHash(MHC)</span> - Революционер на криптовалютной отрасли!{" "}
+								<span className="accent">#MetaHash(MHC)</span> - {content.first.header[this.props.lang]}!{" "}
 							</Header>
 							<Text mbBig part>
-								MetaClub - Это клуб для сообществу #MetaHash(MHC), Объединяющий Инвесторов,
-								Программистов, Разработчиков и просто людей интересующей криптовалютный тематики.{" "}
+								MetaClub - {content.first.text[this.props.lang]}{" "}
 							</Text>
 							<NavLink to="/mhc">
 								<Button white round>
-									Подробнее >
+									{content.first.link[this.props.lang]}
 								</Button>
 							</NavLink>
 						</div>
@@ -187,32 +213,32 @@ class AboutPage extends Component {
 					<Grid item sm={5}>
 						<div>
 							<Header h4 hasLine mb>
-								Что такое <span className="accent">#MetaHash?</span>
+								{content.second.header[this.props.lang]} <span className="accent">#MetaHash?</span>
 							</Header>
 							<Text mtb>
-								<span>#MetaHash</span> - это самый быстрый, надожный и децентрализованная криптавалюта в
-								мире. Инвестирую и поддерживая децентрализованная сеть #MetaHash(MHC) вы можете
-								зарабатывать на делигирования и форженге свои монеты.
+								<span>#MetaHash</span> - {content.second.text[this.props.lang]}
 							</Text>
 							<Header h5>
 								<NavLink to="/mhc">
-									<span className="accent">Подробнее »</span>
+									<span className="accent">{content.second.link[this.props.lang]}</span>
 								</NavLink>
 							</Header>
 						</div>
 					</Grid>
 					<Grid item xs={12}>
 						<Calculator
+							lang={this.props.lang}
 							calc={this.state.calculator}
 							inputChanged={this.inputChangedHandler}
 							rangeChanged={this.rangeChangeHandler}
 							buttonCClicked={this.buttonClickedHandler}
 						/>
 					</Grid>
+					{/* SERVER CARDS */}
 					<Grid item xs={12}>
 						<div>
 							<Header center normal h3 mtb>
-								Server Statistics
+								{content.third.header[this.props.lang]}
 							</Header>
 						</div>
 					</Grid>
@@ -222,10 +248,11 @@ class AboutPage extends Component {
 					<Grid item md={10} sm={12} xs={12}>
 						{serverCards}
 					</Grid>
+					{/* NEWS */}
 					<Grid item xs={12}>
 						<div id="news">
 							<Header center h3 normal mtb>
-								News / Media
+								{content.fourth.header[this.props.lang]}
 							</Header>
 						</div>
 					</Grid>
@@ -233,7 +260,7 @@ class AboutPage extends Component {
 					<div style={{ textAlign: "center", width: "100%" }}>
 						<NavLink to="/articles">
 							<Button big grey buttonStyle={{ marginTop: "30px" }}>
-								More news
+								{content.fourth.link[this.props.lang]}
 							</Button>
 						</NavLink>
 					</div>
@@ -243,5 +270,10 @@ class AboutPage extends Component {
 		);
 	}
 }
+const mapStateToProps = state => {
+	return {
+		lang: state.lang.lang
+	};
+};
 
-export default AboutPage;
+export default connect(mapStateToProps)(AboutPage);

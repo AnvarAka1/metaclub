@@ -14,6 +14,7 @@ import Grid from "../../Grid/Grid";
 import Header from "../../UI/Header/Header";
 const navigationItems = props => {
 	const navItems = languageSelect(props);
+	const logout = [ "Выйти", "Logout" ];
 	const navigationItems = navItems.nav.map(navItem => {
 		return (
 			<NavigationItem
@@ -46,7 +47,7 @@ const navigationItems = props => {
 				h6
 				headerStyle={{ marginRight: "10px", cursor: "pointer" }}
 			>
-				Выйти
+				{logout[props.lang]}
 			</Header>
 		</React.Fragment>
 	) : (

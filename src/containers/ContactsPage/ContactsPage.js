@@ -7,14 +7,22 @@ import Hidden from "@material-ui/core/Hidden";
 import Text from "../../components/UI/Text/Text";
 import MsgImage from "../../assets/images/contact/message.png";
 import Tilt from "react-tilt";
+import { connect } from "react-redux";
+import axios from "../../axios-db";
 export class ContactsPage extends Component {
+	placeholders = {
+		name: [ "Ваше имя", "Your name" ],
+		email: [ "Ваша эл.почта", "Your email" ],
+		topic: [ "Тема", "Topic" ],
+		text: [ "Отзыв / Вопрос / Предложение", "Response / Question / Offer" ]
+	};
 	state = {
-		footerForm: {
+		form: {
 			name: {
 				inputType: "input",
 				config: {
 					name: "name",
-					placeholder: "Ваше имя",
+					placeholder: "",
 					type: "text"
 				},
 				grid: {
@@ -29,7 +37,7 @@ export class ContactsPage extends Component {
 				inputType: "input",
 				config: {
 					name: "email",
-					placeholder: "Ваша эл.почта",
+					placeholder: "",
 					type: "email"
 				},
 				grid: {
@@ -42,7 +50,7 @@ export class ContactsPage extends Component {
 				inputType: "input",
 				config: {
 					name: "topic",
-					placeholder: "Тема",
+					placeholder: "",
 					type: "text"
 				},
 				grid: {
@@ -56,8 +64,7 @@ export class ContactsPage extends Component {
 				inputType: "textarea",
 				config: {
 					name: "message",
-					placeholder: "Отзыв / Вопрос / Предложение",
-
+					placeholder: "",
 					type: "text"
 				},
 				grid: {
@@ -66,27 +73,66 @@ export class ContactsPage extends Component {
 				},
 				value: ""
 			}
-		}
+		},
+		sent: null,
+		error: null
 	};
 	inputChangeHandler = (event, inputIdentifier) => {
-		const footerForm = {
-			...this.state.footerForm
+		const form = {
+			...this.state.form
 		};
-		footerForm[inputIdentifier].value = event.target.value;
-		this.setState({ footerForm: footerForm });
+		form[inputIdentifier].value = event.target.value;
+		this.setState({ form: form });
 	};
 	formSubmitHandler = event => {
 		event.preventDefault();
+
+		const message = [ "Ваш запрос был успешно отправлен!", "Your request has been successfully sent!" ];
+		this.setState({ sent: null, error: null });
+		const data = {
+			email: this.state.form.email.value,
+			body: this.state.form.text.value
+		};
+		axios
+			.post("/contacts/create", data)
+			.then(res => {
+				this.setState({ sent: message[this.props.lang] });
+				console.log(res);
+			})
+			.catch(err => {
+				this.setState({ sent: err.data, error: true });
+			});
 		// axios
 	};
-	render() {
-		let footerForm = [];
+	formLang = () => {
+		const { lang } = this.props;
+		let form = { ...this.state.form };
+		let newForm = [];
 		// eslint-disable-next-line
-		for (let key in this.state.footerForm) {
-			footerForm.push({ key: key, elementConfig: this.state.footerForm[key] });
+		for (let key in form) {
+			let fm = {
+				...form[key],
+				...form[key].config
+			};
+			fm.config.placeholder = this.placeholders[key][lang];
+			newForm.push({
+				key: key,
+				elementConfig: fm
+			});
 		}
 
-		const form = footerForm.map(f => {
+		return newForm;
+	};
+	render() {
+		// let formArray = [];
+		// // eslint-disable-next-line
+		// for (let key in this.state.form) {
+		// 	formArray.push({ key: key, elementConfig: this.state.form[key] });
+		// }
+
+		const newForm = this.formLang();
+
+		const form = newForm.map(f => {
 			return (
 				<Grid item key={f.key} {...f.elementConfig.grid}>
 					<Input changed={event => this.inputChangeHandler(event, f.key)} elementConfig={f.elementConfig} />
@@ -94,7 +140,13 @@ export class ContactsPage extends Component {
 			);
 		});
 
-		const textLang = {
+		const content = {
+			mainHeader: [ "Связаться с нами", "Contact us" ],
+			header: [ "Детали вашей заявки", "Details of your application" ],
+			text: [
+				"Описывайте ситуацию как можно подробнее, от этого зависит скорость и качество ответа на вопрос",
+				"Describe the situation as detailed as possible, the speed and quality of the answer to the question depends on this."
+			],
 			button: [ "Отправить", "Send" ]
 		};
 
@@ -111,24 +163,29 @@ export class ContactsPage extends Component {
 				</Hidden>
 				<Grid item xs={12} sm={12} md={6}>
 					<Header mtbBig h3 center thin>
-						Contact Us
+						{content.mainHeader[this.props.lang]}
 					</Header>
+
 					<form style={{ padding: "0 20px" }} onSubmit={this.formSubmitHandler}>
 						<Grid container spacing={3}>
 							<Grid item xs={12}>
-								<Header h5>Детали вашей заявки</Header>
-								<Text mtb>
-									Описывайте ситуацию как можно подробнее, от этого зависит скорость и качество ответа
-									на вопрос
-								</Text>
+								<Header h5>{content.header[this.props.lang]}</Header>
+								<Text mtb>{content.text[this.props.lang]}</Text>
 							</Grid>
 							{form}
+							{this.state.sent && (
+								<Grid item xs={12}>
+									<Header h4 center normal color={!this.state.error ? "green" : "red"}>
+										{this.state.sent}
+									</Header>
+								</Grid>
+							)}
 							<Hidden xsDown>
 								<Grid item sm={9} />
 							</Hidden>
 							<Grid item xs={12} sm={3}>
 								<Button wide flatten>
-									{textLang.button[0]}
+									{content.button[this.props.lang]}
 								</Button>
 							</Grid>
 						</Grid>
@@ -138,5 +195,10 @@ export class ContactsPage extends Component {
 		);
 	}
 }
+const mapStateToProps = state => {
+	return {
+		lang: state.lang.lang
+	};
+};
 
-export default ContactsPage;
+export default connect(mapStateToProps)(ContactsPage);

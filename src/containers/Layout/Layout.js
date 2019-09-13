@@ -11,6 +11,21 @@ import * as actions from "../../store/actions/index";
 // import Spinner from "../../components/Spinner/Spinner";
 
 class Layout extends Component {
+	placeholders = {
+		signIn: {
+			inEmail: [ "Email", "Email" ],
+			inPassword: [ "Пароль", "" ],
+			inRemember: [ "Запомнить меня", "Remember me" ]
+		},
+		signUp: {
+			upName: [ "Имя", "Name" ],
+			upEmail: [ "Email", "Email" ],
+			upFpassword: [ "Пароль", "Password" ],
+			upSpassword: [ "Подтвердите пароль", "Confirm password" ],
+			upAccept: [ "Я принимаю условия пользовательского соглашения", "I accept terms of service" ],
+			upSubscribe: [ "Подписаться на еженедельные рассылки", "Subscribe to weekly newsletters" ]
+		}
+	};
 	state = {
 		signIn: {
 			inEmail: {
@@ -86,24 +101,6 @@ class Layout extends Component {
 					required: true,
 					minChar: 6,
 					maxChar: 20
-				},
-				isValid: false,
-				touched: false,
-				value: ""
-			},
-			upPhone: {
-				inputType: "input",
-				config: {
-					type: "text",
-					name: "phone",
-					placeholder: "Phone number"
-				},
-				grid: {
-					xs: 12,
-					sm: 12
-				},
-				validation: {
-					required: true
 				},
 				isValid: false,
 				touched: false,
@@ -234,7 +231,6 @@ class Layout extends Component {
 		event.preventDefault();
 		const { upName, upEmail, upFpassword } = this.state.signUp;
 		const { inEmail, inPassword } = this.state.signIn;
-		// console.log("values = ", name.value, email.value, fpassword.value);
 		if (this.state.isSignIn) {
 			this.props.onAuth(null, inEmail.value, inPassword.value, null, null, this.state.isSignIn);
 		} else {
@@ -274,7 +270,6 @@ class Layout extends Component {
 			const form = { ...this.state.signIn };
 			// eslint-disable-next-line
 			for (let key in form) {
-				console.log("IS VALID = ", form[key].isValid);
 				validForm = form[key].isValid && validForm;
 			}
 		} else {
@@ -290,7 +285,6 @@ class Layout extends Component {
 		let isValid = true;
 		let errMessage = "";
 		if (!rules) {
-			console.log("Here");
 			return { isValid: true, errMessage: "" };
 		}
 		if (rules.required) {
@@ -315,10 +309,42 @@ class Layout extends Component {
 		}
 		return { isValid: isValid, errMessage: errMessage };
 	};
+	formLang = () => {
+		const { lang } = this.props;
+		let signIn = { ...this.state.signIn };
+		let newSignIn = [];
+		// eslint-disable-next-line
+		for (let key in signIn) {
+			let fm = {
+				...signIn[key],
+				...signIn[key].config
+			};
+			fm.config.placeholder = this.placeholders.signIn[key][lang];
+			newSignIn.push({
+				key: key,
+				elementConfig: fm
+			});
+		}
+		let signUp = { ...this.state.signUp };
+		let newSignUp = [];
+		// eslint-disable-next-line
+		for (let key in signUp) {
+			let fm = {
+				...signUp[key],
+				...signUp[key].config
+			};
+			fm.config.placeholder = this.placeholders.signIn[key][lang];
+			newSignUp.push({
+				key: key,
+				elementConfig: fm
+			});
+		}
+	};
 	render() {
 		const modal = this.state.isModalOpened && (
 			<Modal opened={this.state.isModalOpened} backdropClicked={this.backdropHandler}>
 				<SignForm
+					lang={this.props.lang}
 					loading={this.props.isLoading}
 					formSubmitted={this.formSubmitHandler}
 					isSignInValid={this.state.isSignInValid}
@@ -352,7 +378,12 @@ class Layout extends Component {
 								navigationClicked={this.props.navigationClicked}
 								lang={this.props.lang}
 								vertical
+								logout={this.props.onLogout}
 								drawerClosed={this.props.drawerClosed}
+								langClicked={this.props.langClicked}
+								signInClicked={this.signInClickedHandler}
+								signUpClicked={this.signUpClickedHandler}
+								isAuthorized={this.props.isAuthorized}
 							/>
 						</Drawer>
 					</Hidden>

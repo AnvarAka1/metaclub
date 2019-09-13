@@ -5,6 +5,7 @@ import Spinner from "../../components/Spinner/Spinner";
 import axios from "../../axios-db";
 import ServerCards from "../../components/ServerCards/ServerCards";
 import CopiedText from "../../components/CopiedText/CopiedText";
+import { connect } from "react-redux";
 export class NodesPage extends Component {
 	state = {
 		serverCards: null,
@@ -32,10 +33,13 @@ export class NodesPage extends Component {
 		this.setState({ copied: true });
 	};
 	render() {
+		const content = {
+			header: [ "Ноды", "Nodes" ]
+		};
 		let serverCards = <Spinner />;
 		if (!this.state.loading) {
 			serverCards = this.state.serverCards && (
-				<ServerCards serverCards={this.state.serverCards} copied={this.copyHandler} />
+				<ServerCards lang={this.props.lang} serverCards={this.state.serverCards} copied={this.copyHandler} />
 			);
 		}
 		return (
@@ -43,7 +47,7 @@ export class NodesPage extends Component {
 				<Grid container con="true" spacing={3}>
 					<Grid item xs={12}>
 						<Header mtbBig h3 center thin>
-							Nodes
+							{content.header[this.props.lang]}
 						</Header>
 					</Grid>
 					<Grid item xs={12}>
@@ -55,5 +59,10 @@ export class NodesPage extends Component {
 		);
 	}
 }
+const mapStateToProps = state => {
+	return {
+		lang: state.lang.lang
+	};
+};
 
-export default NodesPage;
+export default connect(mapStateToProps)(NodesPage);

@@ -12,10 +12,12 @@ export const authFormFlush = () => {
 		type: actionTypes.AUTH_FORM_FLUSH
 	};
 };
-export const authSuccess = (token, email, name, avatar, position, password) => {
+export const authSuccess = (token, id, role, email, name, avatar, position, password) => {
 	return {
 		type: actionTypes.AUTH_SUCCESS,
+		id: id,
 		token: token,
+		role: role,
 		email: email,
 		name: name,
 		avatar: avatar,
@@ -33,7 +35,7 @@ export const authFail = error => {
 };
 export const logout = () => {
 	localStorage.removeItem("token");
-	//   localStorage.removeItem("expirationDate");
+	localStorage.removeItem("expirationDate");
 	// localStorage.removeItem("userId");
 	return {
 		type: actionTypes.AUTH_LOGOUT
@@ -41,7 +43,6 @@ export const logout = () => {
 };
 
 export const auth = (name, email, password, avatar, position, isSignIn) => {
-	console.log(name, email, password, avatar, position, isSignIn);
 	email = email.trim();
 	name = isSignIn ? null : name.trim();
 	return dispatch => {
@@ -55,7 +56,6 @@ export const auth = (name, email, password, avatar, position, isSignIn) => {
 			position: position && position,
 			returnSecureToken: true
 		};
-		console.log(authData);
 		const urls = [ "/register", "/login" ];
 
 		axios
@@ -67,22 +67,23 @@ export const auth = (name, email, password, avatar, position, isSignIn) => {
 				}
 			)
 			.then(response => {
-				console.log(response.data);
 				const data = response.data.auth;
-				console.log(data.access_token);
+				const userData = response.data.user;
 				// expiration date in milliseconds
 				const expirationDate = new Date(new Date().getTime() + data.expires_in * 1000);
 				// need to save TO THE CACHE instead of localStorage
 				localStorage.setItem("token", data.access_token);
 				localStorage.setItem("expirationDate", expirationDate);
+				localStorage.setItem("id", userData.id);
+				localStorage.setItem("role", userData.role);
 				// localStorage.setItem("userId", response.data.localId);
-
 				// save user state
-				dispatch(authSuccess(data.access_token, email, name, avatar, position, password));
+				dispatch(
+					authSuccess(data.access_token, userData.id, userData.role, email, name, avatar, position, password)
+				);
 				dispatch(checkAuthTimeout(data.expires_in));
 			})
 			.catch(error => {
-				console.log(error);
 				dispatch(authFail(error.message));
 			});
 	};
@@ -98,6 +99,8 @@ export const checkAuthTimeout = expirationTime => {
 export const authCheckState = () => {
 	return dispatch => {
 		const token = localStorage.getItem("token");
+		const id = localStorage.getItem("id");
+		const role = localStorage.getItem("role");
 		if (!token) {
 			dispatch(logout());
 		} else {
@@ -107,7 +110,7 @@ export const authCheckState = () => {
 			} else {
 				const token = localStorage.getItem("token");
 				// need to discuss this
-				dispatch(authSuccess(token));
+				dispatch(authSuccess(token, id, role));
 				dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000));
 			}
 		}

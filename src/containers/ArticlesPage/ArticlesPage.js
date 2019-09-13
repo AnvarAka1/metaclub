@@ -4,6 +4,7 @@ import Menu from "../../components/Menu/Menu";
 import NewsItems from "../../components/NewsItems/NewsItems";
 import axios from "../../axios-db";
 import Spinner from "../../components/Spinner/Spinner";
+import { connect } from "react-redux";
 export class ArticlesPage extends Component {
 	state = {
 		menu: [
@@ -22,14 +23,12 @@ export class ArticlesPage extends Component {
 		axios
 			.get("/articles")
 			.then(res => {
-				// console.log(res.data);
 				this.setState({ articles: res.data });
 			})
 			.catch(err => {
 				console.log("Error ", err);
 			});
 		axios.get("/categories").then(res => {
-			console.log(res.data);
 			const cats = this.state.menu.slice();
 			let catsCopy = res.data.slice();
 			catsCopy = catsCopy.map(cat => {
@@ -38,7 +37,6 @@ export class ArticlesPage extends Component {
 			for (let i = 0; i < catsCopy.length; i++) {
 				cats.push(catsCopy[i]);
 			}
-			console.log(catsCopy);
 
 			this.setState({ menu: cats, loading: false });
 		});
@@ -80,7 +78,9 @@ export class ArticlesPage extends Component {
 			newsItems = this.state.articles && (
 				<NewsItems articleClicked={this.articleHandler} wide news={this.state.articles.data} />
 			);
-			menu = this.state.menu && <Menu clicked={this.categoryHandler} menu={this.state.menu} />;
+			menu = this.state.menu && (
+				<Menu lang={this.props.lang} clicked={this.categoryHandler} menu={this.state.menu} />
+			);
 		}
 		return (
 			<Grid con="true" container spacing={3}>
@@ -100,5 +100,10 @@ export class ArticlesPage extends Component {
 		);
 	}
 }
+const mapStateToProps = state => {
+	return {
+		lang: state.lang.lang
+	};
+};
 
-export default ArticlesPage;
+export default connect(mapStateToProps)(ArticlesPage);

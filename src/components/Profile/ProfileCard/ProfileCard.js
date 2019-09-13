@@ -5,14 +5,15 @@ import Text from "../../UI/Text/Text";
 import Button from "../../UI/Button/Button";
 import { NavLink } from "react-router-dom";
 function profileCard(props) {
-	const lang = {
+	const content = {
 		articles: [ "Статьи", "Articles" ],
 		button: [ "Посмотреть профиль", "View profile" ]
 	};
+	const { lang } = props;
 	const button = props.viewProfile ? (
 		<NavLink to={`/users/${props.profile.id}`}>
 			<Button round accent>
-				{lang.button[0]}
+				{content.button[lang]}
 			</Button>
 		</NavLink>
 	) : null;
@@ -26,7 +27,7 @@ function profileCard(props) {
 				<Text>{props.profile.position}</Text>
 			</div>
 			<div>
-				<p className={classes.Articles}>{lang.articles[props.lang]}:</p>
+				<p className={classes.Articles}>{content.articles[lang]}:</p>
 				<Header h3 center>
 					{props.profile.total}
 				</Header>

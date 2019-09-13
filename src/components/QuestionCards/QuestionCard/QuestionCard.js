@@ -14,13 +14,13 @@ const questionCard = props => {
 				<span style={{ verticalAlign: "top" }} className="accent">
 					Q:{" "}
 				</span>
-				<span style={{ width: "85%", display: "inline-block" }}>{props.lang ? question_ru : question_en}</span>
+				<span style={{ width: "85%", display: "inline-block" }}>{props.lang ? question_en : question_ru}</span>
 				<span className={classes.Toggler}>
 					<img src={props.opened ? ArrowUpIcon : ArrowDownIcon} alt="toggler" />
 				</span>
 			</Header>
 			<Text transition textClass={!props.opened ? "Hidden" : null} mt>
-				{props.lang ? reply_ru : reply_en}
+				{props.lang ? reply_en : reply_ru}
 			</Text>
 		</Card>
 	);

@@ -5,6 +5,13 @@ import Header from "../../UI/Header/Header";
 import ServerSubCard from "../ServerSubCard/ServerSubCard";
 const serverCard = props => {
 	const { id, name, region, node_role, node_roi, capitalization, link } = props.serverCard;
+	const { lang } = props;
+	const content = {
+		region: [ "Регион", "Region" ],
+		role: [ "Роль нода", "Node role" ],
+		roi: [ "ROI Нода", "Node ROI" ],
+		delegators: [ "Основан из делегатов", "Founded from delegators" ]
+	};
 	return (
 		<Card server mb scroll>
 			<Header h5 light>
@@ -15,22 +22,22 @@ const serverCard = props => {
 					<tr>
 						<th>
 							<Header h5 light normal>
-								Region:
+								{content.region[lang]}
 							</Header>
 						</th>
 						<th>
 							<Header h5 light normal>
-								Node role:
+								{content.role[lang]}
 							</Header>
 						</th>
 						<th>
 							<Header h5 light normal>
-								Node ROI:
+								{content.roi[lang]}
 							</Header>
 						</th>
 						<th>
 							<Header h5 light normal>
-								Founded from delegators:
+								{content.delegators[lang]}
 							</Header>
 						</th>
 					</tr>

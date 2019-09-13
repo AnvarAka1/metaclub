@@ -24,13 +24,10 @@ export class ProfilePage extends Component {
 				return axios.get(`/articles/user/${res.data.id}`);
 			})
 			.then(res => {
-				console.log(res);
-				console.log("profile ", profile);
 				profile.total = res.data.total;
 				return axios.get(`/articles/user/${profile.id}`);
 			})
 			.then(res => {
-				console.log(res.data);
 				articles = res.data.data;
 				this.setState({ profile: profile, articles: articles, loading: false });
 			})

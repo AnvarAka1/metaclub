@@ -6,7 +6,7 @@ import Range from "../../Range/Range";
 import Card from "../../UI/Card/Card";
 import Button from "../../UI/Button/Button";
 const calculatorInput = props => {
-	const lang = {
+	const content = {
 		header: [ "Калькулятор доходности", "Profitability calculator" ],
 		subheader: [
 			"Зарабатывайте 90% дохода от своих делигированных Монетах.",
@@ -21,9 +21,9 @@ const calculatorInput = props => {
 		<div className={classes.CalculatorInput}>
 			<Card calc>
 				<Header normal h3>
-					{lang.header[0]}:
+					{content.header[props.lang]}:
 				</Header>
-				<Header h5>{lang.subheader[0]}</Header>
+				<Header h5>{content.subheader[props.lang]}</Header>
 				<Range
 					minValue={512}
 					maxValue={1000000}
@@ -32,13 +32,13 @@ const calculatorInput = props => {
 				/>
 				<div className={classes.Count}>
 					<Header h5 color="#7146CE">
-						{lang.countText[0]}
+						{content.countText[props.lang]}
 					</Header>
 					<Input elementConfig={props.calc.input} changed={props.inputChanged} />
-					<Button clicked={props.buttonClicked}>{lang.button[0]}</Button>
+					<Button clicked={props.buttonClicked}>{content.button[props.lang]}</Button>
 				</div>
 				<Header color="#777" h5>
-					{lang.bottomText[0]} <span className="accent">{props.mhc} #MHC</span>
+					{content.bottomText[props.lang]} <span className="accent">{props.mhc} #MHC</span>
 				</Header>
 			</Card>
 		</div>

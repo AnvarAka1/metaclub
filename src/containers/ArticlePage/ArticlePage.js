@@ -9,7 +9,7 @@ import Comments from "../../components/Comments/Comments";
 import Paper from "../../components/UI/Paper/Paper";
 import axios from "../../axios-db";
 import Spinner from "../../components/Spinner/Spinner";
-
+import { connect } from "react-redux";
 export class ArticlePage extends Component {
 	state = {
 		commentForm: {
@@ -39,23 +39,18 @@ export class ArticlePage extends Component {
 		axios
 			.get(`/articles/${id}`)
 			.then(res => {
-				console.log(res.data);
 				article = res.data;
 				return axios.get(`/users/${res.data.user_id}`);
 			})
 			.then(res => {
-				console.log(res);
 				profile = res.data;
 				return axios.get(`/articles/user/${res.data.id}`);
 			})
 			.then(res => {
-				console.log(res);
-				console.log("profile ", profile);
 				profile.total = res.data.total;
 				return axios.get(`/articles/${id}/comments`);
 			})
 			.then(res => {
-				console.log(res.data);
 				comments = res.data;
 				this.setState({ article: article, profile: profile, comments: comments, loading: false });
 				return axios.get(`/users/${comments.user_id}`);
@@ -116,7 +111,7 @@ export class ArticlePage extends Component {
 			profile = this.state.profile && (
 				<ProfileCard
 					clicked={this.viewProfileHandler}
-					lang={this.state.lang}
+					lang={this.props.lang}
 					profile={this.state.profile}
 					viewProfile
 				/>
@@ -151,5 +146,10 @@ export class ArticlePage extends Component {
 		);
 	}
 }
+const mapStateToProps = state => {
+	return {
+		lang: state.lang.lang
+	};
+};
 
-export default ArticlePage;
+export default connect(mapStateToProps)(ArticlePage);

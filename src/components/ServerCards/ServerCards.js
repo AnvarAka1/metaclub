@@ -5,6 +5,7 @@ const serverCards = props => {
 	const serverCards = props.serverCards.map(serverCard => {
 		return (
 			<ServerCard
+			lang={props.lang}
 				key={serverCard.id}
 				serverCard={serverCard}
         copied={props.copied}

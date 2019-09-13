@@ -35,7 +35,6 @@ export class ProfileSettingsPage extends Component {
 						}
 					})
 					.then(res => {
-						console.log(res);
 						this.setState({ articles: res.data.data, loading: false });
 					})
 					.catch(err => console.log(err));
@@ -49,7 +48,6 @@ export class ProfileSettingsPage extends Component {
 		}
 	};
 	inputChangeHandler = (event, value) => {
-		console.log(event.target.value);
 		this.setState({ ...this.state.input, value: event.target.value });
 	};
 	render() {
@@ -60,7 +58,7 @@ export class ProfileSettingsPage extends Component {
 			{ id: 1, title: "Articles" },
 			{ id: 2, title: "Add article" }
 		];
-		const input = {};
+
 		const addArticle = <RichTextInput source="body" input={this.state.input} />;
 		if (!this.state.loading) {
 			spinner = null;

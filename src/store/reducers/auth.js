@@ -1,7 +1,9 @@
 import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
+	id: null,
 	token: null,
+	role: null,
 	error: null,
 	email: null,
 	name: null,
@@ -22,7 +24,9 @@ const authFormFlush = (state, action) => {
 const authSuccess = (state, action) => {
 	return {
 		...state,
+		id: action.id,
 		token: action.token,
+		role: action.role,
 		name: action.name,
 		email: action.email,
 		avatar: action.avatar,
@@ -54,10 +58,11 @@ const authStart = (state, action) => {
 
 // clear everything
 const authLogout = (state, action) => {
-	console.log("REDUCER LOGOUT");
 	return {
 		...state,
+		id: null,
 		token: null,
+		role: null,
 		error: null,
 		email: null,
 		name: null,

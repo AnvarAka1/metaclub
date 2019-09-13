@@ -5,7 +5,7 @@ import Header from "../../components/UI/Header/Header";
 import QuestionCards from "../../components/QuestionCards/QuestionCards";
 import axios from "../../axios-db";
 import Spinner from "../../components/Spinner/Spinner";
-
+import { connect } from "react-redux";
 class FaqPage extends Component {
 	state = {
 		questionsArray: null,
@@ -16,7 +16,6 @@ class FaqPage extends Component {
 		axios
 			.get("/faqs")
 			.then(res => {
-				console.log(res.data);
 				this.setState({ questionsArray: res.data, loading: false });
 			})
 			.catch(err => {
@@ -36,7 +35,11 @@ class FaqPage extends Component {
 		let questions = <Spinner />;
 		if (!this.state.loading) {
 			questions = this.state.questionsArray && (
-				<QuestionCards toggleClicked={this.toggleHandler} questionsArray={this.state.questionsArray} />
+				<QuestionCards
+					lang={this.props.lang}
+					toggleClicked={this.toggleHandler}
+					questionsArray={this.state.questionsArray}
+				/>
 			);
 		}
 		return (
@@ -52,5 +55,10 @@ class FaqPage extends Component {
 		);
 	}
 }
+const mapStateToProps = state => {
+	return {
+		lang: state.lang.lang
+	};
+};
 
-export default FaqPage;
+export default connect(mapStateToProps)(FaqPage);
