@@ -5,11 +5,11 @@ const initialState = {
 	token: null,
 	role: null,
 	error: null,
-	email: null,
-	name: null,
-	avatar: null,
-	position: null,
-	password: null,
+	email: "",
+	name: "",
+	avatar: "",
+	position: "",
+	password: "",
 	formFlush: false,
 	loading: false
 };
@@ -64,11 +64,11 @@ const authLogout = (state, action) => {
 		token: null,
 		role: null,
 		error: null,
-		email: null,
-		name: null,
-		avatar: null,
-		position: null,
-		password: null
+		email: "",
+		name: "",
+		avatar: "",
+		position: "",
+		password: ""
 	};
 };
 

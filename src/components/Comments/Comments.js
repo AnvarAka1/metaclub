@@ -10,9 +10,10 @@ const comments = props => {
 		props.comments.map(comment => {
 			return (
 				<Comment
-					key={comment.id}
-					profile={comment.profile}
-					commentClicked={event => props.commentClicked(event, comment.id)}
+					key={comment[0].id}
+					profile={comment[1]}
+					comment={comment[0]}
+					commentClicked={event => props.commentClicked(event, comment[0].id)}
 				/>
 			);
 		})

@@ -88,9 +88,9 @@ class AboutPage extends Component {
 	};
 	componentDidMount() {
 		axios
-			.get("/articles")
+			.get("/articles/last3")
 			.then(res => {
-				const data = res.data.data;
+				const data = res.data;
 				this.setState({ news: data });
 			})
 			.catch(err => {

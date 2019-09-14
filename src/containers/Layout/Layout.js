@@ -14,7 +14,7 @@ class Layout extends Component {
 	placeholders = {
 		signIn: {
 			inEmail: [ "Email", "Email" ],
-			inPassword: [ "Пароль", "" ],
+			inPassword: [ "Пароль", "Password" ],
 			inRemember: [ "Запомнить меня", "Remember me" ]
 		},
 		signUp: {
@@ -320,6 +320,9 @@ class Layout extends Component {
 				...signIn[key].config
 			};
 			fm.config.placeholder = this.placeholders.signIn[key][lang];
+			if (fm.inputType === "checkbox") {
+				fm.config.label = this.placeholders.signIn[key][lang];
+			}
 			newSignIn.push({
 				key: key,
 				elementConfig: fm
@@ -333,14 +336,24 @@ class Layout extends Component {
 				...signUp[key],
 				...signUp[key].config
 			};
-			fm.config.placeholder = this.placeholders.signIn[key][lang];
+			fm.config.placeholder = this.placeholders.signUp[key][lang];
+			if (fm.inputType === "checkbox") {
+				fm.config.label = this.placeholders.signUp[key][lang];
+			}
 			newSignUp.push({
 				key: key,
 				elementConfig: fm
 			});
 		}
+
+		return { newSignIn, newSignUp };
 	};
+
 	render() {
+		const form = this.formLang();
+		// let sign = { ...this.formLang() };
+		// console.log(sign);
+
 		const modal = this.state.isModalOpened && (
 			<Modal opened={this.state.isModalOpened} backdropClicked={this.backdropHandler}>
 				<SignForm
@@ -350,8 +363,8 @@ class Layout extends Component {
 					isSignInValid={this.state.isSignInValid}
 					isSignUpValid={this.state.isSignUpValid}
 					isSignIn={this.state.isSignIn}
-					signIn={this.state.signIn}
-					signUp={this.state.signUp}
+					signIn={form.newSignIn}
+					signUp={form.newSignUp}
 					signInClicked={this.signInClickedHandler}
 					signUpClicked={this.signUpClickedHandler}
 					inputChanged={this.inputChangedHandler}

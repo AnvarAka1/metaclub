@@ -52,6 +52,7 @@ export class ArticlePage extends Component {
 			})
 			.then(res => {
 				comments = res.data;
+				console.log(comments);
 				this.setState({ article: article, profile: profile, comments: comments, loading: false });
 				return axios.get(`/users/${comments.user_id}`);
 			})
@@ -118,6 +119,7 @@ export class ArticlePage extends Component {
 			);
 			comments = this.state.comments && (
 				<Comments
+					isAuthorized={this.props.isAuthorized}
 					commentForm={this.state.commentForm}
 					commentClicked={this.commentHandler}
 					commentSubmitted={this.commentSubmitHandler}
@@ -148,6 +150,7 @@ export class ArticlePage extends Component {
 }
 const mapStateToProps = state => {
 	return {
+		isAuthorized: state.auth.token !== null,
 		lang: state.lang.lang
 	};
 };

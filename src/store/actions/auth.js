@@ -75,7 +75,9 @@ export const auth = (name, email, password, avatar, position, isSignIn) => {
 				localStorage.setItem("token", data.access_token);
 				localStorage.setItem("expirationDate", expirationDate);
 				localStorage.setItem("id", userData.id);
-				localStorage.setItem("role", userData.role);
+				// localStorage.setItem("email", userData.email);
+				// localStorage.setItem("position", userData.position);
+				// localStorage.setItem("name", userData.name);
 				// localStorage.setItem("userId", response.data.localId);
 				// save user state
 				dispatch(

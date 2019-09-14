@@ -41,32 +41,6 @@ class App extends Component {
 		}
 	};
 
-	// langHandler1 = () => {
-	// 	const titles = {
-	// 		name: [ "Ваше имя", "Your name" ],
-	// 		email: [ "Ваша эл.почта", "Your email" ],
-	// 		text: [ "Отзыв / Вопрос / Предложение", "Message" ]
-	// 	};
-
-	// 	const langs = 2;
-	// 	const form = { ...this.state.footerForm };
-	// 	const nextLang = (this.state.lang + 1) % langs;
-	// 	// eslint-disable-next-line
-	// 	for (let e in form) {
-	// 		form[e].config.placeholder = titles[e][nextLang];
-	// 	}
-
-	// 	this.setState(prevState => {
-	// 		return {
-	// 			lang: (prevState.lang + 1) % langs,
-	// 			footerForm: form
-	// 		};
-	// 	});
-	// 	const date = new Date("2099");
-
-	// 	cookies.set("lang", nextLang, { expires: date });
-	// };
-
 	openDrawerHandler = () => {
 		this.setState({ drawerLeft: true });
 	};
@@ -75,6 +49,7 @@ class App extends Component {
 	};
 
 	render() {
+		console.log("true? ", this.props.isAuthorized);
 		let routers = (
 			<Switch>
 				<Route path="/faq" component={FaqPage} />
