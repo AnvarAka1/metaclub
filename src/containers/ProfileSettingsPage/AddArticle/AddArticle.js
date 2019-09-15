@@ -1,14 +1,7 @@
 import React, { Component } from "react";
-import CKEditor from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import axios from "../../../axios-db";
-import Input from "../../../components/UI/Input/Input";
-import Grid from "../../../components/Grid/Grid";
-import Spinner from "../../../components/Spinner/Spinner";
-import Header from "../../../components/UI/Header/Header";
-import Button from "../../../components/UI/Button/Button";
-import Hidden from "@material-ui/core/Hidden";
 import { connect } from "react-redux";
+import ArticleForm from "../../../components/ArticleForm/ArticleForm";
 export class AddArticle extends Component {
 	constructor(props) {
 		super(props);
@@ -127,101 +120,19 @@ export class AddArticle extends Component {
 		}
 	};
 	render() {
-		const errorMessage = [];
-		let eMessage = null;
-		if (this.state.error) {
-			// eslint-disable-next-line
-			for (let key in this.state.error.data) {
-				errorMessage.push({ key: key, message: this.state.error.data[key] });
-			}
-			eMessage = errorMessage.map(err => {
-				return (
-					<Header key={err.key} color="red" h6>
-						{err.message}
-					</Header>
-				);
-			});
-			eMessage = (
-				<Grid item xs={12}>
-					{eMessage}
-				</Grid>
-			);
-		}
-		let imageError = this.state.imageError ? (
-			<Grid item xs={12}>
-				<Header color="red" h6>
-					{this.state.imageError}
-				</Header>
-			</Grid>
-		) : null;
-		let message = this.state.sent ? (
-			<Grid item xs={12}>
-				<Header color="green" h6>
-					Your Article has successfully been created
-				</Header>
-			</Grid>
-		) : null;
-
-		const form = { ...this.state.form };
-		const formArray = [];
-		// eslint-disable-next-line
-		for (let key in form) {
-			formArray.push({ key: key, elementConfig: form[key] });
-		}
-		let inputs = <Spinner />;
-		if (!this.state.loading) {
-			inputs = formArray.map(input => {
-				return (
-					<Grid key={input.key} item {...input.elementConfig.grid}>
-						<Input
-							elementConfig={input.elementConfig}
-							changed={event => this.inputChangedHandler(event, input.key)}
-						/>
-					</Grid>
-				);
-			});
-		}
-
 		return (
-			<form onSubmit={this.formSubmitHandler}>
-				<Grid container con="true" spacing={3}>
-					{inputs}
-					<Grid item xs={12}>
-						<Input
-							elementConfig={{
-								inputType: "file",
-								isValid: true,
-								config: {
-									type: "file"
-								}
-							}}
-							changed={this.imageHandler}
-						/>
-					</Grid>
-					<Grid item xs={12}>
-						<CKEditor
-							editor={ClassicEditor}
-							data=""
-							onInit={editor => {
-								// You can store the "editor" and use when it is needed.
-								console.log("Editor is ready to use!", editor);
-							}}
-							onChange={(event, editor) => this.changeHandler(event, editor)}
-						/>
-					</Grid>
-					{message}
-					{eMessage}
-					{imageError}
-					<Hidden xsDown>
-						<Grid item sm={7} />
-					</Hidden>
-					<Grid item xs={12} sm={5}>
-						<Button flatten disabled={this.state.imageError} wide>
-							Submit
-						</Button>
-					</Grid>
-				</Grid>
-			</form>
+			<ArticleForm
+				error={this.state.error}
+				imageError={this.state.imageError}
+				sent={this.state.sent}
+				form={this.state.form}
+				loading={this.state.loading}
+				inputChanged={this.inputChangedHandler}
+				formSubmitted={this.formSubmitHandler}
+				imageChanged={this.imageHandler}
+				initialEditorData=""
+				editorChanged={this.changeHandler}
+			/>
 		);
 	}
 }
