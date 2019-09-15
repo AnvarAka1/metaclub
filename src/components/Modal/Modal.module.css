@@ -29,7 +29,11 @@
 	width: 0;
 	height: 0;
 }
-
+.Fixed {
+	position: fixed;
+	top: 30vh;
+	margin: 0 auto;
+}
 @media (max-width: 450px) {
 	.Modal {
 		width: 90%;

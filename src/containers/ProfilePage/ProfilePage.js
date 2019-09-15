@@ -28,7 +28,7 @@ export class ProfilePage extends Component {
 				return axios.get(`/articles/user/${profile.id}`);
 			})
 			.then(res => {
-				articles = res.data.data;
+				articles = res.data;
 				this.setState({ profile: profile, articles: articles, loading: false });
 			})
 			.catch(err => {
@@ -40,13 +40,25 @@ export class ProfilePage extends Component {
 		this.props.history.push(`/articles/${id}`);
 		window.scrollTo({ top: "0" });
 	};
+	pageClickHandler = (event, id) => {
+		event.preventDefault();
+		axios.get(`/articles?page=${id}`).then(res => {
+			console.log(res.data);
+			this.setState({ articles: res.data });
+		});
+	};
 	render() {
 		let profile = <Spinner />;
 		let articles = <Spinner />;
 		if (!this.state.loading) {
 			profile = this.state.profile && <ProfileCard lang={this.state.lang} profile={this.state.profile} />;
 			articles = this.state.articles && (
-				<NewsItems articleClicked={this.articleHandler} news={this.state.articles} wide />
+				<NewsItems
+					articleClicked={this.articleHandler}
+					pageClicked={this.pageClickHandler}
+					news={this.state.articles}
+					wide
+				/>
 			);
 		}
 		return (

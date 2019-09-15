@@ -1,0 +1,16 @@
+.PagesWrapper {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 300px;
+}
+.Pages {
+	/* box-sizing: border-box; */
+	background: #ffffff;
+	/* border: 1px solid #dee2e6; */
+	/* box-sizing: border-box; */
+	/* border-radius: 7px; */
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}

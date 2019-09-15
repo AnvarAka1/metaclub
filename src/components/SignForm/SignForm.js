@@ -18,7 +18,20 @@ const signForm = props => {
 	};
 	let sign = [];
 	sign = isSignIn ? signIn.slice() : signUp.slice();
-
+	const avatar = isSignIn ? null : (
+		<Grid item xs={12}>
+			<Input
+				elementConfig={{
+					inputType: "file",
+					isValid: true,
+					config: {
+						type: "file"
+					}
+				}}
+				changed={props.imageChanged}
+			/>
+		</Grid>
+	);
 	let signForm = (
 		<Grid item xs={12}>
 			<Spinner />
@@ -57,6 +70,7 @@ const signForm = props => {
 			</Header>
 			<form onSubmit={props.formSubmitted}>
 				<Grid container spacing={3}>
+					{avatar}
 					{signForm}
 
 					<Hidden xsDown>

@@ -9,7 +9,7 @@ const comment = props => {
 		<div className={classes.Comment}>
 			<ProfilePhoto
 				clicked={props.commentClicked}
-				src={props.profile ? props.profile.photo : null}
+				src={props.profile ? props.profile.avatar : null}
 				alt={props.profile ? props.profile.name : null}
 			/>
 			<div className={classes.Text}>

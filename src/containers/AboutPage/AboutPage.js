@@ -90,7 +90,7 @@ class AboutPage extends Component {
 		axios
 			.get("/articles/last3")
 			.then(res => {
-				const data = res.data;
+				const data = res;
 				this.setState({ news: data });
 			})
 			.catch(err => {
@@ -150,7 +150,7 @@ class AboutPage extends Component {
 				<ServerCards lang={this.props.lang} serverCards={this.state.serverCards} copied={this.copyHandler} />
 			);
 			news = this.state.news && (
-				<NewsItems articleClicked={this.articleHandler} news={this.state.news} limit={3} />
+				<NewsItems articleClicked={this.articleHandler} noPag news={this.state.news} limit={3} />
 			);
 		}
 		const content = {

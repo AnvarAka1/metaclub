@@ -2,24 +2,27 @@ import React from "react";
 import classes from "./Input.module.css";
 import Text from '../Text/Text';
 const input = props => {
+  
   const inputClasses = [
     classes.Input,
     props.serverInput ? classes.Server : null,
-    props.elementConfig.inputClass &&
-       classes[props.elementConfig.inputClass]
+    props.elementConfig && (props.elementConfig.inputClass &&
+       classes[props.elementConfig.inputClass])
     
   ];
   let errMessage;
+  if(props.elementConfig){
   if(!props.elementConfig.isValid && props.elementConfig.touched && props.elementConfig.validation){
     inputClasses.push(classes.Invalid);
     errMessage = <Text small>{props.elementConfig.errMessage}</Text>;
   }
+}
   let input;
   if (props.elementConfig) {
     switch (props.elementConfig.inputType) {
       case "input":
         input = (
-          <input
+          <input ref={props.inputRef}
             className={inputClasses.join(" ")}
             onChange={props.changed}
             value={props.elementConfig.value}
@@ -30,7 +33,7 @@ const input = props => {
       case "textarea":
         inputClasses.push(classes.Textarea);
         input = (
-          <textarea
+          <textarea ref={props.inputRef}
             className={inputClasses.join(" ")}
             onChange={props.changed}
             {...props.elementConfig.config}
@@ -41,7 +44,7 @@ const input = props => {
       case "range":
         inputClasses.push(classes.Range);
         input = (
-          <input
+          <input ref={props.inputRef}
             className={inputClasses.join(" ")}
             {...props.elementConfig.config}
             onChange={props.changed}
@@ -53,7 +56,7 @@ const input = props => {
           inputClasses.push(classes.Checkbox);
           input = (
             
-            <label className={classes.Label}><input
+            <label className={classes.Label}><input ref={props.inputRef}
               className={inputClasses.join(" ")}
               onChange={props.changed}
               value={props.elementConfig.value}
@@ -65,7 +68,7 @@ const input = props => {
           break;
           case "select":
 				input = (
-					<select className={inputClasses.join(" ")} value={props.elementConfig.value} onChange={props.changed}>
+					<select ref={props.inputRef} className={inputClasses.join(" ")} value={props.elementConfig.value} onChange={props.changed}>
 						{props.elementConfig.options.map(option => (
 							<option key={option.value} value={option.value}>
 								{option.displayValue}
@@ -76,7 +79,7 @@ const input = props => {
 				break;
       default:
         input = (          
-          <input
+          <input ref={props.inputRef}
             className={inputClasses.join(" ")}
             onChange={props.changed}
             value={props.elementConfig.value}

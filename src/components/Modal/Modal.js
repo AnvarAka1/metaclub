@@ -6,7 +6,7 @@ const modal = props => {
 	return (
 		<div className={classes.ModalWrapper}>
 			<Backdrop clicked={props.backdropClicked && props.backdropClicked} />
-			<div className={classes.Modal}>
+			<div className={[ classes.Modal, props.fixed && classes.Fixed ].join(" ")}>
 				<Paper modal>{props.children}</Paper>
 			</div>
 		</div>

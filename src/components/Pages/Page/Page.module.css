@@ -1,0 +1,28 @@
+.Page {
+	border: 1px solid #dee2e6;
+	width: 60px;
+	height: 60px;
+	box-sizing: border-box;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 14px;
+	transition: .5s ease all;
+	cursor: pointer;
+}
+.Page img {
+	width: 10px;
+	height: 10px;
+}
+.Page:hover {
+	background: rgba(93, 32, 207, 0.61);
+	color: white;
+	/* color: #7146ce; */
+	font-weight: bold;
+}
+.Active {
+	background: rgb(93, 32, 207);
+	color: white;
+	/* color: #7146ce; */
+	font-weight: bold;
+}

@@ -4,12 +4,12 @@ import MainImage from "../../components/MainImage/MainImage";
 import Header from "../../components/UI/Header/Header";
 import Text from "../../components/UI/Text/Text";
 import ProfileCard from "../../components/Profile/ProfileCard/ProfileCard";
-import ProfilePhoto from "../../assets/images/profile/profile.png";
 import Comments from "../../components/Comments/Comments";
 import Paper from "../../components/UI/Paper/Paper";
 import axios from "../../axios-db";
 import Spinner from "../../components/Spinner/Spinner";
 import { connect } from "react-redux";
+import ReactHtmlParser from "react-html-parser";
 export class ArticlePage extends Component {
 	state = {
 		commentForm: {
@@ -40,6 +40,8 @@ export class ArticlePage extends Component {
 			.get(`/articles/${id}`)
 			.then(res => {
 				article = res.data;
+				console.log("Article");
+				console.log(article);
 				return axios.get(`/users/${res.data.user_id}`);
 			})
 			.then(res => {
@@ -54,33 +56,46 @@ export class ArticlePage extends Component {
 				comments = res.data;
 				console.log(comments);
 				this.setState({ article: article, profile: profile, comments: comments, loading: false });
-				return axios.get(`/users/${comments.user_id}`);
-			})
-			.then(res => {
-				// comments
 			})
 			.catch(err => {
 				console.log("Error ", err);
 			});
 	}
+
 	commentHandler = (event, id) => {
-		this.props.history.push(`/profiles/${id}`);
+		this.props.history.push(`/users/${id}`);
 		window.scrollTo({ top: "0" });
 	};
 	commentSubmitHandler = event => {
 		event.preventDefault();
 		//axios.then
-		const comments = this.state.comments.slice();
-		comments.push({
-			id: comments.length,
-			profile: {
-				id: comments[comments.length - 1].id + 1,
-				name: "Anvar_AKA",
-				photo: ProfilePhoto,
-				text: this.state.commentForm.comment.value
-			}
-		});
-		this.setState({ comments: comments });
+		console.log("ID Params: ", this.props.match.params.id);
+		const data = {
+			article_id: this.props.match.params.id,
+			body: this.state.commentForm.comment.value
+		};
+		axios
+			.post("/articles/comments/create", data, {
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem("token")}`
+				}
+			})
+			.then(res => {
+				console.log("Res,", res);
+				axios
+					.get(`/articles/${res.data.article_id}/comments`)
+					.then(res => {
+						const commentForm = { ...this.state.commentForm };
+						commentForm.comment.value = "";
+						this.setState({ comments: res.data, commentForm: commentForm });
+					})
+					.catch(err => {
+						console.log("Error", err);
+					});
+			})
+			.catch(err => {
+				console.log("Err", err);
+			});
 	};
 	commentChangedHandler = (event, inputIdentifier) => {
 		const value = event.target.value;
@@ -100,13 +115,15 @@ export class ArticlePage extends Component {
 		let profile = null;
 		let comments = null;
 		if (!this.state.loading) {
-			image = this.state.article && <MainImage src={this.state.article.image} alt={this.state.article.title} />;
+			image = this.state.article && (
+				<MainImage src={`${this.state.article.image}`} alt={this.state.article.title} />
+			);
 			article = this.state.article && (
 				<Paper blank article>
 					<Header color="#333" mb h2>
 						{this.state.article.title}
 					</Header>
-					<Text textStyle={{ lineHeight: "40px" }}>{this.state.article.body}</Text>
+					<Text textStyle={{ lineHeight: "40px" }}>{ReactHtmlParser(this.state.article.body)}</Text>
 				</Paper>
 			);
 			profile = this.state.profile && (

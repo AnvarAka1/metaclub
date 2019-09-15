@@ -200,7 +200,8 @@ class Layout extends Component {
 		isSignInValid: false,
 		isSignUpValid: false,
 		isSignIn: true,
-		isModalOpened: false
+		isModalOpened: false,
+		selectedFile: null
 	};
 	componentDidUpdate() {
 		if (this.props.isFormFlush) {
@@ -231,10 +232,18 @@ class Layout extends Component {
 		event.preventDefault();
 		const { upName, upEmail, upFpassword } = this.state.signUp;
 		const { inEmail, inPassword } = this.state.signIn;
+		console.log(this.state.selectedFile);
 		if (this.state.isSignIn) {
 			this.props.onAuth(null, inEmail.value, inPassword.value, null, null, this.state.isSignIn);
 		} else {
-			this.props.onAuth(upName.value, upEmail.value, upFpassword.value, null, null, this.state.isSignIn);
+			this.props.onAuth(
+				upName.value,
+				upEmail.value,
+				upFpassword.value,
+				this.state.selectedFile,
+				null,
+				this.state.isSignIn
+			);
 		}
 	};
 	signInClickedHandler = event => {
@@ -348,7 +357,12 @@ class Layout extends Component {
 
 		return { newSignIn, newSignUp };
 	};
-
+	imageHandler = event => {
+		console.log(event.target.files[0]);
+		this.setState({
+			selectedFile: event.target.files[0]
+		});
+	};
 	render() {
 		const form = this.formLang();
 		// let sign = { ...this.formLang() };
@@ -368,6 +382,7 @@ class Layout extends Component {
 					signInClicked={this.signInClickedHandler}
 					signUpClicked={this.signUpClickedHandler}
 					inputChanged={this.inputChangedHandler}
+					imageChanged={this.imageHandler}
 				/>
 			</Modal>
 		);

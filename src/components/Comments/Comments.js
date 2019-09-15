@@ -8,12 +8,13 @@ import Text from "../UI/Text/Text";
 const comments = props => {
 	const comments = props.comments ? (
 		props.comments.map(comment => {
+			console.log(comment[0].user_id);
 			return (
 				<Comment
 					key={comment[0].id}
 					profile={comment[1]}
 					comment={comment[0]}
-					commentClicked={event => props.commentClicked(event, comment[0].id)}
+					commentClicked={event => props.commentClicked(event, comment[0].user_id)}
 				/>
 			);
 		})

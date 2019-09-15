@@ -5,6 +5,7 @@ import NewsItems from "../../components/NewsItems/NewsItems";
 import axios from "../../axios-db";
 import Spinner from "../../components/Spinner/Spinner";
 import { connect } from "react-redux";
+
 export class ArticlesPage extends Component {
 	state = {
 		menu: [
@@ -20,26 +21,31 @@ export class ArticlesPage extends Component {
 		loading: true
 	};
 	componentDidMount() {
+		let totalArticles = null;
 		axios
 			.get("/articles")
 			.then(res => {
+				console.log(res);
+				totalArticles = res.data.total;
 				this.setState({ articles: res.data });
+				return axios.get("/categories");
+			})
+			.then(res => {
+				const cats = this.state.menu.slice();
+				cats[0].count = totalArticles;
+				let catsCopy = res.data.slice();
+				catsCopy = catsCopy.map(cat => {
+					return { ...cat, active: false };
+				});
+				for (let i = 0; i < catsCopy.length; i++) {
+					cats.push(catsCopy[i]);
+				}
+
+				this.setState({ menu: cats, loading: false });
 			})
 			.catch(err => {
 				console.log("Error ", err);
 			});
-		axios.get("/categories").then(res => {
-			const cats = this.state.menu.slice();
-			let catsCopy = res.data.slice();
-			catsCopy = catsCopy.map(cat => {
-				return { ...cat, active: false };
-			});
-			for (let i = 0; i < catsCopy.length; i++) {
-				cats.push(catsCopy[i]);
-			}
-
-			this.setState({ menu: cats, loading: false });
-		});
 	}
 	categoryHandler = (event, id) => {
 		let cats = this.state.menu.slice();
@@ -71,12 +77,24 @@ export class ArticlesPage extends Component {
 		// this.props.history.push(`/articles/${id}`);
 		window.scrollTo({ top: "0" });
 	};
+	pageClickHandler = (event, id) => {
+		event.preventDefault();
+		axios.get(`/articles?page=${id}`).then(res => {
+			console.log(res.data);
+			this.setState({ articles: res.data });
+		});
+	};
 	render() {
 		let newsItems = <Spinner />;
 		let menu = <Spinner />;
 		if (!this.state.loading) {
 			newsItems = this.state.articles && (
-				<NewsItems articleClicked={this.articleHandler} wide news={this.state.articles.data} />
+				<NewsItems
+					pageClicked={this.pageClickHandler}
+					articleClicked={this.articleHandler}
+					wide
+					news={this.state.articles}
+				/>
 			);
 			menu = this.state.menu && (
 				<Menu lang={this.props.lang} clicked={this.categoryHandler} menu={this.state.menu} />

@@ -1,0 +1,23 @@
+.EditMenu {
+	display: flex;
+	flex-flow: column;
+	justify-content: space-between;
+	align-items: center;
+	background: rgba(255, 255, 255, .5);
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 100%;
+	width: 60px;
+	transition: all .5s ease;
+}
+.EditMenu:hover {
+	background: rgba(164, 126, 215, 0.5);
+}
+.EditMenu img {
+	margin-bottom: 10px;
+	margin-top: 10px;
+	width: 40px;
+	height: 40px;
+	cursor: pointer;
+}

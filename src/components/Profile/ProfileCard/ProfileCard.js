@@ -21,7 +21,7 @@ function profileCard(props) {
 		<div className={classes.ProfileCard}>
 			<div className={classes.Profile}>
 				<div className={classes.ImageWrapper}>
-					<img src={props.profile.avatar} alt={props.profile.name} />
+					<img src={`${props.profile.avatar}`} alt={props.profile.name} />
 				</div>
 				<Header h4>{props.profile.name}</Header>
 				<Text>{props.profile.position}</Text>

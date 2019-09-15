@@ -48,20 +48,26 @@ export const auth = (name, email, password, avatar, position, isSignIn) => {
 	return dispatch => {
 		// clear error
 		dispatch(authStart());
-		const authData = {
-			email: email,
-			name: name,
-			password: password,
-			avatar: avatar && avatar,
-			position: position && position,
-			returnSecureToken: true
-		};
+		console.log(avatar);
+		let formData = new FormData();
+		if (avatar != null) {
+			console.log(avatar);
+			formData.append("avatar", avatar, avatar.name);
+		}
+		if (position != null) {
+			formData.append("position", position, position);
+		}
+		formData.append("email", email);
+		formData.append("name", name);
+		formData.append("password", password);
+		formData.append("returnSecureToken", true);
+
 		const urls = [ "/register", "/login" ];
 
 		axios
 			.post(
 				urls[+isSignIn],
-				authData,
+				formData,
 				{
 					// config
 				}
