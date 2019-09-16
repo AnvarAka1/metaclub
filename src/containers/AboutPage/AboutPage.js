@@ -32,61 +32,43 @@ class AboutPage extends Component {
 				config: {
 					type: "text"
 				},
-				value: 0
+				value: 512
 			},
-			calcCard: [
-				{
-					id: 0,
-					date: "В день",
-					currency: [
-						{ key: "MHC", value: "100 MHC" },
-						{ key: "USD", value: "0,120 USD" },
-						{ key: "BTC", value: "0,0000001 BTC" },
-						{ key: "ETH", value: "0,256 ETH" }
-					],
-					percentage: "+0.58 %"
-				},
-
-				{
-					id: 1,
-					date: "В неделю",
-					currency: [
-						{ key: "MHC", value: "100 MHC" },
-						{ key: "USD", value: "0,120 USD" },
-						{ key: "BTC", value: "0,0000001 BTC" },
-						{ key: "ETH", value: "0,256 ETH" }
-					],
-					percentage: "+0.58 %"
-				},
-				{
-					id: 2,
-					date: "В месяц",
-					currency: [
-						{ key: "MHC", value: "100 MHC" },
-						{ key: "USD", value: "0,120 USD" },
-						{ key: "BTC", value: "0,0000001 BTC" },
-						{ key: "ETH", value: "0,256 ETH" }
-					],
-					percentage: "+0.58 %"
-				},
-				{
-					id: 3,
-					date: "В год",
-					currency: [
-						{ key: "MHC", value: "100 MHC" },
-						{ key: "USD", value: "0,120 USD" },
-						{ key: "BTC", value: "0,0000001 BTC" },
-						{ key: "ETH", value: "0,256 ETH" }
-					],
-					percentage: "+0.58 %"
-				}
-			]
+			calcCard: null
 		},
 		copied: false,
 		serverCards: null,
 		loading: true
 	};
 	componentDidMount() {
+		let calcCard = [
+			{
+				id: 0,
+				date: [ "В день", "Daily" ],
+				currency: null,
+				percentage: "+0.58 %"
+			},
+
+			{
+				id: 1,
+				date: [ "В неделю", "Weekly" ],
+				currency: null,
+				percentage: "+0.58 %"
+			},
+			{
+				id: 2,
+				date: [ "В месяц", "Monthly" ],
+				currency: null,
+				percentage: "+0.58 %"
+			},
+			{
+				id: 3,
+				date: [ "В год", "Annually" ],
+				currency: null,
+				percentage: "+0.58 %"
+			}
+		];
+		let serverCards;
 		axios
 			.get("/articles/last3")
 			.then(res => {
@@ -99,7 +81,22 @@ class AboutPage extends Component {
 		axios
 			.get("/servers")
 			.then(res => {
-				this.setState({ serverCards: res.data, loading: false });
+				serverCards = res.data;
+				return axios.get("https://api.kucoin.com/api/v1/prices");
+			})
+			.then(res => {
+				console.log(res.data.data);
+				this.currency(res.data.data);
+				console.log(this.currency(res.data.data));
+				for (let i = 0; i < calcCard.length; i++) {
+					calcCard[i].currency = this.currency(res.data.data);
+				}
+				console.log(calcCard);
+				const calculator = {
+					...this.state.calculator,
+					calcCard: calcCard
+				};
+				this.setState({ serverCards: serverCards, calculator: calculator, loading: false });
 			})
 			.catch(err => {
 				console.log("Error ", err);
@@ -112,6 +109,14 @@ class AboutPage extends Component {
 			}, 3000);
 		}
 	}
+	currency = object => {
+		const array = [];
+		const keys = [ "MHC", "TUSD", "BTC", "ETH" ];
+		for (let i = 0; i < keys.length; i++) {
+			array.push({ key: keys[i], value: object[keys[i]] });
+		}
+		return array;
+	};
 	rangeChangeHandlerTest = event => {
 		const value = event.target.value;
 		const calculator = { ...this.state.calculator };
@@ -119,18 +124,30 @@ class AboutPage extends Component {
 		this.setState({ calculator: calculator });
 	};
 	rangeChangeHandler = value => {
-		const calculator = { ...this.state.calculator };
+		let calculator = { ...this.state.calculator };
 		calculator.range = { ...this.state.calculator.range, value: value };
+		calculator.input = { ...this.state.calculator.input, value: value };
 		this.setState({ calculator: calculator });
 	};
 	inputChangedHandler = event => {
-		const value = event.target.value;
-		const calculator = { ...this.state.calculator };
+		let value = event.target.value;
+		// value = value < 512 ? 512 : value;
+		// value = value > 1000000 ? 1000000 : value;
+		let calculator = { ...this.state.calculator };
 		calculator.input = { ...this.state.calculator.input, value: value };
+
 		this.setState({ calculator: calculator });
 	};
 	buttonClickedHandler = event => {
 		event.preventDefault();
+
+		let value = this.state.calculator.input.value;
+		value = this.state.calculator.input.value > 1000000 ? 1000000 : this.state.calculator.input.value;
+		value = this.state.calculator.input.value < 512 ? 512 : this.state.calculator.input.value;
+		let calculator = { ...this.state.calculator };
+		calculator.range = { ...this.state.calculator.range, value: +value };
+		calculator.input = { ...this.state.calculator.input, value: +value };
+		this.setState({ calculator: calculator });
 		// const value = this.state.calculator.input.value;
 	};
 	articleHandler = (event, id) => {
@@ -145,12 +162,22 @@ class AboutPage extends Component {
 	render() {
 		let serverCards = <Spinner />;
 		let news = <Spinner />;
+		let calculator = <Spinner />;
 		if (!this.state.loading) {
 			serverCards = this.state.serverCards && (
 				<ServerCards lang={this.props.lang} serverCards={this.state.serverCards} copied={this.copyHandler} />
 			);
 			news = this.state.news && (
 				<NewsItems articleClicked={this.articleHandler} noPag news={this.state.news} limit={3} />
+			);
+			calculator = this.state.calculator && (
+				<Calculator
+					lang={this.props.lang}
+					calc={this.state.calculator}
+					inputChanged={this.inputChangedHandler}
+					rangeChanged={this.rangeChangeHandler}
+					buttonClicked={this.buttonClickedHandler}
+				/>
 			);
 		}
 		const content = {
@@ -226,13 +253,7 @@ class AboutPage extends Component {
 						</div>
 					</Grid>
 					<Grid item xs={12}>
-						<Calculator
-							lang={this.props.lang}
-							calc={this.state.calculator}
-							inputChanged={this.inputChangedHandler}
-							rangeChanged={this.rangeChangeHandler}
-							buttonCClicked={this.buttonClickedHandler}
-						/>
+						{calculator}
 					</Grid>
 					{/* SERVER CARDS */}
 					<Grid item xs={12}>

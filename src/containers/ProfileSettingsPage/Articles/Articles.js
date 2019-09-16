@@ -7,7 +7,7 @@ import AskMenu from "../../../components/AskMenu/AskMenu";
 import ArticleForm from "../../../components/ArticleForm/ArticleForm";
 export class Articles extends Component {
 	id = null;
-	body = null;
+	globalData = null;
 	state = {
 		form: {
 			title: {
@@ -73,7 +73,7 @@ export class Articles extends Component {
 	editHandler = (event, id) => {
 		let catId = null;
 		let titleGlobal = null;
-
+		this.id = id;
 		let selectedFile = null;
 		this.setState({ formLoading: true, isEdit: true });
 		console.log("Edit clicked");
@@ -83,7 +83,7 @@ export class Articles extends Component {
 				console.log("article", res.data);
 				catId = res.data.category_id;
 				titleGlobal = res.data.title;
-				this.body = res.data.body;
+				this.globalData = res.data.body;
 				selectedFile = res.data.image;
 				return axios.get("/categories");
 			})
@@ -168,23 +168,40 @@ export class Articles extends Component {
 		this.setState({ sent: false, error: null });
 
 		let formData = new FormData();
-		formData.append("image", this.state.selectedFile, this.state.selectedFile.name);
+		formData.append(
+			"image",
+			this.state.selectedFile && this.state.selectedFile,
+			this.state.selectedFile && this.state.selectedFile.name
+		);
 		formData.append("title", this.state.form.title.value);
 		formData.append("body", this.globalData);
 		formData.append("category_id", this.state.form.category.value);
+		formData.append("_method", "PUT");
+		console.log("Sel file");
+		console.log(this.state.selectedFile);
 		axios
-			.post("/articles/create", formData, {
+			.post(`/articles/${this.id}`, formData, {
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem("token")}`
 				}
 			})
 			.then(res => {
 				// this.props.history.replace("settings/");
-				this.setState({ sent: true });
+				this.setState({ sent: true, loading: true });
+				console.log(res);
+				return axios.get("/articles/user", {
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem("token")}`
+					}
+				});
+			})
+			.then(res => {
+				console.log(res.data);
+				this.setState({ articles: res.data, loading: false });
 			})
 			.catch(err => {
 				console.log("Error", err);
-				this.setState({ error: err.response });
+				// this.setState({ error: err.response });
 			});
 	};
 	imageHandler = event => {
@@ -214,7 +231,7 @@ export class Articles extends Component {
 				/>
 			);
 		}
-
+		console.log(this.state.selectedFile);
 		articleForm = this.state.isEdit ? (
 			<ArticleForm
 				error={this.state.error}
@@ -225,7 +242,7 @@ export class Articles extends Component {
 				inputChanged={this.inputChangedHandler}
 				formSubmitted={this.formSubmitHandler}
 				imageChanged={this.imageHandler}
-				initialEditorData={this.body}
+				initialEditorData={this.globalData}
 				editorChanged={this.changeHandler}
 			/>
 		) : null;

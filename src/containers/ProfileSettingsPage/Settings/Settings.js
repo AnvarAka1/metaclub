@@ -3,17 +3,20 @@ import { connect } from "react-redux";
 import Grid from "../../../components/Grid/Grid";
 import Hidden from "@material-ui/core/Hidden";
 import Input from "../../../components/UI/Input/Input";
-import * as actions from "../../../store/actions/index";
 import axios from "../../../axios-db";
 import Button from "../../../components/UI/Button/Button";
+import ProfileCard from "../../../components/Profile/ProfileCard/ProfileCard";
+import Spinner from "../../../components/Spinner/Spinner";
+import Header from "../../../components/UI/Header/Header";
 export class Settings extends Component {
 	placeholders = {
 		form: {
 			name: [ "Имя", "Name" ],
-			position: [ "Место проживания", "Position" ],
+			position: [ "Должность", "Position" ],
 			email: [ "Email", "Email" ],
-			fpassword: [ "Пароль", "Password" ],
-			spassword: [ "Подтвердите пароль", "Confirm password" ]
+			fpassword: [ "Нынешний пароль", "Current password" ],
+			spassword: [ "Новый пароль", "New password" ],
+			tpassword: [ "Подтвердите пароль", "Confirm password" ]
 		}
 	};
 	state = {
@@ -27,15 +30,15 @@ export class Settings extends Component {
 				},
 				grid: {
 					xs: 12,
-					sm: 6
+					sm: 12
 				},
 				validation: {
 					required: true,
 					minChar: 6,
 					maxChar: 20
 				},
-				isValid: false,
-				touched: false,
+				isValid: true,
+				touched: true,
 				value: ""
 			},
 			position: {
@@ -47,15 +50,15 @@ export class Settings extends Component {
 				},
 				grid: {
 					xs: 12,
-					sm: 6
+					sm: 12
 				},
 				validation: {
 					required: true,
 					minChar: 6,
 					maxChar: 20
 				},
-				isValid: false,
-				touched: false,
+				isValid: true,
+				touched: true,
 				value: ""
 			},
 			email: {
@@ -69,7 +72,7 @@ export class Settings extends Component {
 				isValid: true,
 				grid: {
 					xs: 12,
-					sm: 6
+					sm: 12
 				},
 				value: ""
 			},
@@ -83,15 +86,14 @@ export class Settings extends Component {
 				},
 				grid: {
 					xs: 12,
-					sm: 6
+					sm: 12
 				},
 				validation: {
-					required: true,
 					minChar: 6,
 					maxChar: 20
 				},
-				isValid: false,
-				touched: false,
+				isValid: true,
+				touched: true,
 				value: ""
 			},
 			spassword: {
@@ -99,57 +101,94 @@ export class Settings extends Component {
 				config: {
 					type: "password",
 					name: "spassword",
+					placeholder: "New password"
+				},
+				grid: {
+					xs: 12,
+					sm: 12
+				},
+				validation: {
+					minChar: 6,
+					maxChar: 20
+				},
+				isValid: true,
+				touched: true,
+				value: ""
+			},
+			tpassword: {
+				inputType: "input",
+				config: {
+					type: "password",
+					name: "fpassword",
 					placeholder: "Confirm password"
 				},
 				grid: {
 					xs: 12,
-					sm: 6
+					sm: 12
 				},
 				validation: {
-					required: true,
 					minChar: 6,
-					maxChar: 20
+					maxChar: 20,
+					target: "spassword"
 				},
-				isValid: false,
-				touched: false,
+				isValid: true,
+				touched: true,
 				value: ""
 			}
 		},
-		formIsValid: false
+		selectedFile: null,
+		sent: false,
+		error: null,
+		imageError: null,
+		loading: true,
+		profile: null,
+		formIsValid: true
 	};
 	componentDidMount() {
 		const id = localStorage.getItem("id");
+		let profile = null;
+
 		let formAll = {};
-		axios.get(`/users/${id}`).then(res => {
-			console.log(res);
-			const { data } = res;
+		this.setState({ loading: true });
+		axios
+			.get(`/users/${id}`)
+			.then(res => {
+				console.log(res);
+				const { data } = res;
+				profile = data;
+				const form = {
+					...this.state.form
+				};
+				const name = {
+					...form.name,
+					value: data.name ? data.name : ""
+				};
+				const position = {
+					...form.position,
+					value: data.position ? data.position : ""
+				};
+				const email = {
+					...form.email,
+					value: data.email ? data.email : ""
+				};
+				formAll = {
+					...form,
+					name: name,
+					position: position,
+					email: email
+				};
 
-			const form = {
-				...this.state.form
-			};
-			const name = {
-				...form.name,
-				value: data.name ? data.name : ""
-			};
-			const position = {
-				...form.position,
-				value: data.position ? data.position : ""
-			};
-			const email = {
-				...form.email,
-				value: data.email ? data.email : ""
-			};
-			formAll = {
-				...form,
-				name: name,
-				position: position,
-				email: email
-			};
-			console.log(formAll);
-			this.setState({ form: formAll });
-		});
+				console.log(formAll);
+				console.log(profile);
 
-		console.log(this.props.email);
+				return axios.get(`/articles/user/${id}`);
+			})
+			.then(res => {
+				const total = res.data.total;
+				profile.total = total;
+				this.setState({ form: formAll, profile: profile, loading: false });
+			})
+			.catch(err => console.log(err));
 	}
 	formLang = () => {
 		const { lang } = this.props;
@@ -215,27 +254,65 @@ export class Settings extends Component {
 				errMessage = "Maximum characters must be less than " + rules.maxChar;
 			}
 		}
-		if (rules.required) {
+		if (!rules.required && value.trim() === "") {
+			isValid = true;
+		}
+		if (rules.target) {
+			console.log("PassEntered");
+			let fPass;
+			// eslint-disable-next-line
+			for (let key in this.state.form) {
+				if (key === rules.target) {
+					console.log("Found key");
+					fPass = this.state.form[key];
+					break;
+				}
+			}
+			isValid = fPass.value === value && isValid;
+			if (!isValid && errMessage.trim() === "") {
+				errMessage = "Passwords must be the same";
+			}
 		}
 		return { isValid: isValid, errMessage: errMessage };
 	};
 	formSubmitHandler = event => {
 		event.preventDefault();
-		const data = {
-			name: this.state.form.name.value,
-			position: this.state.form.position.value,
-			email: this.state.form.email.value,
-			password: this.state.form.fpassword.value
-		};
+
+		let formData = new FormData();
+		formData.append("name", this.state.form.name.value);
+		formData.append("position", this.state.form.position.value);
+		formData.append("email", this.state.form.email.value);
+		if (this.state.form.fpassword.value === "" || this.state.form.fpassword.value === null) {
+			console.log("patruess");
+		} else {
+			formData.append("password", this.state.form.fpassword.value);
+			console.log("word");
+		}
+		formData.append("_method", "PUT");
 		axios
-			.put("/users", data, {
+			.post("/users", formData, {
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem("token")}`
 				}
 			})
 			.then(res => {
 				console.log(res.data);
+			})
+			.catch(err => {
+				console.log(err);
 			});
+	};
+	imageHandler = event => {
+		console.log(event.target.files[0]);
+		this.setState({ imageError: null });
+		const error = [ "Размер файла не должен превышать 2 мегабайт!", "File size should not be greater than 2 mb!" ];
+		if (event.target.files[0].size / 1024 / 1024 > 2) {
+			this.setState({ imageError: error[this.props.lang] });
+		} else {
+			this.setState({
+				selectedFile: event.target.files[0]
+			});
+		}
 	};
 	render() {
 		const content = {
@@ -246,6 +323,33 @@ export class Settings extends Component {
 			signInBtn: [ "Войти", "Sign in" ],
 			signUpBtn: [ "Зарегистрироваться", "Sign up" ]
 		};
+		const errorMessage = [];
+		let eMessage = null;
+		if (this.state.error) {
+			// eslint-disable-next-line
+			for (let key in this.state.error.data) {
+				errorMessage.push({ key: key, message: this.state.error.data[key] });
+			}
+			eMessage = errorMessage.map(err => {
+				return (
+					<Header key={err.key} color="red" h6>
+						{err.message}
+					</Header>
+				);
+			});
+			eMessage = (
+				<Grid item xs={12}>
+					{eMessage}
+				</Grid>
+			);
+		}
+		let imageError = this.state.imageError ? (
+			<Grid item xs={12}>
+				<Header color="red" h6>
+					{this.state.imageError}
+				</Header>
+			</Grid>
+		) : null;
 		const newForm = this.formLang();
 		const form = newForm.map(form => {
 			return (
@@ -257,17 +361,43 @@ export class Settings extends Component {
 				</Grid>
 			);
 		});
+		let profileCard = <Spinner />;
+		if (!this.state.loading) {
+			profileCard = <ProfileCard lang={this.props.lang} profile={this.state.profile} />;
+		}
 		return (
 			<form style={{ width: "100%" }} onSubmit={this.formSubmitHandler}>
 				<Grid container spacing={3}>
-					{form}
-					<Hidden smDown>
-						<Grid item xs={8} />
-					</Hidden>
-					<Grid item sm={4} xs={12}>
-						<Button flatten wide disabled={!this.state.formIsValid}>
-							{content.login[this.props.lang]}
-						</Button>
+					<Grid item sm={3} xs={12}>
+						{profileCard}
+					</Grid>
+					<Grid item sm={9} xs={12}>
+						<Grid container spacing={3}>
+							<Grid item sm={12} xs={12}>
+								<Input
+									elementConfig={{
+										inputType: "file",
+										isValid: true,
+										config: {
+											type: "file"
+										}
+									}}
+									changed={this.imageHandler}
+								/>
+								{eMessage}
+								{imageError}
+							</Grid>
+							{form}
+
+							<Hidden smDown>
+								<Grid item xs={8} />
+							</Hidden>
+							<Grid item sm={4} xs={12}>
+								<Button flatten wide disabled={!this.state.formIsValid}>
+									{content.login[this.props.lang]}
+								</Button>
+							</Grid>
+						</Grid>
 					</Grid>
 				</Grid>
 			</form>
@@ -277,16 +407,8 @@ export class Settings extends Component {
 
 const mapStateToProps = state => {
 	return {
-		lang: state.lang.lang,
-		name: state.auth.name,
-		email: state.auth.email,
-		avatar: state.auth.avatar,
-		position: state.auth.position
+		lang: state.lang.lang
 	};
 };
-const mapDispatchToProps = dispatch => {
-	return {
-		onFormSubmit: () => dispatch(actions)
-	};
-};
-export default connect(mapStateToProps, mapDispatchToProps)(Settings);
+
+export default connect(mapStateToProps)(Settings);

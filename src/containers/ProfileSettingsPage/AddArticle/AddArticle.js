@@ -88,7 +88,11 @@ export class AddArticle extends Component {
 		this.setState({ sent: false, error: null });
 
 		let formData = new FormData();
-		formData.append("image", this.state.selectedFile, this.state.selectedFile.name);
+		formData.append(
+			"image",
+			this.state.selectedFile && this.state.selectedFile,
+			this.state.selectedFile && this.state.selectedFile.name
+		);
 		formData.append("title", this.state.form.title.value);
 		formData.append("body", this.globalData);
 		formData.append("category_id", this.state.form.category.value);

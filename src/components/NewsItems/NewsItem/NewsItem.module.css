@@ -2,6 +2,11 @@
 	width: 100%;
 	position: relative;
 }
+.NewsItem a {
+	display: inline-block;
+	width: 100%;
+	height: 100%;
+}
 .NewsItem.EditMenu {
 }
 .Image {
@@ -38,4 +43,14 @@
 	text-align: right;
 	font-size: 14px;
 	font-weight: bold;
+}
+.Horizontal {
+	display: flex;
+	width: 100%;
+	justify-content: flex-start;
+}
+.Eye {
+	width: 16px;
+	height: auto;
+	margin-left: 30px;
 }

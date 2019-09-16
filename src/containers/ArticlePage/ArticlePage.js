@@ -10,6 +10,8 @@ import axios from "../../axios-db";
 import Spinner from "../../components/Spinner/Spinner";
 import { connect } from "react-redux";
 import ReactHtmlParser from "react-html-parser";
+import localIpUrl from "local-ip-url";
+
 export class ArticlePage extends Component {
 	state = {
 		commentForm: {
@@ -37,7 +39,11 @@ export class ArticlePage extends Component {
 		let comments = null;
 
 		axios
-			.get(`/articles/${id}`)
+			.get(`/articles/${id}`, {
+				headers: {
+					ip: localIpUrl("public")
+				}
+			})
 			.then(res => {
 				article = res.data;
 				console.log("Article");

@@ -3,6 +3,7 @@ import classes from "./NewsItem.module.css";
 import { NavLink } from "react-router-dom";
 import EditMenu from "../EditMenu/EditMenu";
 import Header from "../../UI/Header/Header";
+import EyeIcon from "../../../assets/images/icons/eye.png";
 const newsItem = props => {
 	return (
 		<div className={classes.NewsItem} onClick={props.clicked && props.clicked}>
@@ -15,11 +16,19 @@ const newsItem = props => {
 				) : null}
 			</div>
 			<div className={classes.Text}>
-				<p className={classes.Date}>{props.date}</p>
-				<Header h4 thin headerStyle={{ color: "#333333", lineHeight: "28px" }} mtb>
-					{props.title}
-				</Header>
-				<span className={[ classes.Link, "accent" ].join(" ")}>Read more »</span>
+				<div className={classes.Horizontal}>
+					<p className={classes.Date}>{new Date(props.created_at).toLocaleDateString()}</p>
+					<p className={classes.Date}>
+						<img className={classes.Eye} src={EyeIcon} alt={"Views"} />
+						{props.views}
+					</p>
+				</div>
+				<NavLink to={`/articles/${props.id}`}>
+					<Header h4 thin headerStyle={{ color: "#333333", lineHeight: "28px" }} mtb>
+						{props.title}
+					</Header>
+					<span className={[ classes.Link, "accent" ].join(" ")}>Read more »</span>
+				</NavLink>
 			</div>
 		</div>
 	);

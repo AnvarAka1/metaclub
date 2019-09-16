@@ -20,6 +20,7 @@ class Layout extends Component {
 		signUp: {
 			upName: [ "Имя", "Name" ],
 			upEmail: [ "Email", "Email" ],
+			upPosition: [ "Должность", "Position" ],
 			upFpassword: [ "Пароль", "Password" ],
 			upSpassword: [ "Подтвердите пароль", "Confirm password" ],
 			upAccept: [ "Я принимаю условия пользовательского соглашения", "I accept terms of service" ],
@@ -126,6 +127,21 @@ class Layout extends Component {
 				touched: false,
 				value: ""
 			},
+			upPosition: {
+				inputType: "input",
+				config: {
+					type: "text",
+					name: "position",
+					placeholder: "Position"
+				},
+				grid: {
+					xs: 12,
+					sm: 12
+				},
+				isValid: true,
+				touched: false,
+				value: ""
+			},
 			upFpassword: {
 				inputType: "input",
 				config: {
@@ -160,7 +176,8 @@ class Layout extends Component {
 				validation: {
 					required: true,
 					minChar: 6,
-					maxChar: 20
+					maxChar: 20,
+					target: "upFpassword"
 				},
 				isValid: false,
 				touched: false,
@@ -178,8 +195,12 @@ class Layout extends Component {
 					xs: 12,
 					sm: 12
 				},
-				isValid: true,
-				value: ""
+				validation: {
+					required: true
+				},
+				isValid: false,
+				checked: false,
+				value: 1
 			},
 			upSubscribe: {
 				inputType: "checkbox",
@@ -230,8 +251,9 @@ class Layout extends Component {
 	}
 	formSubmitHandler = event => {
 		event.preventDefault();
-		const { upName, upEmail, upFpassword } = this.state.signUp;
+		const { upName, upEmail, upFpassword, upPosition } = this.state.signUp;
 		const { inEmail, inPassword } = this.state.signIn;
+		const position = upPosition.value && upPosition.value;
 		console.log(this.state.selectedFile);
 		if (this.state.isSignIn) {
 			this.props.onAuth(null, inEmail.value, inPassword.value, null, null, this.state.isSignIn);
@@ -241,7 +263,7 @@ class Layout extends Component {
 				upEmail.value,
 				upFpassword.value,
 				this.state.selectedFile,
-				null,
+				position,
 				this.state.isSignIn
 			);
 		}
@@ -260,7 +282,12 @@ class Layout extends Component {
 	inputChangedHandler = (event, inputIdentifier) => {
 		let form = {};
 		form = this.state.isSignIn ? { ...this.state.signIn } : { ...this.state.signUp };
-		const { isValid, errMessage } = this.checkValidity(event.target.value, form[inputIdentifier].validation);
+
+		const { isValid, errMessage } =
+			form[inputIdentifier].inputType === "checkbox"
+				? this.checkCheckboxValidity(event.target.checked, form[inputIdentifier].validation)
+				: this.checkValidity(event.target.value, form[inputIdentifier].validation);
+
 		form[inputIdentifier].value = event.target.value;
 		form[inputIdentifier].touched = true;
 		form[inputIdentifier].isValid = isValid;
@@ -272,6 +299,12 @@ class Layout extends Component {
 			const valid = this.checkFormValidity();
 			this.setState({ signUp: form, isSignUpValid: valid });
 		}
+	};
+	checkCheckboxValidity = (value, rules) => {
+		if (!rules) {
+			return { isValid: true, errMessage: "" };
+		}
+		return { isValid: value, errMessage: "" };
 	};
 	checkFormValidity = () => {
 		let validForm = true;
@@ -297,6 +330,7 @@ class Layout extends Component {
 			return { isValid: true, errMessage: "" };
 		}
 		if (rules.required) {
+			console.log("VALUE = ", value);
 			isValid = value.trim() !== "" && isValid;
 			if (!isValid && errMessage.trim() === "") {
 				errMessage = "This field must be filled";
@@ -314,7 +348,22 @@ class Layout extends Component {
 				errMessage = "Maximum characters must be less than " + rules.maxChar;
 			}
 		}
-		if (rules.required) {
+
+		if (rules.target) {
+			console.log("PassEntered");
+			let fPass;
+			// eslint-disable-next-line
+			for (let key in this.state.signUp) {
+				if (key === rules.target) {
+					console.log("Found key");
+					fPass = this.state.signUp[key];
+					break;
+				}
+			}
+			isValid = fPass.value === value && isValid;
+			if (!isValid && errMessage.trim() === "") {
+				errMessage = "Passwords must be the same";
+			}
 		}
 		return { isValid: isValid, errMessage: errMessage };
 	};
