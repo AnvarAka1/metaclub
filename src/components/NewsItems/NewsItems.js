@@ -11,6 +11,7 @@ const newsItems = props => {
 			return (
 				<Grid key={newsItem.id} item xs={12} sm={props.wide ? 12 : 4}>
 					<NewsItem
+						lang={props.lang}
 						editable={props.editable}
 						clicked={props.articleClicked && (event => props.articleClicked(event, newsItem.id))}
 						editClicked={props.editClicked && (event => props.editClicked(event, newsItem.id))}

@@ -39,15 +39,9 @@ export class ArticlePage extends Component {
 		let comments = null;
 
 		axios
-			.get(`/articles/${id}`, {
-				headers: {
-					ip: localIpUrl("public")
-				}
-			})
+			.get(`/articles/${id}`)
 			.then(res => {
 				article = res.data;
-				console.log("Article");
-				console.log(article);
 				return axios.get(`/users/${res.data.user_id}`);
 			})
 			.then(res => {
@@ -60,8 +54,15 @@ export class ArticlePage extends Component {
 			})
 			.then(res => {
 				comments = res.data;
-				console.log(comments);
 				this.setState({ article: article, profile: profile, comments: comments, loading: false });
+				const formData = new FormData();
+				formData.append("article_id", article.id);
+				formData.append("client_IP", localIpUrl("public"));
+				formData.append("user_agent", navigator.userAgent);
+				return axios.post(`/articles/view/create`, formData);
+			})
+			.then(res => {
+				console.log(res);
 			})
 			.catch(err => {
 				console.log("Error ", err);
@@ -75,7 +76,6 @@ export class ArticlePage extends Component {
 	commentSubmitHandler = event => {
 		event.preventDefault();
 		//axios.then
-		console.log("ID Params: ", this.props.match.params.id);
 		const data = {
 			article_id: this.props.match.params.id,
 			body: this.state.commentForm.comment.value

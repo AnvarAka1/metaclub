@@ -5,6 +5,9 @@ import EditMenu from "../EditMenu/EditMenu";
 import Header from "../../UI/Header/Header";
 import EyeIcon from "../../../assets/images/icons/eye.png";
 const newsItem = props => {
+	const content = {
+		link: [ "Подробнее", "Read more" ]
+	};
 	return (
 		<div className={classes.NewsItem} onClick={props.clicked && props.clicked}>
 			<div className={classes.Image}>
@@ -27,7 +30,7 @@ const newsItem = props => {
 					<Header h4 thin headerStyle={{ color: "#333333", lineHeight: "28px" }} mtb>
 						{props.title}
 					</Header>
-					<span className={[ classes.Link, "accent" ].join(" ")}>Read more »</span>
+					<span className={[ classes.Link, "accent" ].join(" ")}>{content.link[props.lang]} »</span>
 				</NavLink>
 			</div>
 		</div>

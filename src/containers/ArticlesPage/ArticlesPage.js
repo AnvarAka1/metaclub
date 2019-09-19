@@ -25,7 +25,6 @@ export class ArticlesPage extends Component {
 		axios
 			.get("/articles")
 			.then(res => {
-				console.log(res);
 				totalArticles = res.data.total;
 				this.setState({ articles: res.data });
 				return axios.get("/categories");
@@ -80,7 +79,6 @@ export class ArticlesPage extends Component {
 	pageClickHandler = (event, id) => {
 		event.preventDefault();
 		axios.get(`/articles?page=${id}`).then(res => {
-			console.log(res.data);
 			this.setState({ articles: res.data });
 		});
 	};

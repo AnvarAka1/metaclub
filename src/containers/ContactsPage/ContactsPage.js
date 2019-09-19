@@ -97,7 +97,6 @@ export class ContactsPage extends Component {
 			.post("/contacts/create", data)
 			.then(res => {
 				this.setState({ sent: message[this.props.lang] });
-				console.log(res);
 			})
 			.catch(err => {
 				this.setState({ sent: err.data, error: true });

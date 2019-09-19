@@ -30,3 +30,9 @@
 .Modal {
 	padding: 40px;
 }
+.Narrow {
+	width: 50%;
+}
+.Center {
+	margin: 0 auto;
+}

@@ -43,7 +43,6 @@ export class ProfilePage extends Component {
 	pageClickHandler = (event, id) => {
 		event.preventDefault();
 		axios.get(`/articles?page=${id}`).then(res => {
-			console.log(res.data);
 			this.setState({ articles: res.data });
 		});
 	};

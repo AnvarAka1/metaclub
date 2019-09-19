@@ -79,7 +79,7 @@ const input = props => {
 					>
 						{props.elementConfig.options.map(option => (
 							<option key={option.value} value={option.value}>
-								{option.displayValue}
+								{props.lang !== null ? option.displayValue[props.lang] : option.displayValue}
 							</option>
 						))}
 					</select>
@@ -89,7 +89,7 @@ const input = props => {
 				input = (
 					<React.Fragment>
 						<Header mb h6>
-							Загрузите фотографию
+							{props.elementConfig.message ? props.elementConfig.message : null}
 						</Header>
 						<input
 							ref={props.inputRef}

@@ -6,7 +6,9 @@ const paper = props => {
 		props.blank && classes.Blank,
 		props.comment && classes.Comment,
 		props.article && classes.Article,
-		props.modal && classes.Modal
+		props.modal && classes.Modal,
+		props.narrow && classes.Narrow,
+		props.center && classes.Center
 	];
 	return <div className={paperClasses.join(" ")}>{props.children}</div>;
 };

@@ -13,6 +13,8 @@ import ProfileSettingsPage from "./containers/ProfileSettingsPage/ProfileSetting
 import NodesPage from "./containers/NodesPage/NodesPage";
 import { connect } from "react-redux";
 import * as actions from "./store/actions/index";
+import ForgotPassPage from "./containers/ForgotPassPage/ForgotPassPage";
+import ResetPassPage from "./containers/ResetPassPage/ResetPassPage";
 
 // const cookies = new Cookies();
 class App extends Component {
@@ -49,7 +51,6 @@ class App extends Component {
 	};
 
 	render() {
-		console.log("true? ", this.props.isAuthorized);
 		let routers = (
 			<Switch>
 				<Route path="/faq" component={FaqPage} />
@@ -60,6 +61,8 @@ class App extends Component {
 				<Route path="/mhc" component={MhcPage} />
 				<Route path="/contacts" component={ContactsPage} />
 				<Route path="/nodes" component={NodesPage} />
+				{!this.props.isAuthorized && <Route path="/forgot" component={ForgotPassPage} />}
+				{!this.props.isAuthorized && <Route path="/reset" component={ResetPassPage} />}
 				{this.props.isAuthorized && <Route path="/settings" component={ProfileSettingsPage} />}
 				<Redirect from="*" to="/about" />
 			</Switch>

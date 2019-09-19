@@ -1,7 +1,5 @@
 import * as actionTypes from "./actionTypes";
 import axios from "../../axios-db";
-// import Cookie from "universal-cookie";
-// const cookie = new Cookie("Authorization");
 export const authStart = () => {
 	return {
 		type: actionTypes.AUTH_START
@@ -48,10 +46,8 @@ export const auth = (name, email, password, avatar, position, isSignIn) => {
 	return dispatch => {
 		// clear error
 		dispatch(authStart());
-		console.log(avatar);
 		let formData = new FormData();
 		if (avatar != null) {
-			console.log(avatar);
 			formData.append("avatar", avatar, avatar.name);
 		}
 		if (position != null) {

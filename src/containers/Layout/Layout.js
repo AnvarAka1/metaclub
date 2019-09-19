@@ -80,7 +80,7 @@ class Layout extends Component {
 				},
 				grid: {
 					xs: 12,
-					sm: 12
+					sm: 6
 				},
 				isValid: true,
 				value: ""
@@ -254,7 +254,6 @@ class Layout extends Component {
 		const { upName, upEmail, upFpassword, upPosition } = this.state.signUp;
 		const { inEmail, inPassword } = this.state.signIn;
 		const position = upPosition.value && upPosition.value;
-		console.log(this.state.selectedFile);
 		if (this.state.isSignIn) {
 			this.props.onAuth(null, inEmail.value, inPassword.value, null, null, this.state.isSignIn);
 		} else {
@@ -330,7 +329,6 @@ class Layout extends Component {
 			return { isValid: true, errMessage: "" };
 		}
 		if (rules.required) {
-			console.log("VALUE = ", value);
 			isValid = value.trim() !== "" && isValid;
 			if (!isValid && errMessage.trim() === "") {
 				errMessage = "This field must be filled";
@@ -350,12 +348,10 @@ class Layout extends Component {
 		}
 
 		if (rules.target) {
-			console.log("PassEntered");
 			let fPass;
 			// eslint-disable-next-line
 			for (let key in this.state.signUp) {
 				if (key === rules.target) {
-					console.log("Found key");
 					fPass = this.state.signUp[key];
 					break;
 				}
@@ -407,19 +403,17 @@ class Layout extends Component {
 		return { newSignIn, newSignUp };
 	};
 	imageHandler = event => {
-		console.log(event.target.files[0]);
 		this.setState({
 			selectedFile: event.target.files[0]
 		});
 	};
 	render() {
 		const form = this.formLang();
-		// let sign = { ...this.formLang() };
-		// console.log(sign);
-
 		const modal = this.state.isModalOpened && (
 			<Modal opened={this.state.isModalOpened} backdropClicked={this.backdropHandler}>
 				<SignForm
+					modalClosed={this.backdropHandler}
+					errorMessage={this.props.hasError}
 					lang={this.props.lang}
 					loading={this.props.isLoading}
 					formSubmitted={this.formSubmitHandler}
@@ -481,7 +475,8 @@ const mapStateToProps = state => {
 	return {
 		isAuthorized: state.auth.token !== null,
 		isLoading: state.auth.loading,
-		isFormFlush: state.auth.formFlush
+		isFormFlush: state.auth.formFlush,
+		hasError: state.auth.error
 	};
 };
 const mapDispatchToProps = dispatch => {

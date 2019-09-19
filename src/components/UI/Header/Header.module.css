@@ -1,70 +1,72 @@
 .Header {
-    position: relative;
+	position: relative;
 }
 
 .Light {
-    color: #F7F7F7
+	color: #f7f7f7;
 }
 
 .Thin {
-    font-weight: 100;
+	font-weight: 100;
 }
 
 .Thick {
-    font-weight: bold;
+	font-weight: bold;
 }
 
 .Normal {
-    font-weight: normal;
+	font-weight: normal;
 }
 
-.Line {}
+.Line {
+}
 
 .Line:after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -10px;
-    width: 50px;
-    height: 2px;
-    background: #7146CE;
-
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: -10px;
+	width: 50px;
+	height: 2px;
+	background: #7146ce;
 }
 
 .Margin {
-    margin-top: 20px;
-    margin-bottom: 20px;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
 .MarginBig {
-    margin-top: 50px;
-    margin-bottom: 50px;
+	margin-top: 50px;
+	margin-bottom: 50px;
 }
-
+.MarginTop {
+	margin-top: 15px;
+}
 .MarginBottom {
-    margin-bottom: 15px;
+	margin-bottom: 15px;
 }
 
 .MarginBottomBig {
-    margin-bottom: 30px;
+	margin-bottom: 30px;
 }
 
 .PaddingBottom {
-    padding-bottom: 15px;
+	padding-bottom: 15px;
 }
 
 .Center {
-    text-align: center;
+	text-align: center;
 }
 
 .Green {
-    color: #3AFF89
+	color: #3aff89;
 }
 
 .Pointer {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .Accent {
-    color: #796DE8;
+	color: #796de8;
 }

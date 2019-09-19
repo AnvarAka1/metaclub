@@ -8,11 +8,12 @@ import SecondImage from "../../assets/images/about/second.png";
 import HorizontalImages from "../../components/HorizontalImages/HorizontalImages";
 import Text from "../../components/UI/Text/Text";
 import ServerCards from "../../components/ServerCards/ServerCards";
-import Calculator from "../../components/Calculator/Calculator";
+// import Calculator from "../../components/Calculator/Calculator";
 import NewsItems from "../../components/NewsItems/NewsItems";
 import Hidden from "@material-ui/core/Hidden";
 import CopiedText from "../../components/CopiedText/CopiedText";
 import axios from "../../axios-db";
+// import ax from "axios";
 import Spinner from "../../components/Spinner/Spinner";
 import { connect } from "react-redux";
 class AboutPage extends Component {
@@ -83,15 +84,13 @@ class AboutPage extends Component {
 			.then(res => {
 				serverCards = res.data;
 				return axios.get("https://api.kucoin.com/api/v1/prices");
+				// return ax.get("https://api.kucoin.com/api/v1/prices");
 			})
 			.then(res => {
-				console.log(res.data.data);
 				this.currency(res.data.data);
-				console.log(this.currency(res.data.data));
 				for (let i = 0; i < calcCard.length; i++) {
 					calcCard[i].currency = this.currency(res.data.data);
 				}
-				console.log(calcCard);
 				const calculator = {
 					...this.state.calculator,
 					calcCard: calcCard
@@ -162,7 +161,7 @@ class AboutPage extends Component {
 	render() {
 		let serverCards = <Spinner />;
 		let news = <Spinner />;
-		let calculator = <Spinner />;
+		// let calculator = <Spinner />;
 		if (!this.state.loading) {
 			serverCards = this.state.serverCards && (
 				<ServerCards lang={this.props.lang} serverCards={this.state.serverCards} copied={this.copyHandler} />
@@ -170,15 +169,15 @@ class AboutPage extends Component {
 			news = this.state.news && (
 				<NewsItems articleClicked={this.articleHandler} noPag news={this.state.news} limit={3} />
 			);
-			calculator = this.state.calculator && (
-				<Calculator
-					lang={this.props.lang}
-					calc={this.state.calculator}
-					inputChanged={this.inputChangedHandler}
-					rangeChanged={this.rangeChangeHandler}
-					buttonClicked={this.buttonClickedHandler}
-				/>
-			);
+			// calculator = this.state.calculator && (
+			// 	<Calculator
+			// 		lang={this.props.lang}
+			// 		calc={this.state.calculator}
+			// 		inputChanged={this.inputChangedHandler}
+			// 		rangeChanged={this.rangeChangeHandler}
+			// 		buttonClicked={this.buttonClickedHandler}
+			// 	/>
+			// );
 		}
 		const content = {
 			first: {
@@ -253,7 +252,7 @@ class AboutPage extends Component {
 						</div>
 					</Grid>
 					<Grid item xs={12}>
-						{calculator}
+						{/* {calculator} */}
 					</Grid>
 					{/* SERVER CARDS */}
 					<Grid item xs={12}>

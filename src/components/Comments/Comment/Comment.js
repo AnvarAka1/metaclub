@@ -13,7 +13,7 @@ const comment = props => {
 				alt={props.profile ? props.profile.name : null}
 			/>
 			<div className={classes.Text}>
-				<Header h5 clicked={props.commentClicked}>
+				<Header h5 headerStyle={{ cursor: "pointer" }} clicked={props.commentClicked}>
 					{props.profile ? props.profile.name : null}
 				</Header>
 				<Text small>{props.comment ? props.comment.body : null}</Text>

@@ -5,9 +5,16 @@ import Spinner from "../../../components/Spinner/Spinner";
 import Modal from "../../../components/Modal/Modal";
 import AskMenu from "../../../components/AskMenu/AskMenu";
 import ArticleForm from "../../../components/ArticleForm/ArticleForm";
+import { connect } from "react-redux";
 export class Articles extends Component {
 	id = null;
 	globalData = null;
+
+	placeholders = {
+		form: {
+			title: [ "Название", "Title" ]
+		}
+	};
 	state = {
 		form: {
 			title: {
@@ -57,14 +64,12 @@ export class Articles extends Component {
 				}
 			})
 			.then(res => {
-				console.log(res.data);
 				this.setState({ articles: res.data, loading: false });
 			});
 	}
 	pageClickHandler = (event, id) => {
 		event.preventDefault();
 		axios.get(`http://mc.test/api/articles/user?page=${id}`).then(res => {
-			console.log(res.data);
 			this.setState({ articles: res.data });
 		});
 	};
@@ -76,11 +81,9 @@ export class Articles extends Component {
 		this.id = id;
 		let selectedFile = null;
 		this.setState({ formLoading: true, isEdit: true });
-		console.log("Edit clicked");
 		axios
 			.get(`/articles/${id}`)
 			.then(res => {
-				console.log("article", res.data);
 				catId = res.data.category_id;
 				titleGlobal = res.data.title;
 				this.globalData = res.data.body;
@@ -94,7 +97,7 @@ export class Articles extends Component {
 					value: titleGlobal
 				};
 				const options = data.map(option => {
-					return { value: option.id, displayValue: this.props.lang ? option.name_en : option.name_ru };
+					return { value: option.id, displayValue: [ option.name_en, option.name_ru ] };
 				});
 
 				const category = {
@@ -118,7 +121,6 @@ export class Articles extends Component {
 	// REMOVE BUTTON WAS CLICKED
 	preRemoveHandler = (event, id) => {
 		this.id = null;
-		console.log("Remove clicked");
 		this.setState({ isModalOpened: true });
 		this.id = id;
 	};
@@ -130,7 +132,6 @@ export class Articles extends Component {
 				}
 			})
 			.then(res => {
-				console.log(res);
 				this.id = null;
 				return axios.get("/articles/user", {
 					headers: {
@@ -139,11 +140,9 @@ export class Articles extends Component {
 				});
 			})
 			.then(res => {
-				console.log(res.data);
 				this.setState({ articles: res.data, loading: false, isModalOpened: false });
 			})
 			.catch(err => {
-				console.log(err);
 				this.id = null;
 			});
 	};
@@ -177,8 +176,6 @@ export class Articles extends Component {
 		formData.append("body", this.globalData);
 		formData.append("category_id", this.state.form.category.value);
 		formData.append("_method", "PUT");
-		console.log("Sel file");
-		console.log(this.state.selectedFile);
 		axios
 			.post(`/articles/${this.id}`, formData, {
 				headers: {
@@ -188,7 +185,6 @@ export class Articles extends Component {
 			.then(res => {
 				// this.props.history.replace("settings/");
 				this.setState({ sent: true, loading: true });
-				console.log(res);
 				return axios.get("/articles/user", {
 					headers: {
 						Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -196,16 +192,13 @@ export class Articles extends Component {
 				});
 			})
 			.then(res => {
-				console.log(res.data);
 				this.setState({ articles: res.data, loading: false });
 			})
 			.catch(err => {
-				console.log("Error", err);
 				// this.setState({ error: err.response });
 			});
 	};
 	imageHandler = event => {
-		console.log(event.target.files[0]);
 		this.setState({ imageError: null });
 		const error = [ "Размер файла не должен превышать 2 мегабайт!", "File size should not be greater than 2 mb!" ];
 		if (event.target.files[0].size / 1024 / 1024 > 2) {
@@ -216,9 +209,31 @@ export class Articles extends Component {
 			});
 		}
 	};
+	formLang = () => {
+		const { lang } = this.props;
+		let form = { ...this.state.form };
+
+		let fm = null;
+		fm = {
+			...form.title,
+			...form.title.config
+		};
+		fm.config.placeholder = this.placeholders.form.title[lang];
+		form.title = fm;
+
+		return form;
+	};
 	render() {
+		const form = this.formLang();
 		let newsItems = <Spinner />;
 		let articleForm = null;
+		const content = {
+			message: [
+				"Добавьте новую фотографию, либо оставьте поле пустым, чтобы оставить старую",
+				"Add a new photo, or leave the field blank to keep old photo"
+			],
+			successMessage: [ "Ваша статья была успешно обновлена!", "Your article has been successfully updated!" ]
+		};
 		if (!this.state.loading) {
 			newsItems = (
 				<NewsItems
@@ -227,17 +242,19 @@ export class Articles extends Component {
 					removeClicked={this.preRemoveHandler}
 					pageClicked={this.pageClickHandler}
 					// wide
+					lang={this.props.lang}
 					news={this.state.articles}
 				/>
 			);
 		}
-		console.log(this.state.selectedFile);
 		articleForm = this.state.isEdit ? (
 			<ArticleForm
+				lang={this.props.lang}
 				error={this.state.error}
 				imageError={this.state.imageError}
 				sent={this.state.sent}
-				form={this.state.form}
+				form={form}
+				{...content}
 				loading={this.state.formLoading}
 				inputChanged={this.inputChangedHandler}
 				formSubmitted={this.formSubmitHandler}
@@ -260,4 +277,10 @@ export class Articles extends Component {
 		);
 	}
 }
-export default Articles;
+const mapStateToProps = state => {
+	return {
+		lang: state.lang.lang
+	};
+};
+
+export default connect(mapStateToProps)(Articles);

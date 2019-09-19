@@ -11,7 +11,7 @@ const horizontalButtons = props => {
 				semirounded
 				clicked={event => props.clicked(event, button.id)}
 			>
-				{button.title}
+				{button.title[props.lang]}
 			</Button>
 		);
 	});

@@ -14,7 +14,7 @@ export class Settings extends Component {
 			name: [ "Имя", "Name" ],
 			position: [ "Должность", "Position" ],
 			email: [ "Email", "Email" ],
-			fpassword: [ "Нынешний пароль", "Current password" ],
+			fpassword: [ "Текущий пароль", "Current password" ],
 			spassword: [ "Новый пароль", "New password" ],
 			tpassword: [ "Подтвердите пароль", "Confirm password" ]
 		}
@@ -153,7 +153,6 @@ export class Settings extends Component {
 		axios
 			.get(`/users/${id}`)
 			.then(res => {
-				console.log(res);
 				const { data } = res;
 				profile = data;
 				const form = {
@@ -178,9 +177,6 @@ export class Settings extends Component {
 					email: email
 				};
 
-				console.log(formAll);
-				console.log(profile);
-
 				return axios.get(`/articles/user/${id}`);
 			})
 			.then(res => {
@@ -200,7 +196,7 @@ export class Settings extends Component {
 				...form[key],
 				...form[key].config
 			};
-			console.log(lang);
+
 			fm.config.placeholder = this.placeholders.form[key][lang];
 			newForm.push({
 				key: key,
@@ -258,12 +254,10 @@ export class Settings extends Component {
 			isValid = true;
 		}
 		if (rules.target) {
-			console.log("PassEntered");
 			let fPass;
 			// eslint-disable-next-line
 			for (let key in this.state.form) {
 				if (key === rules.target) {
-					console.log("Found key");
 					fPass = this.state.form[key];
 					break;
 				}
@@ -283,10 +277,8 @@ export class Settings extends Component {
 		formData.append("position", this.state.form.position.value);
 		formData.append("email", this.state.form.email.value);
 		if (this.state.form.fpassword.value === "" || this.state.form.fpassword.value === null) {
-			console.log("patruess");
 		} else {
 			formData.append("password", this.state.form.fpassword.value);
-			console.log("word");
 		}
 		formData.append("_method", "PUT");
 		axios
@@ -303,7 +295,6 @@ export class Settings extends Component {
 			});
 	};
 	imageHandler = event => {
-		console.log(event.target.files[0]);
 		this.setState({ imageError: null });
 		const error = [ "Размер файла не должен превышать 2 мегабайт!", "File size should not be greater than 2 mb!" ];
 		if (event.target.files[0].size / 1024 / 1024 > 2) {

@@ -8,6 +8,7 @@ import HorizontalButtons from "../../components/HorizontalButtons/HorizontalButt
 import { Switch, Route } from "react-router-dom";
 import Settings from "./Settings/Settings";
 import Articles from "./Articles/Articles";
+import { connect } from "react-redux";
 import AddArticle from "./AddArticle/AddArticle";
 export class ProfileSettingsPage extends Component {
 	state = {
@@ -20,11 +21,14 @@ export class ProfileSettingsPage extends Component {
 		selected: 0,
 		loading: false
 	};
-	componentDidMount() {}
+	componentDidMount() {
+		this.setState({
+			selected: 0
+		});
+	}
 	buttonHandler = (event, id) => {
 		event.preventDefault();
 		this.setState({ selected: id });
-		console.log(this.props.match);
 		const current = this.props.match.path;
 		this.props.history.replace(`${current}/${id}`);
 	};
@@ -34,10 +38,13 @@ export class ProfileSettingsPage extends Component {
 	render() {
 		// let newsItems = null;
 		// let spinner = <Spinner />;
+		const content = {
+			header: [ "Настройки", "Settings" ]
+		};
 		const buttons = [
-			{ id: 0, title: "Information" },
-			{ id: 1, title: "Articles" },
-			{ id: 2, title: "Add article" }
+			{ id: 0, title: [ "Информация", "Information" ] },
+			{ id: 1, title: [ "Статьи", "Articles" ] },
+			{ id: 2, title: [ "Добавить статью", "Add article" ] }
 		];
 		const paths = buttons.map(button => {
 			return `${this.props.match.path}/${button.id}`;
@@ -53,13 +60,14 @@ export class ProfileSettingsPage extends Component {
 				<Grid container con="true" spacing={5}>
 					<Grid item xs={12}>
 						<Header h3 center>
-							Settings
+							{content.header[this.props.lang]}
 						</Header>
 					</Grid>
 					<Grid item xs={12}>
 						<HorizontalButtons
 							selected={this.state.selected}
 							buttons={buttons}
+							lang={this.props.lang}
 							clicked={this.buttonHandler}
 						/>
 					</Grid>
@@ -77,5 +85,10 @@ export class ProfileSettingsPage extends Component {
 		);
 	}
 }
+const mapStateToProps = state => {
+	return {
+		lang: state.lang.lang
+	};
+};
 
-export default ProfileSettingsPage;
+export default connect(mapStateToProps)(ProfileSettingsPage);

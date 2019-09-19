@@ -17,7 +17,7 @@ const pages = props => {
 			selected: props.current_page === i ? true : false
 		});
 	}
-	console.log(pagesArray);
+
 	const pages = pagesArray.map(page => {
 		return (
 			<Page key={page.number} selected={page.selected} clicked={event => props.clicked(event, page.number)}>

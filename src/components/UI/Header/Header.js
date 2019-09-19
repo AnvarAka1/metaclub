@@ -15,6 +15,7 @@ const header = props => {
 		props.hasLine ? classes.Line : null,
 		props.mtb ? classes.Margin : null,
 		props.mtbBig ? classes.MarginBig : null,
+		props.mt ? classes.MarginTop : null,
 		props.mb ? classes.MarginBottom : null,
 		props.mbBig ? classes.MarginBottomBig : null,
 		props.pb ? classes.PaddingBottom : null,
@@ -22,7 +23,8 @@ const header = props => {
 	];
 	const headerStyle = {
 		...props.headerStyle,
-		color: props.color ? props.color : null
+		color: props.color ? props.color : null,
+		fontSize: props.size ? props.size + "px" : null
 	};
 	let header = null;
 	if (props.h1) {

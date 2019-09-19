@@ -39,7 +39,7 @@ const articleForm = props => {
 	let message = props.sent ? (
 		<Grid item xs={12}>
 			<Header color="green" h6>
-				Your Article has successfully been created
+				{props.successMessage[props.lang]}
 			</Header>
 		</Grid>
 	) : null;
@@ -54,7 +54,11 @@ const articleForm = props => {
 	inputs = formArray.map(input => {
 		return (
 			<Grid key={input.key} item {...input.elementConfig.grid}>
-				<Input elementConfig={input.elementConfig} changed={event => props.inputChanged(event, input.key)} />
+				<Input
+					lang={props.lang}
+					elementConfig={input.elementConfig}
+					changed={event => props.inputChanged(event, input.key)}
+				/>
 			</Grid>
 		);
 	});
@@ -67,6 +71,7 @@ const articleForm = props => {
 				<Grid item xs={12}>
 					<Input
 						elementConfig={{
+							message: props.message[props.lang],
 							inputType: "file",
 							isValid: true,
 							config: {
@@ -80,10 +85,6 @@ const articleForm = props => {
 					<CKEditor
 						editor={ClassicEditor}
 						data={props.initialEditorData}
-						onInit={editor => {
-							// You can store the "editor" and use when it is needed.
-							console.log("Editor is ready to use!", editor);
-						}}
 						onChange={(event, editor) => props.editorChanged(event, editor)}
 					/>
 				</Grid>

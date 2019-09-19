@@ -7,7 +7,14 @@ export class AddArticle extends Component {
 		super(props);
 		this.titleInput = null;
 	}
+
 	globalData = "";
+	placeholders = {
+		form: {
+			title: [ "Название", "Title" ]
+		}
+	};
+
 	state = {
 		form: {
 			title: {
@@ -15,7 +22,7 @@ export class AddArticle extends Component {
 				config: {
 					type: "text",
 					name: "title",
-					placeholder: "title"
+					placeholder: "Title"
 				},
 				grid: {
 					xs: 12,
@@ -47,10 +54,9 @@ export class AddArticle extends Component {
 	componentDidMount() {
 		this.setState({ loading: true });
 		axios.get("/categories").then(res => {
-			console.log(res.data);
 			const data = res.data;
 			const options = data.map(option => {
-				return { value: option.id, displayValue: this.props.lang ? option.name_en : option.name_ru };
+				return { value: option.id, displayValue: [ option.name_ru, option.name_en ] };
 			});
 			const category = {
 				...this.state.form.category,
@@ -61,14 +67,8 @@ export class AddArticle extends Component {
 				...this.state.form,
 				category: category
 			};
-			console.log(category);
 			this.setState({ form: form, loading: false });
 		});
-		// this.setState({ loading: true });
-		// console.log(`/articles/${this.props.match.params.id}`);
-		// axios.get(`/articles/${this.props.match.params.id}`).then(res => {
-		// 	this.setState({ data: res.data.data, loading: false });
-		// });
 	}
 
 	inputChangedHandler = (event, inputIdentifier) => {
@@ -107,12 +107,10 @@ export class AddArticle extends Component {
 				this.setState({ sent: true });
 			})
 			.catch(err => {
-				console.log("Error", err);
 				this.setState({ error: err.response });
 			});
 	};
 	imageHandler = event => {
-		console.log(event.target.files[0]);
 		this.setState({ imageError: null });
 		const error = [ "Размер файла не должен превышать 2 мегабайт!", "File size should not be greater than 2 mb!" ];
 		if (event.target.files[0].size / 1024 / 1024 > 2) {
@@ -123,19 +121,40 @@ export class AddArticle extends Component {
 			});
 		}
 	};
+	formLang = () => {
+		const { lang } = this.props;
+		let form = { ...this.state.form };
+
+		let fm = null;
+		fm = {
+			...form.title,
+			...form.title.config
+		};
+		fm.config.placeholder = this.placeholders.form.title[lang];
+		form.title = fm;
+
+		return form;
+	};
 	render() {
+		const form = this.formLang();
+		const content = {
+			message: [ "Добавьте фотографию", "Add a photo" ],
+			successMessage: [ "Ваша статья была успешно создана!", "Your article has been successfully created!" ]
+		};
 		return (
 			<ArticleForm
 				error={this.state.error}
 				imageError={this.state.imageError}
 				sent={this.state.sent}
-				form={this.state.form}
+				form={form}
+				lang={this.props.lang}
 				loading={this.state.loading}
 				inputChanged={this.inputChangedHandler}
 				formSubmitted={this.formSubmitHandler}
 				imageChanged={this.imageHandler}
 				initialEditorData=""
 				editorChanged={this.changeHandler}
+				{...content}
 			/>
 		);
 	}
