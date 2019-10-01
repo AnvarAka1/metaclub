@@ -9,7 +9,7 @@ const newsItems = props => {
 		props.news &&
 		props.news.data.map(newsItem => {
 			return (
-				<Grid key={newsItem.id} item xs={12} sm={props.wide ? 12 : 4}>
+				<Grid key={newsItem.id} item xs={12} sm={props.wide ? 12 : props.half ? 6 : 4} md={props.wide ? 12 : 4}>
 					<NewsItem
 						lang={props.lang}
 						editable={props.editable}

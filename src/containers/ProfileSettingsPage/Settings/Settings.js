@@ -67,7 +67,8 @@ export class Settings extends Component {
 					disabled: true,
 					type: "email",
 					name: "email",
-					placeholder: "Email"
+					placeholder: "Email",
+					autoComplete: "username"
 				},
 				isValid: true,
 				grid: {
@@ -82,14 +83,15 @@ export class Settings extends Component {
 				config: {
 					type: "password",
 					name: "fpassword",
-					placeholder: "Password"
+					placeholder: "Password",
+					autoComplete: "current-password"
 				},
 				grid: {
 					xs: 12,
 					sm: 12
 				},
 				validation: {
-					minChar: 6,
+					minChar: 8,
 					maxChar: 20
 				},
 				isValid: true,
@@ -101,14 +103,15 @@ export class Settings extends Component {
 				config: {
 					type: "password",
 					name: "spassword",
-					placeholder: "New password"
+					placeholder: "New password",
+					autoComplete: "new-password"
 				},
 				grid: {
 					xs: 12,
 					sm: 12
 				},
 				validation: {
-					minChar: 6,
+					minChar: 8,
 					maxChar: 20
 				},
 				isValid: true,
@@ -120,14 +123,15 @@ export class Settings extends Component {
 				config: {
 					type: "password",
 					name: "fpassword",
-					placeholder: "Confirm password"
+					placeholder: "Confirm password",
+					autoComplete: "new-password"
 				},
 				grid: {
 					xs: 12,
 					sm: 12
 				},
 				validation: {
-					minChar: 6,
+					minChar: 8,
 					maxChar: 20,
 					target: "spassword"
 				},
@@ -142,7 +146,8 @@ export class Settings extends Component {
 		imageError: null,
 		loading: true,
 		profile: null,
-		formIsValid: true
+		formIsValid: true,
+		isUpdating: false
 	};
 	componentDidMount() {
 		const id = localStorage.getItem("id");
@@ -224,6 +229,7 @@ export class Settings extends Component {
 		for (let key in form) {
 			validForm = form[key].isValid && validForm;
 		}
+
 		return validForm;
 	};
 	checkValidity = (value, rules) => {
@@ -267,18 +273,25 @@ export class Settings extends Component {
 				errMessage = "Passwords must be the same";
 			}
 		}
+
 		return { isValid: isValid, errMessage: errMessage };
 	};
 	formSubmitHandler = event => {
 		event.preventDefault();
-
+		this.setState({ sent: false, isUpdating: true });
 		let formData = new FormData();
 		formData.append("name", this.state.form.name.value);
 		formData.append("position", this.state.form.position.value);
 		formData.append("email", this.state.form.email.value);
+		formData.append(
+			"avatar",
+			this.state.selectedFile && this.state.selectedFile,
+			this.state.selectedFile && this.state.selectedFile.name
+		);
 		if (this.state.form.fpassword.value === "" || this.state.form.fpassword.value === null) {
 		} else {
-			formData.append("password", this.state.form.fpassword.value);
+			formData.append("currentPassword", this.state.form.fpassword.value);
+			formData.append("password", this.state.form.spassword.value);
 		}
 		formData.append("_method", "PUT");
 		axios
@@ -288,6 +301,7 @@ export class Settings extends Component {
 				}
 			})
 			.then(res => {
+				this.setState({ sent: true, isUpdating: false });
 				console.log(res.data);
 			})
 			.catch(err => {
@@ -307,12 +321,9 @@ export class Settings extends Component {
 	};
 	render() {
 		const content = {
-			login: [ "Войти", "Login" ],
-			reg: [ "Зарегистрироваться", "Register" ],
-			sinHeader: [ "Авторизация", "Sign in" ],
-			supHeader: [ "Регистрация", "Sign up" ],
-			signInBtn: [ "Войти", "Sign in" ],
-			signUpBtn: [ "Зарегистрироваться", "Sign up" ]
+			login: [ "Обновить", "Update" ],
+			message: [ "Профиль успешно обновлен", "Profile is successfully updated" ],
+			updating: [ "Профиль обновляется...", "Profile is updating..." ]
 		};
 		const errorMessage = [];
 		let eMessage = null;
@@ -352,6 +363,20 @@ export class Settings extends Component {
 				</Grid>
 			);
 		});
+		const message = this.state.sent ? (
+			<Grid item xs={12}>
+				<Header h6 color="green">
+					{content.message[this.props.lang]}
+				</Header>
+			</Grid>
+		) : null;
+		const updating = this.state.isUpdating ? (
+			<Grid item xs={12}>
+				<Header h6 color="green">
+					{content.updating[this.props.lang]}
+				</Header>
+			</Grid>
+		) : null;
 		let profileCard = <Spinner />;
 		if (!this.state.loading) {
 			profileCard = <ProfileCard lang={this.props.lang} profile={this.state.profile} />;
@@ -379,12 +404,13 @@ export class Settings extends Component {
 								{imageError}
 							</Grid>
 							{form}
-
+							{updating}
+							{message}
 							<Hidden smDown>
 								<Grid item xs={8} />
 							</Hidden>
 							<Grid item sm={4} xs={12}>
-								<Button flatten wide disabled={!this.state.formIsValid}>
+								<Button flatten wide disabled={!this.state.formIsValid || this.state.imageError}>
 									{content.login[this.props.lang]}
 								</Button>
 							</Grid>

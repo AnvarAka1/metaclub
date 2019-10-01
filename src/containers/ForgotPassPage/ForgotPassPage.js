@@ -122,9 +122,8 @@ export class ForgotPassPage extends Component {
 		const formData = new FormData();
 		formData.append("email", this.state.form.email.value);
 		axios
-			.post("", formData)
+			.post("/reset", formData)
 			.then(res => {
-				console.log(res.data);
 				this.setState({ sent: true });
 			})
 			.catch(err => console.log(err));

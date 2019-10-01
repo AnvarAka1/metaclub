@@ -4,7 +4,7 @@ import ProfileCard from "../../components/Profile/ProfileCard/ProfileCard";
 import Grid from "../../components/Grid/Grid";
 import axios from "../../axios-db";
 import Spinner from "../../components/Spinner/Spinner";
-
+import { connect } from "react-redux";
 export class ProfilePage extends Component {
 	state = {
 		profile: null,
@@ -28,6 +28,7 @@ export class ProfilePage extends Component {
 				return axios.get(`/articles/user/${profile.id}`);
 			})
 			.then(res => {
+				console.log(res.data);
 				articles = res.data;
 				this.setState({ profile: profile, articles: articles, loading: false });
 			})
@@ -42,7 +43,8 @@ export class ProfilePage extends Component {
 	};
 	pageClickHandler = (event, id) => {
 		event.preventDefault();
-		axios.get(`/articles?page=${id}`).then(res => {
+		console.log(this.props.match.params.id);
+		axios.get(`/articles/user/${this.props.match.params.id}?page=${id}`).then(res => {
 			this.setState({ articles: res.data });
 		});
 	};
@@ -53,10 +55,12 @@ export class ProfilePage extends Component {
 			profile = this.state.profile && <ProfileCard lang={this.state.lang} profile={this.state.profile} />;
 			articles = this.state.articles && (
 				<NewsItems
+					half
+					lang={this.props.lang}
 					articleClicked={this.articleHandler}
 					pageClicked={this.pageClickHandler}
 					news={this.state.articles}
-					wide
+					// wide
 				/>
 			);
 		}
@@ -78,5 +82,10 @@ export class ProfilePage extends Component {
 		);
 	}
 }
+const mapStateToProps = state => {
+	return {
+		lang: state.lang.lang
+	};
+};
 
-export default ProfilePage;
+export default connect(mapStateToProps)(ProfilePage);

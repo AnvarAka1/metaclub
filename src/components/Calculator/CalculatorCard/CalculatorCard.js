@@ -29,7 +29,7 @@ const calculatorCard = props => {
 					<thead>
 						<tr>
 							<th colSpan="2">
-								<Header h5>{props.date}</Header>
+								<Header h5>{props.date[props.lang]}</Header>
 							</th>
 						</tr>
 					</thead>

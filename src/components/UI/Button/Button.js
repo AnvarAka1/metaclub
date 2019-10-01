@@ -16,7 +16,8 @@ const button = props => {
 		props.padding && classes.Padding,
 		props.wide && classes.Wide,
 		props.big && classes.Big,
-		props.semirounded && classes.Semirounded
+		props.semirounded && classes.Semirounded,
+		props.flex && classes.Flex
 	];
 	return (
 		<button

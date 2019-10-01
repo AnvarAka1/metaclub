@@ -50,7 +50,10 @@
 .MarginBottomBig {
 	margin-bottom: 30px;
 }
-
+.MarginLeftRight {
+	margin-left: 5px;
+	margin-right: 5px;
+}
 .PaddingBottom {
 	padding-bottom: 15px;
 }
@@ -69,4 +72,88 @@
 
 .Accent {
 	color: #796de8;
+}
+@media (max-width: 1290px) {
+	.Margin {
+		margin-top: 15px;
+		margin-bottom: 15px;
+	}
+
+	.MarginBig {
+		margin-top: 40px;
+		margin-bottom: 40px;
+	}
+	.MarginTop {
+		margin-top: 12px;
+	}
+	.MarginBottom {
+		margin-bottom: 12px;
+	}
+
+	.MarginBottomBig {
+		margin-bottom: 23px;
+	}
+	.MarginLeftRight {
+		margin-left: 4px;
+		margin-right: 4px;
+	}
+	.PaddingBottom {
+		padding-bottom: 12px;
+	}
+}
+@media (max-width: 960px) {
+	.Margin {
+		margin-top: 12px;
+		margin-bottom: 12px;
+	}
+
+	.MarginBig {
+		margin-top: 30px;
+		margin-bottom: 30px;
+	}
+	.MarginTop {
+		margin-top: 10px;
+	}
+	.MarginBottom {
+		margin-bottom: 10px;
+	}
+
+	.MarginBottomBig {
+		margin-bottom: 18px;
+	}
+	.MarginLeftRight {
+		margin-left: 4px;
+		margin-right: 4px;
+	}
+	.PaddingBottom {
+		padding-bottom: 10px;
+	}
+}
+@media (max-width: 600px) {
+	.Margin {
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
+
+	.MarginBig {
+		margin-top: 24px;
+		margin-bottom: 24px;
+	}
+	.MarginTop {
+		margin-top: 8px;
+	}
+	.MarginBottom {
+		margin-bottom: 8px;
+	}
+
+	.MarginBottomBig {
+		margin-bottom: 15px;
+	}
+	.MarginLeftRight {
+		margin-left: 3px;
+		margin-right: 3px;
+	}
+	.PaddingBottom {
+		padding-bottom: 8px;
+	}
 }

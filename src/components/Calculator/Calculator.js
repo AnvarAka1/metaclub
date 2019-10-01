@@ -19,6 +19,7 @@ const calculator = props => {
 		<Grid container spacing={5}>
 			<Grid item xs={12}>
 				<CalculatorInput
+					mhc={props.mhc}
 					lang={props.lang}
 					calc={props.calc}
 					rangeChanged={props.rangeChanged}

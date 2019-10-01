@@ -89,12 +89,14 @@ export class ContactsPage extends Component {
 
 		const message = [ "Ваш запрос был успешно отправлен!", "Your request has been successfully sent!" ];
 		this.setState({ sent: null, error: null });
-		const data = {
-			email: this.state.form.email.value,
-			body: this.state.form.text.value
-		};
+		const formData = new FormData();
+		formData.append("name", this.state.form.name.value);
+		formData.append("topic", this.state.form.topic.value);
+		formData.append("email", this.state.form.email.value);
+		formData.append("body", this.state.form.text.value);
+
 		axios
-			.post("/contacts/create", data)
+			.post("/contacts/create", formData)
 			.then(res => {
 				this.setState({ sent: message[this.props.lang] });
 			})

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Grid from "../../components/Grid/Grid";
 import MainImage from "../../components/MainImage/MainImage";
 import Header from "../../components/UI/Header/Header";
-import Text from "../../components/UI/Text/Text";
+// import Text from "../../components/UI/Text/Text";
 import ProfileCard from "../../components/Profile/ProfileCard/ProfileCard";
 import Comments from "../../components/Comments/Comments";
 import Paper from "../../components/UI/Paper/Paper";
@@ -11,6 +11,7 @@ import Spinner from "../../components/Spinner/Spinner";
 import { connect } from "react-redux";
 import ReactHtmlParser from "react-html-parser";
 import localIpUrl from "local-ip-url";
+import Hidden from "@material-ui/core/Hidden";
 
 export class ArticlePage extends Component {
 	state = {
@@ -41,6 +42,7 @@ export class ArticlePage extends Component {
 		axios
 			.get(`/articles/${id}`)
 			.then(res => {
+				console.log(res.data);
 				article = res.data;
 				return axios.get(`/users/${res.data.user_id}`);
 			})
@@ -87,7 +89,6 @@ export class ArticlePage extends Component {
 				}
 			})
 			.then(res => {
-				console.log("Res,", res);
 				axios
 					.get(`/articles/${res.data.article_id}/comments`)
 					.then(res => {
@@ -129,7 +130,9 @@ export class ArticlePage extends Component {
 					<Header color="#333" mb h2>
 						{this.state.article.title}
 					</Header>
-					<Text textStyle={{ lineHeight: "40px" }}>{ReactHtmlParser(this.state.article.body)}</Text>
+					<Header h5 normal headerStyle={{ lineHeight: "40px" }}>
+						{ReactHtmlParser(this.state.article.body)}
+					</Header>
 				</Paper>
 			);
 			profile = this.state.profile && (
@@ -142,6 +145,7 @@ export class ArticlePage extends Component {
 			);
 			comments = this.state.comments && (
 				<Comments
+					lang={this.props.lang}
 					isAuthorized={this.props.isAuthorized}
 					commentForm={this.state.commentForm}
 					commentClicked={this.commentHandler}
@@ -157,15 +161,19 @@ export class ArticlePage extends Component {
 					{image}
 				</Grid>
 				<Grid container con="true" spacing={5}>
-					<Grid item sm={1} />
-					<Grid item sm={7}>
+					<Hidden smDown>
+						<Grid item sm={1} />
+					</Hidden>
+					<Grid item sm={8} md={7} xs={12}>
 						{article}
 						{comments}
 					</Grid>
-					<Grid item sm={3} xs={12}>
+					<Grid item sm={4} md={3} xs={12}>
 						{profile}
 					</Grid>
-					<Grid item sm={1} />
+					<Hidden smDown>
+						<Grid item sm={1} />
+					</Hidden>
 				</Grid>
 			</React.Fragment>
 		);

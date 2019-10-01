@@ -16,6 +16,7 @@ const header = props => {
 		props.mtb ? classes.Margin : null,
 		props.mtbBig ? classes.MarginBig : null,
 		props.mt ? classes.MarginTop : null,
+		props.mlr ? classes.MarginLeftRight : null,
 		props.mb ? classes.MarginBottom : null,
 		props.mbBig ? classes.MarginBottomBig : null,
 		props.pb ? classes.PaddingBottom : null,

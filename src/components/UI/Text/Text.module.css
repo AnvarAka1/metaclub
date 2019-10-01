@@ -1,59 +1,111 @@
 .Text {
-    position: relative;
+	position: relative;
 }
 
 .Thin {
-    font-weight: 100;
+	font-weight: 100;
 }
 
 .Thick {
-    font-weight: bold;
+	font-weight: bold;
 }
 
 .Normal {
-    font-weight: normal;
+	font-weight: normal;
 }
 
 .Small {
-    font-size: 14px;
+	font-size: 14px;
 }
 
-.Line {}
+.Line {
+}
 
 .Line:after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -10px;
-    width: 50px;
-    height: 2px;
-    background: #7146CE;
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: -10px;
+	width: 50px;
+	height: 2px;
+	background: #7146ce;
 }
 
 .Margin {
-    margin: 15px 0;
+	margin: 15px 0;
 }
 
 .MarginTop {
-    margin-top: 15px
+	margin-top: 15px;
 }
 
 .MarginBig {
-    margin: 30px 0;
+	margin: 30px 0;
 }
 
 .MarginBottomBig {
-    margin-bottom: 40px;
+	margin-bottom: 40px;
 }
 
 .Part {
-    width: 70%;
+	width: 70%;
 }
 
 .Hidden {
-    display: none;
+	display: none;
 }
 
 .Transition {
-    transition: all .5s ease
+	transition: all .5s ease;
+}
+@media (max-width: 1290px) {
+	.Margin {
+		margin: 12px 0;
+	}
+
+	.MarginTop {
+		margin-top: 12px;
+	}
+
+	.MarginBig {
+		margin: 24px 0;
+	}
+
+	.MarginBottomBig {
+		margin-bottom: 35px;
+	}
+}
+@media (max-width: 960px) {
+	.Margin {
+		margin: 10px 0;
+	}
+
+	.MarginTop {
+		margin-top: 10px;
+	}
+
+	.MarginBig {
+		margin: 20px 0;
+	}
+
+	.MarginBottomBig {
+		margin-bottom: 28px;
+	}
+}
+@media (max-width: 600px) {
+	.Margin {
+		margin: 8px 0;
+	}
+
+	.MarginTop {
+		margin-top: 8px;
+	}
+
+	.MarginBig {
+		margin: 16px 0;
+	}
+
+	.MarginBottomBig {
+		margin-bottom: 24px;
+	}
 }

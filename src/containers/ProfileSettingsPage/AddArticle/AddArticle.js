@@ -56,7 +56,7 @@ export class AddArticle extends Component {
 		axios.get("/categories").then(res => {
 			const data = res.data;
 			const options = data.map(option => {
-				return { value: option.id, displayValue: [ option.name_ru, option.name_en ] };
+				return { value: option[0].id, displayValue: [ option[0].name_ru, option[0].name_en ] };
 			});
 			const category = {
 				...this.state.form.category,

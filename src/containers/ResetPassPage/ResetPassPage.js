@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import axios from "../../axios-db";
 import FormCard from "../../components/FormCard/FormCard";
+import queryString from "query-string";
 export class ResetPassPage extends Component {
 	placeholders = {
 		form: {
@@ -16,14 +17,15 @@ export class ResetPassPage extends Component {
 				config: {
 					type: "password",
 					name: "fpassword",
-					placeholder: "New password"
+					placeholder: "New password",
+					autoComplete: "new-password"
 				},
 				grid: {
 					xs: 12,
 					sm: 12
 				},
 				validation: {
-					minChar: 6,
+					minChar: 8,
 					maxChar: 20
 				},
 				isValid: true,
@@ -35,14 +37,15 @@ export class ResetPassPage extends Component {
 				config: {
 					type: "password",
 					name: "spassword",
-					placeholder: "Confirm password"
+					placeholder: "Confirm password",
+					autoComplete: "new-password"
 				},
 				grid: {
 					xs: 12,
 					sm: 12
 				},
 				validation: {
-					minChar: 6,
+					minChar: 8,
 					maxChar: 20,
 					target: "fpassword"
 				},
@@ -139,11 +142,13 @@ export class ResetPassPage extends Component {
 	formSubmitHandler = event => {
 		event.preventDefault();
 		const formData = new FormData();
-		formData.append("email", this.state.form.email.value);
+		const tokenValue = queryString.parse(this.props.location.search);
+		formData.append("token", tokenValue.token);
+		formData.append("password", this.state.form.fpassword.value);
+		formData.append("_method", "PUT");
 		axios
-			.post("", formData)
+			.post("/reset/password", formData)
 			.then(res => {
-				console.log(res.data);
 				this.setState({ sent: true });
 			})
 			.catch(err => console.log(err));
@@ -152,10 +157,7 @@ export class ResetPassPage extends Component {
 		const content = {
 			header: [ "Сброс пароля", "Reset password" ],
 			button: [ "Отправить", "Submit" ],
-			message: [
-				"Проверьте почту. Мы выслали вам новый пароль",
-				"Check your Email. We have sent you a new password"
-			]
+			message: [ "Пароль успешно обновлен!", "Password has successfully been updated!" ]
 		};
 
 		const form = this.formLang();

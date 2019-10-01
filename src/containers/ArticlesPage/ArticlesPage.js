@@ -7,6 +7,8 @@ import Spinner from "../../components/Spinner/Spinner";
 import { connect } from "react-redux";
 
 export class ArticlesPage extends Component {
+	catPagination = false;
+	catNumber = -1;
 	state = {
 		menu: [
 			{
@@ -34,7 +36,7 @@ export class ArticlesPage extends Component {
 				cats[0].count = totalArticles;
 				let catsCopy = res.data.slice();
 				catsCopy = catsCopy.map(cat => {
-					return { ...cat, active: false };
+					return { ...cat[0], count: cat[1], active: false };
 				});
 				for (let i = 0; i < catsCopy.length; i++) {
 					cats.push(catsCopy[i]);
@@ -48,6 +50,7 @@ export class ArticlesPage extends Component {
 	}
 	categoryHandler = (event, id) => {
 		let cats = this.state.menu.slice();
+		this.catNumber = id;
 		for (let i = 0; i < cats.length; i++) {
 			cats[i].active = false;
 			if (cats[i].id === id) {
@@ -55,6 +58,7 @@ export class ArticlesPage extends Component {
 			}
 		}
 		if (id < 0) {
+			this.catPagination = false;
 			axios
 				.get(`/articles`)
 				.then(res => {
@@ -67,6 +71,8 @@ export class ArticlesPage extends Component {
 		axios
 			.get(`/articles/category/${id}`)
 			.then(res => {
+				this.catPagination = true;
+				this.pagination = res.data.first_page_url;
 				this.setState({ articles: res.data });
 			})
 			.catch(err => console.log(err));
@@ -78,7 +84,9 @@ export class ArticlesPage extends Component {
 	};
 	pageClickHandler = (event, id) => {
 		event.preventDefault();
-		axios.get(`/articles?page=${id}`).then(res => {
+
+		const url = this.catPagination ? `/articles/category/${this.catNumber}?page=${id}` : `/articles?page=${id}`;
+		axios.get(url).then(res => {
 			this.setState({ articles: res.data });
 		});
 	};
@@ -88,9 +96,11 @@ export class ArticlesPage extends Component {
 		if (!this.state.loading) {
 			newsItems = this.state.articles && (
 				<NewsItems
+					lang={this.props.lang}
 					pageClicked={this.pageClickHandler}
 					articleClicked={this.articleHandler}
-					wide
+					// wide
+					half
 					news={this.state.articles}
 				/>
 			);
@@ -105,8 +115,8 @@ export class ArticlesPage extends Component {
 						<Grid item sm={3} xs={12}>
 							{menu}
 						</Grid>
-						<Grid item md={8} sm={9} xs={12}>
-							<Grid container spacing={5}>
+						<Grid item md={9} sm={9} xs={12}>
+							<Grid container spacing={3}>
 								{newsItems}
 							</Grid>
 						</Grid>

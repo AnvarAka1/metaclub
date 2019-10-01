@@ -69,9 +69,15 @@ export class Articles extends Component {
 	}
 	pageClickHandler = (event, id) => {
 		event.preventDefault();
-		axios.get(`http://mc.test/api/articles/user?page=${id}`).then(res => {
-			this.setState({ articles: res.data });
-		});
+		axios
+			.get(`/articles/user?page=${id}`, {
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem("token")}`
+				}
+			})
+			.then(res => {
+				this.setState({ articles: res.data });
+			});
 	};
 
 	// EDIT BUTTON WAS CLICKED
@@ -97,9 +103,8 @@ export class Articles extends Component {
 					value: titleGlobal
 				};
 				const options = data.map(option => {
-					return { value: option.id, displayValue: [ option.name_en, option.name_ru ] };
+					return { value: option[0].id, displayValue: [ option[0].name_en, option[0].name_ru ] };
 				});
-
 				const category = {
 					...this.state.form.category,
 					value: catId,

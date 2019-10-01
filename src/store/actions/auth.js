@@ -51,24 +51,24 @@ export const auth = (name, email, password, avatar, position, isSignIn) => {
 			formData.append("avatar", avatar, avatar.name);
 		}
 		if (position != null) {
-			formData.append("position", position, position);
+			formData.append("position", position);
 		}
 		formData.append("email", email);
 		formData.append("name", name);
 		formData.append("password", password);
 		formData.append("returnSecureToken", true);
-
+		// for (var pair of formData.entries()) {
+		// 	console.log(pair[0] + ", " + pair[1]);
+		// }
 		const urls = [ "/register", "/login" ];
-
+		// let responseHolder = null;
+		let message = null;
 		axios
-			.post(
-				urls[+isSignIn],
-				formData,
-				{
-					// config
-				}
-			)
+			.post(urls[+isSignIn], formData)
 			.then(response => {
+				// responseHolder = response;
+				console.log(response);
+				message = response.data.message;
 				const data = response.data.auth;
 				const userData = response.data.user;
 				// expiration date in milliseconds
@@ -77,18 +77,24 @@ export const auth = (name, email, password, avatar, position, isSignIn) => {
 				localStorage.setItem("token", data.access_token);
 				localStorage.setItem("expirationDate", expirationDate);
 				localStorage.setItem("id", userData.id);
-				// localStorage.setItem("email", userData.email);
-				// localStorage.setItem("position", userData.position);
-				// localStorage.setItem("name", userData.name);
-				// localStorage.setItem("userId", response.data.localId);
-				// save user state
 				dispatch(
-					authSuccess(data.access_token, userData.id, userData.role, email, name, avatar, position, password)
+					authSuccess(
+						data.access_token,
+						userData.id,
+						userData.role,
+						email,
+						name,
+						userData.avatar,
+						position,
+						password
+					)
 				);
 				dispatch(checkAuthTimeout(data.expires_in));
+				if (response.data.status === "error") dispatch(authFail(response.data.message));
 			})
 			.catch(error => {
-				dispatch(authFail(error.message));
+				console.log(error);
+				dispatch(authFail(message));
 			});
 	};
 };
@@ -105,18 +111,26 @@ export const authCheckState = () => {
 		const token = localStorage.getItem("token");
 		const id = localStorage.getItem("id");
 		const role = localStorage.getItem("role");
-		if (!token) {
-			dispatch(logout());
-		} else {
-			const expirationDate = new Date(localStorage.getItem("expirationDate"));
-			if (new Date() > expirationDate) {
-				dispatch(logout());
-			} else {
-				const token = localStorage.getItem("token");
-				// need to discuss this
-				dispatch(authSuccess(token, id, role));
-				dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000));
-			}
-		}
+		let avatar = null;
+		axios
+			.get(`/users/${id}`)
+			.then(res => {
+				avatar = res.data.avatar;
+				console.log(avatar + "sss");
+				if (!token) {
+					dispatch(logout());
+				} else {
+					const expirationDate = new Date(localStorage.getItem("expirationDate"));
+					if (new Date() > expirationDate) {
+						dispatch(logout());
+					} else {
+						const token = localStorage.getItem("token");
+						// need to discuss this
+						dispatch(authSuccess(token, id, role, null, null, avatar));
+						dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000));
+					}
+				}
+			})
+			.catch(err => console.log(err));
 	};
 };

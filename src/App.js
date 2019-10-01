@@ -18,37 +18,14 @@ import ResetPassPage from "./containers/ResetPassPage/ResetPassPage";
 
 // const cookies = new Cookies();
 class App extends Component {
-	state = {
-		// lang: 0,
-		isLangHover: false,
-		drawerLeft: false
-	};
 	constructor(props) {
 		super(props);
 		this.props.onAuthCheck();
 	}
-	// componentDidMount() {
-	// 	const lang = cookies.get("lang");
 
-	// 	if (lang !== this.state.lang && typeof lang !== "undefined") {
-	// 		this.setState({ lang: lang });
-	// 	}
-	// }
 	componentDidMount() {
 		this.props.onLangInit();
 	}
-	navigationHandler = (event, id) => {
-		if (id) {
-			this.props.history.push("/about/id");
-		}
-	};
-
-	openDrawerHandler = () => {
-		this.setState({ drawerLeft: true });
-	};
-	closeDrawerHandler = () => {
-		this.setState({ drawerLeft: false });
-	};
 
 	render() {
 		let routers = (
@@ -62,7 +39,7 @@ class App extends Component {
 				<Route path="/contacts" component={ContactsPage} />
 				<Route path="/nodes" component={NodesPage} />
 				{!this.props.isAuthorized && <Route path="/forgot" component={ForgotPassPage} />}
-				{!this.props.isAuthorized && <Route path="/reset" component={ResetPassPage} />}
+				{!this.props.isAuthorized && <Route path="/newpassword" component={ResetPassPage} />}
 				{this.props.isAuthorized && <Route path="/settings" component={ProfileSettingsPage} />}
 				<Redirect from="*" to="/about" />
 			</Switch>
@@ -74,13 +51,6 @@ class App extends Component {
 					navigationClicked={this.navigationHandler}
 					lang={this.props.lang}
 					langClicked={this.props.onLangChange}
-					drawerOpened={this.openDrawerHandler}
-					drawerClosed={this.closeDrawerHandler}
-					drawerLeft={this.state.drawerLeft}
-					toggleDrawer={this.toggleDrawerHandler}
-					footerForm={this.state.footerForm}
-					inputChanged={this.inputChangeHandler}
-					formSubmitted={this.footerFormSubmitHandler}
 				>
 					{routers}
 				</Layout>

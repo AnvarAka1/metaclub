@@ -6,6 +6,9 @@ import Paper from "../UI/Paper/Paper";
 import Header from "../UI/Header/Header";
 import Text from "../UI/Text/Text";
 const comments = props => {
+	const content = {
+		noComments: [ "Пока нет комментариев", "No comments yet" ]
+	};
 	const comments = props.comments ? (
 		props.comments.map(comment => {
 			return (
@@ -35,7 +38,8 @@ const comments = props => {
 		<div className={classes.Comments}>
 			{leaveComment}
 			<Paper blank comment>
-				{comments}
+				{console.log("comments: ", comments)}
+				{comments.length ? comments : <Text mt>{content.noComments[props.lang]}</Text>}
 			</Paper>
 		</div>
 	);

@@ -1,17 +1,16 @@
 import React from "react";
 import classes from "./NavigationItems.module.css";
-import { NavLink } from "react-router-dom";
+import { NavHashLink as NavLink } from "react-router-hash-link";
 import Logo from "../../Logo/Logo";
-
 import SinIcon from "../../../assets/images/icons/signin.png";
 import Hidden from "@material-ui/core/Hidden";
-// import Logo from "../../../assets/images/logo.png";
 import NavigationItem from "./NavigationItem/NavigationItem";
 import Button from "../../UI/Button/Button";
 import LangSelect from "../../LangSelect/LangSelect";
 import Hamburger from "../../UI/Hamburger/Hamburger";
 import Grid from "../../Grid/Grid";
 import Header from "../../UI/Header/Header";
+import ProfilePhoto from "../../ProfilePhoto/ProfilePhoto";
 const navigationItems = props => {
 	const navItems = languageSelect(props);
 	const logout = [ "Выйти", "Logout" ];
@@ -29,16 +28,18 @@ const navigationItems = props => {
 	});
 	const button = props.isAuthorized ? (
 		<React.Fragment>
-			<NavLink to="/settings">
-				<Button
-					key={navItems.button[1].title}
-					{...navItems.button[1].type}
-					clicked={navItems.button[1].clicked}
-				>
-					<img src={navItems.button[1].icon} alt={navItems.button[1].title} />
-					{navItems.button[1].title}
-				</Button>
-			</NavLink>
+			{!props.vertical ? (
+				<NavLink to="/settings">
+					<Button
+						key={navItems.button[1].title}
+						{...navItems.button[1].type}
+						clicked={navItems.button[1].clicked}
+					>
+						<img src={navItems.button[1].icon} alt={navItems.button[1].title} />
+						{navItems.button[1].title}
+					</Button>
+				</NavLink>
+			) : null}
 
 			<Header
 				normal
@@ -57,13 +58,18 @@ const navigationItems = props => {
 		</Button>
 	);
 
-	const logo = (
-		<li>
-			<NavLink to="/">
-				<Logo vertical={props.vertical && props.vertical} />
+	const logo =
+		props.isAuthorized && props.vertical ? (
+			<NavLink to={"/settings"}>
+				<ProfilePhoto max src={props.avatar} alt={"View profile"} clicked={props.avatarClicked} />
 			</NavLink>
-		</li>
-	);
+		) : (
+			<li>
+				<NavLink to="/">
+					<Logo vertical={props.vertical && props.vertical} />
+				</NavLink>
+			</li>
+		);
 
 	const rightNav = props.vertical ? (
 		<Hidden mdUp>
@@ -120,15 +126,15 @@ const languageSelect = props => {
 				link: "/about"
 			},
 			{
-				title: [ "Как зарабатывать?", "How to get paid?", "UzHow to get paid" ],
-				link: "/mhc"
+				title: [ "Как зарабатывать MHC?", "How to earn MHC?", "UzHow to get paid" ],
+				link: "/about#metahash"
 			},
 			{
 				title: [ "Калькулятор", "Calculator", "UzUzCalculator" ],
-				link: "/calculator"
+				link: "/about#calculator"
 			},
-			{ title: [ "Ноды", "Nodes", "UzNodes" ], link: "/nodes" },
-			{ title: [ "Статьи", "Articles", "UzArticles" ], link: "/articles" },
+			{ title: [ "Ноды", "Nodes", "UzNodes" ], link: "/about#nodes" },
+			{ title: [ "Блог", "Blog", "UzArticles" ], link: "/about#articles" },
 			{ title: [ "F.A.Q", "F.A.Q", "UzF.A.Q" ], link: "/faq" },
 			{ title: [ "Контакты", "Contacts", "UzContacts" ], link: "/contacts" }
 		],

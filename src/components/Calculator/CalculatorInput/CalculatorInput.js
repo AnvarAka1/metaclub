@@ -25,6 +25,7 @@ const calculatorInput = props => {
 				</Header>
 				<Header h5>{content.subheader[props.lang]}</Header>
 				<Range
+					mhc={props.mhc}
 					minValue={512}
 					maxValue={1000000}
 					elementConfig={props.calc.range}
@@ -37,9 +38,9 @@ const calculatorInput = props => {
 					<Input elementConfig={props.calc.input} changed={props.inputChanged} />
 					<Button clicked={props.buttonClicked}>{content.button[props.lang]}</Button>
 				</div>
-				<Header color="#777" h5>
-					{content.bottomText[props.lang]} <span className="accent">{props.mhc} #MHC</span>
-				</Header>
+				{/* <Header color="#777" h5>
+					{content.bottomText[props.lang]} <span className="accent">#MHC</span>
+				</Header> */}
 			</Card>
 		</div>
 	);

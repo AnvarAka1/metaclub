@@ -42,8 +42,7 @@ class Layout extends Component {
 				},
 				validation: {
 					required: true,
-					minChar: 6,
-					maxChar: 20
+					minChar: 6
 				},
 				isValid: false,
 				errMessage: "",
@@ -55,7 +54,8 @@ class Layout extends Component {
 				config: {
 					type: "password",
 					name: "password",
-					placeholder: "Password"
+					placeholder: "Password",
+					autoComplete: "current-password"
 				},
 				grid: {
 					xs: 12,
@@ -63,7 +63,7 @@ class Layout extends Component {
 				},
 				validation: {
 					required: true,
-					minChar: 6,
+					minChar: 8,
 					maxChar: 20
 				},
 				isValid: false,
@@ -100,7 +100,7 @@ class Layout extends Component {
 				},
 				validation: {
 					required: true,
-					minChar: 6,
+					minChar: 3,
 					maxChar: 20
 				},
 				isValid: false,
@@ -120,34 +120,34 @@ class Layout extends Component {
 				},
 				validation: {
 					required: true,
-					minChar: 6,
-					maxChar: 20
+					minChar: 6
 				},
 				isValid: false,
 				touched: false,
 				value: ""
 			},
-			upPosition: {
-				inputType: "input",
-				config: {
-					type: "text",
-					name: "position",
-					placeholder: "Position"
-				},
-				grid: {
-					xs: 12,
-					sm: 12
-				},
-				isValid: true,
-				touched: false,
-				value: ""
-			},
+			// upPosition: {
+			// 	inputType: "input",
+			// 	config: {
+			// 		type: "text",
+			// 		name: "position",
+			// 		placeholder: "Position"
+			// 	},
+			// 	grid: {
+			// 		xs: 12,
+			// 		sm: 12
+			// 	},
+			// 	isValid: true,
+			// 	touched: false,
+			// 	value: ""
+			// },
 			upFpassword: {
 				inputType: "input",
 				config: {
 					type: "password",
 					name: "fpassword",
-					placeholder: "Password"
+					placeholder: "Password",
+					autoComplete: "new-password"
 				},
 				grid: {
 					xs: 12,
@@ -155,7 +155,7 @@ class Layout extends Component {
 				},
 				validation: {
 					required: true,
-					minChar: 6,
+					minChar: 8,
 					maxChar: 20
 				},
 				isValid: false,
@@ -167,7 +167,8 @@ class Layout extends Component {
 				config: {
 					type: "password",
 					name: "spassword",
-					placeholder: "Confirm password"
+					placeholder: "Confirm password",
+					autoComplete: "new-password"
 				},
 				grid: {
 					xs: 12,
@@ -175,7 +176,7 @@ class Layout extends Component {
 				},
 				validation: {
 					required: true,
-					minChar: 6,
+					minChar: 8,
 					maxChar: 20,
 					target: "upFpassword"
 				},
@@ -218,13 +219,18 @@ class Layout extends Component {
 				value: ""
 			}
 		},
+		drawerLeft: false,
 		isSignInValid: false,
 		isSignUpValid: false,
 		isSignIn: true,
 		isModalOpened: false,
-		selectedFile: null
+		selectedFile: null,
+		imageError: null
 	};
 	componentDidUpdate() {
+		// axios.get(`/users/${id}`).then(res => {
+		// 	this.setState({ profile: res.data });
+		// });
 		if (this.props.isFormFlush) {
 			let signIn = { ...this.state.signIn };
 			let signUp = { ...this.state.signUp };
@@ -251,9 +257,10 @@ class Layout extends Component {
 	}
 	formSubmitHandler = event => {
 		event.preventDefault();
-		const { upName, upEmail, upFpassword, upPosition } = this.state.signUp;
+		const { upName, upEmail, upFpassword } = this.state.signUp;
+		// const { upName, upEmail, upFpassword, upPosition } = this.state.signUp;
 		const { inEmail, inPassword } = this.state.signIn;
-		const position = upPosition.value && upPosition.value;
+		// const position = upPosition.value && upPosition.value;
 		if (this.state.isSignIn) {
 			this.props.onAuth(null, inEmail.value, inPassword.value, null, null, this.state.isSignIn);
 		} else {
@@ -262,18 +269,26 @@ class Layout extends Component {
 				upEmail.value,
 				upFpassword.value,
 				this.state.selectedFile,
-				position,
+				null,
 				this.state.isSignIn
 			);
 		}
 	};
+	openDrawerHandler = () => {
+		this.setState({ drawerLeft: true });
+	};
+	closeDrawerHandler = () => {
+		this.setState({ drawerLeft: false });
+	};
 	signInClickedHandler = event => {
 		event.preventDefault();
 		this.setState({ isSignIn: true, isModalOpened: true });
+		this.closeDrawerHandler();
 	};
 	signUpClickedHandler = event => {
 		event.preventDefault();
 		this.setState({ isSignIn: false, isModalOpened: true });
+		this.closeDrawerHandler();
 	};
 	backdropHandler = () => {
 		this.setState({ isModalOpened: false });
@@ -363,6 +378,7 @@ class Layout extends Component {
 		}
 		return { isValid: isValid, errMessage: errMessage };
 	};
+
 	formLang = () => {
 		const { lang } = this.props;
 		let signIn = { ...this.state.signIn };
@@ -403,15 +419,23 @@ class Layout extends Component {
 		return { newSignIn, newSignUp };
 	};
 	imageHandler = event => {
-		this.setState({
-			selectedFile: event.target.files[0]
-		});
+		this.setState({ imageError: null });
+		const error = [ "Размер файла не должен превышать 2 мегабайт!", "File size should not be greater than 2 mb!" ];
+		if (event.target.files[0].size / 1024 / 1024 > 2) {
+			this.setState({ imageError: error[this.props.lang] });
+		} else {
+			this.setState({
+				selectedFile: event.target.files[0]
+			});
+		}
 	};
+
 	render() {
 		const form = this.formLang();
 		const modal = this.state.isModalOpened && (
 			<Modal opened={this.state.isModalOpened} backdropClicked={this.backdropHandler}>
 				<SignForm
+					imageError={this.state.imageError}
 					modalClosed={this.backdropHandler}
 					errorMessage={this.props.hasError}
 					lang={this.props.lang}
@@ -436,21 +460,20 @@ class Layout extends Component {
 					<NavigationItems
 						logout={this.props.onLogout}
 						isAuthorized={this.props.isAuthorized}
-						navigationClicked={this.props.navigationClicked}
 						lang={this.props.lang}
 						langClicked={this.props.langClicked}
-						drawerOpened={this.props.drawerOpened}
+						drawerOpened={this.openDrawerHandler}
 						signInClicked={this.signInClickedHandler}
 						signUpClicked={this.signUpClickedHandler}
 					/>
 					<Hidden mdUp>
-						<Drawer open={this.props.drawerLeft} onClose={this.props.drawerClosed} anchor="right">
+						<Drawer open={this.state.drawerLeft} onClose={this.closeDrawerHandler} anchor="right">
 							<NavigationItems
-								navigationClicked={this.props.navigationClicked}
+								avatar={this.props.authAvatar}
 								lang={this.props.lang}
 								vertical
 								logout={this.props.onLogout}
-								drawerClosed={this.props.drawerClosed}
+								drawerClosed={this.closeDrawerHandler}
 								langClicked={this.props.langClicked}
 								signInClicked={this.signInClickedHandler}
 								signUpClicked={this.signUpClickedHandler}
@@ -476,7 +499,8 @@ const mapStateToProps = state => {
 		isAuthorized: state.auth.token !== null,
 		isLoading: state.auth.loading,
 		isFormFlush: state.auth.formFlush,
-		hasError: state.auth.error
+		hasError: state.auth.error,
+		authAvatar: state.auth.avatar
 	};
 };
 const mapDispatchToProps = dispatch => {

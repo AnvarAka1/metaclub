@@ -8,7 +8,7 @@ import SecondImage from "../../assets/images/about/second.png";
 import HorizontalImages from "../../components/HorizontalImages/HorizontalImages";
 import Text from "../../components/UI/Text/Text";
 import ServerCards from "../../components/ServerCards/ServerCards";
-// import Calculator from "../../components/Calculator/Calculator";
+import Calculator from "../../components/Calculator/Calculator";
 import NewsItems from "../../components/NewsItems/NewsItems";
 import Hidden from "@material-ui/core/Hidden";
 import CopiedText from "../../components/CopiedText/CopiedText";
@@ -17,6 +17,8 @@ import axios from "../../axios-db";
 import Spinner from "../../components/Spinner/Spinner";
 import { connect } from "react-redux";
 class AboutPage extends Component {
+	_isMounted = false;
+	mhc = null;
 	state = {
 		news: null,
 		calculator: {
@@ -42,6 +44,7 @@ class AboutPage extends Component {
 		loading: true
 	};
 	componentDidMount() {
+		this._isMounted = true;
 		let calcCard = [
 			{
 				id: 0,
@@ -73,8 +76,10 @@ class AboutPage extends Component {
 		axios
 			.get("/articles/last3")
 			.then(res => {
-				const data = res;
-				this.setState({ news: data });
+				if (this._isMounted) {
+					// const data = res.data;
+					this.setState({ news: res });
+				}
 			})
 			.catch(err => {
 				console.log("Error ", err);
@@ -83,23 +88,30 @@ class AboutPage extends Component {
 			.get("/servers")
 			.then(res => {
 				serverCards = res.data;
-				return axios.get("https://api.kucoin.com/api/v1/prices");
-				// return ax.get("https://api.kucoin.com/api/v1/prices");
+				return axios.get("/calculator");
 			})
 			.then(res => {
-				this.currency(res.data.data);
-				for (let i = 0; i < calcCard.length; i++) {
-					calcCard[i].currency = this.currency(res.data.data);
+				if (this._isMounted) {
+					this.mhc = +res.data.data.MHC;
+					this.currency(res.data.data);
+					for (let i = 0; i < calcCard.length; i++) {
+						calcCard[i].currency = this.currency(res.data.data);
+					}
+					const calculator = {
+						...this.state.calculator,
+						calcCard: calcCard
+					};
+					if (this._isMounted) {
+						this.setState({ serverCards: serverCards, calculator: calculator, loading: false });
+					}
 				}
-				const calculator = {
-					...this.state.calculator,
-					calcCard: calcCard
-				};
-				this.setState({ serverCards: serverCards, calculator: calculator, loading: false });
 			})
 			.catch(err => {
 				console.log("Error ", err);
 			});
+	}
+	componentWillUnmount() {
+		this._isMounted = false;
 	}
 	componentDidUpdate() {
 		if (this.state.copied) {
@@ -108,6 +120,9 @@ class AboutPage extends Component {
 			}, 3000);
 		}
 	}
+	getCurrencyFromServer = () => {
+		// get usd value from state
+	};
 	currency = object => {
 		const array = [];
 		const keys = [ "MHC", "TUSD", "BTC", "ETH" ];
@@ -161,23 +176,30 @@ class AboutPage extends Component {
 	render() {
 		let serverCards = <Spinner />;
 		let news = <Spinner />;
-		// let calculator = <Spinner />;
+		let calculator = <Spinner />;
 		if (!this.state.loading) {
 			serverCards = this.state.serverCards && (
 				<ServerCards lang={this.props.lang} serverCards={this.state.serverCards} copied={this.copyHandler} />
 			);
 			news = this.state.news && (
-				<NewsItems articleClicked={this.articleHandler} noPag news={this.state.news} limit={3} />
+				<NewsItems
+					articleClicked={this.articleHandler}
+					lang={this.props.lang}
+					noPag
+					news={this.state.news}
+					limit={3}
+				/>
 			);
-			// calculator = this.state.calculator && (
-			// 	<Calculator
-			// 		lang={this.props.lang}
-			// 		calc={this.state.calculator}
-			// 		inputChanged={this.inputChangedHandler}
-			// 		rangeChanged={this.rangeChangeHandler}
-			// 		buttonClicked={this.buttonClickedHandler}
-			// 	/>
-			// );
+			calculator = this.state.calculator && (
+				<Calculator
+					mhc={this.mhc}
+					lang={this.props.lang}
+					calc={this.state.calculator}
+					inputChanged={this.inputChangedHandler}
+					rangeChanged={this.rangeChangeHandler}
+					buttonClicked={this.buttonClickedHandler}
+				/>
+			);
 		}
 		const content = {
 			first: {
@@ -195,7 +217,7 @@ class AboutPage extends Component {
 					"It is the fastest, most reliable and decentralized cryptocurrency in the world. By investing in and supporting the #MetaHash (MHC) decentralized network, you can earn money by delisting and forging your coins."
 				],
 
-				link: [ "Подробнее »", "More details »" ]
+				link: [ "Начать зарабатывать »", "Start earning »" ]
 			},
 			third: {
 				header: [ "Статистика серверов", "Server statistics" ]
@@ -237,7 +259,7 @@ class AboutPage extends Component {
 						<img src={SecondImage} alt="Metahash" />
 					</Grid>
 					<Grid item sm={5}>
-						<div>
+						<div id="metahash">
 							<Header h4 hasLine mb>
 								{content.second.header[this.props.lang]} <span className="accent">#MetaHash?</span>
 							</Header>
@@ -252,11 +274,11 @@ class AboutPage extends Component {
 						</div>
 					</Grid>
 					<Grid item xs={12}>
-						{/* {calculator} */}
+						<div id="calculator">{calculator}</div>
 					</Grid>
 					{/* SERVER CARDS */}
 					<Grid item xs={12}>
-						<div>
+						<div id="nodes">
 							<Header center normal h3 mtb>
 								{content.third.header[this.props.lang]}
 							</Header>
@@ -270,7 +292,7 @@ class AboutPage extends Component {
 					</Grid>
 					{/* NEWS */}
 					<Grid item xs={12}>
-						<div id="news">
+						<div id="articles">
 							<Header center h3 normal mtb>
 								{content.fourth.header[this.props.lang]}
 							</Header>
