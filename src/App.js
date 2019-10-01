@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route, Switch, Redirect, withRouter } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 // import Cookies from "universal-cookie";
 import Layout from "./containers/Layout/Layout";
 import AboutPage from "./containers/AboutPage/AboutPage";
@@ -15,6 +15,8 @@ import { connect } from "react-redux";
 import * as actions from "./store/actions/index";
 import ForgotPassPage from "./containers/ForgotPassPage/ForgotPassPage";
 import ResetPassPage from "./containers/ResetPassPage/ResetPassPage";
+import AgreementPage from "./containers/AgreementPage/AgreementPage";
+import GoogleAccount from "./containers/GoogleAccount/GoogleAccount";
 
 // const cookies = new Cookies();
 class App extends Component {
@@ -31,17 +33,20 @@ class App extends Component {
 		let routers = (
 			<Switch>
 				<Route path="/faq" component={FaqPage} />
-				<Route path="/about" component={AboutPage} />
+
 				<Route path="/articles/:id" component={ArticlePage} />
 				<Route path="/articles" component={ArticlesPage} />
 				<Route path="/users/:id" component={ProfilePage} />
 				<Route path="/mhc" component={MhcPage} />
 				<Route path="/contacts" component={ContactsPage} />
 				<Route path="/nodes" component={NodesPage} />
+				<Route path="/agreement" component={AgreementPage} />
+				<Route path="/googleaccount" component={GoogleAccount} />
 				{!this.props.isAuthorized && <Route path="/forgot" component={ForgotPassPage} />}
 				{!this.props.isAuthorized && <Route path="/newpassword" component={ResetPassPage} />}
 				{this.props.isAuthorized && <Route path="/settings" component={ProfileSettingsPage} />}
-				<Redirect from="*" to="/about" />
+				<Route path="/" component={AboutPage} />
+				<Redirect from="*" to="/" />
 			</Switch>
 		);
 
@@ -72,4 +77,4 @@ const mapDispatchToProps = dispatch => {
 		onLangChange: () => dispatch(actions.langChange())
 	};
 };
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default connect(mapStateToProps, mapDispatchToProps)(App);

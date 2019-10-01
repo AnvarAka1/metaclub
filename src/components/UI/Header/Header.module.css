@@ -73,6 +73,9 @@
 .Accent {
 	color: #796de8;
 }
+.Overflow {
+	overflow: hidden;
+}
 @media (max-width: 1290px) {
 	.Margin {
 		margin-top: 15px;

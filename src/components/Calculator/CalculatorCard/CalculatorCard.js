@@ -3,6 +3,7 @@ import classes from "./CalculatorCard.module.css";
 import Header from "../../UI/Header/Header";
 import Text from "../../UI/Text/Text";
 import Card from "../../UI/Card/Card";
+
 const calculatorCard = props => {
 	let currency = null;
 	if (props.currency)

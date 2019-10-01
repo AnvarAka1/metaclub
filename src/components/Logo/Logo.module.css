@@ -22,9 +22,11 @@
 	.Logo {
 		width: 100px;
 	}
+
 }
 @media (max-width: 400px) {
 	.Logo {
 		/* width: 70px; */
 	}
+	
 }

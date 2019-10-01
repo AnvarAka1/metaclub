@@ -5,12 +5,15 @@ import Grid from "../../components/Grid/Grid";
 import axios from "../../axios-db";
 import Spinner from "../../components/Spinner/Spinner";
 import { connect } from "react-redux";
+import Banner from "../../components/Banner/Banner";
+import Img from "../../assets/images/banner/banner.jpg";
 export class ProfilePage extends Component {
 	state = {
 		profile: null,
 		articles: null,
 		lang: 0,
-		loading: true
+		loading: true,
+		banner: null
 	};
 
 	componentDidMount() {
@@ -35,6 +38,12 @@ export class ProfilePage extends Component {
 			.catch(err => {
 				console.log(err);
 			});
+		axios
+			.get("/banner")
+			.then(res => {
+				this.setState({ banner: res.data });
+			})
+			.catch(err => console.log(err));
 	}
 	articleHandler = (event, id) => {
 		event.preventDefault();
@@ -49,6 +58,12 @@ export class ProfilePage extends Component {
 		});
 	};
 	render() {
+		const banner1 = {
+			link: "http://hello.html",
+			src: Img,
+			title: "Title"
+		};
+		let banner = this.state.banner ? <Banner banner={this.state.banner} /> : <Banner banner={banner1} />;
 		let profile = <Spinner />;
 		let articles = <Spinner />;
 		if (!this.state.loading) {
@@ -70,6 +85,7 @@ export class ProfilePage extends Component {
 					<Grid container con="true" spacing={5}>
 						<Grid item sm={5} md={3} xs={12}>
 							{profile}
+							{banner}
 						</Grid>
 						<Grid item md={8} sm={7} xs={12}>
 							<Grid container spacing={5}>

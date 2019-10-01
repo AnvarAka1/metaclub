@@ -1,17 +1,20 @@
 import React, { Component } from "react";
 import Grid from "../../components/Grid/Grid";
-import MainImage from "../../components/MainImage/MainImage";
+// import MainImage from "../../components/MainImage/MainImage";
 import Header from "../../components/UI/Header/Header";
 // import Text from "../../components/UI/Text/Text";
 import ProfileCard from "../../components/Profile/ProfileCard/ProfileCard";
 import Comments from "../../components/Comments/Comments";
 import Paper from "../../components/UI/Paper/Paper";
 import axios from "../../axios-db";
-import Spinner from "../../components/Spinner/Spinner";
+// import Spinner from "../../components/Spinner/Spinner";
 import { connect } from "react-redux";
-import ReactHtmlParser from "react-html-parser";
+// import ReactHtmlParser from "react-html-parser";
 import localIpUrl from "local-ip-url";
 import Hidden from "@material-ui/core/Hidden";
+import Content from "../../components/Content/Content";
+import Banner from "../../components/Banner/Banner";
+import Img from "../../assets/images/banner/banner.jpg";
 
 export class ArticlePage extends Component {
 	state = {
@@ -30,7 +33,8 @@ export class ArticlePage extends Component {
 		article: null,
 		comments: null,
 		lang: 0,
-		loading: true
+		loading: true,
+		banner: null
 	};
 
 	componentDidMount() {
@@ -69,6 +73,12 @@ export class ArticlePage extends Component {
 			.catch(err => {
 				console.log("Error ", err);
 			});
+		axios
+			.get("/banner")
+			.then(res => {
+				this.setState({ banner: res.data });
+			})
+			.catch(err => console.log(err));
 	}
 
 	commentHandler = (event, id) => {
@@ -85,7 +95,7 @@ export class ArticlePage extends Component {
 		axios
 			.post("/articles/comments/create", data, {
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem("token")}`
+					Authorization: `${localStorage.getItem("token")}`
 				}
 			})
 			.then(res => {
@@ -117,21 +127,27 @@ export class ArticlePage extends Component {
 		window.scrollTo({ top: "0" });
 	};
 	render() {
-		let image = <Spinner />;
+		// let image = <Spinner />;
+		const banner1 = {
+			link: "http://hello.html",
+			src: Img,
+			title: "Title"
+		};
+		let banner = this.state.banner ? <Banner banner={this.state.banner} /> : <Banner banner={banner1} />;
 		let article = null;
 		let profile = null;
 		let comments = null;
 		if (!this.state.loading) {
-			image = this.state.article && (
-				<MainImage src={`${this.state.article.image}`} alt={this.state.article.title} />
-			);
+			// image = this.state.article && (
+			// 	<MainImage src={`${this.state.article.image}`} alt={this.state.article.title} />
+			// );
 			article = this.state.article && (
 				<Paper blank article>
 					<Header color="#333" mb h2>
 						{this.state.article.title}
 					</Header>
 					<Header h5 normal headerStyle={{ lineHeight: "40px" }}>
-						{ReactHtmlParser(this.state.article.body)}
+						<Content body={this.state.article.body} />
 					</Header>
 				</Paper>
 			);
@@ -157,9 +173,9 @@ export class ArticlePage extends Component {
 		}
 		return (
 			<React.Fragment>
-				<Grid container mbbig="true">
+				{/* <Grid container mbbig="true">
 					{image}
-				</Grid>
+				</Grid> */}
 				<Grid container con="true" spacing={5}>
 					<Hidden smDown>
 						<Grid item sm={1} />
@@ -170,6 +186,7 @@ export class ArticlePage extends Component {
 					</Grid>
 					<Grid item sm={4} md={3} xs={12}>
 						{profile}
+						{banner}
 					</Grid>
 					<Hidden smDown>
 						<Grid item sm={1} />

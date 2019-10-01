@@ -8,6 +8,7 @@ import Modal from "../../components/Modal/Modal";
 import SignForm from "../../components/SignForm/SignForm";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
+// import axios from "../../axios-db";
 // import Spinner from "../../components/Spinner/Spinner";
 
 class Layout extends Component {
@@ -255,6 +256,7 @@ class Layout extends Component {
 			this.props.onFormFlush();
 		}
 	}
+
 	formSubmitHandler = event => {
 		event.preventDefault();
 		const { upName, upEmail, upFpassword } = this.state.signUp;
@@ -429,12 +431,17 @@ class Layout extends Component {
 			});
 		}
 	};
+	googleClickedHanlder = () => {};
 
+	responseGoogle = response => {
+		console.log(response);
+	};
 	render() {
 		const form = this.formLang();
 		const modal = this.state.isModalOpened && (
 			<Modal opened={this.state.isModalOpened} backdropClicked={this.backdropHandler}>
 				<SignForm
+					responseGoogle={this.responseGoogle}
 					imageError={this.state.imageError}
 					modalClosed={this.backdropHandler}
 					errorMessage={this.props.hasError}

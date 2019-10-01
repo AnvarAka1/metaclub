@@ -17,7 +17,7 @@ const range = props => {
 					}}
 					className={[ classes.Box, classes.Left ].join(" ")}
 				>
-					{props.elementConfig.value} USD = {props.mhc * props.elementConfig.value} MHC
+					{props.elementConfig.value} MHC = {props.mhc * props.elementConfig.value} USD
 				</div>
 				{/* <div style={{ background: "#D6D6D6" }} className={[ classes.Box, classes.Right ].join(" ")}>
 					{props.maxValue} USD = {props.mhc * props.maxValue} MHC

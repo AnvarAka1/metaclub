@@ -56,6 +56,7 @@ export const auth = (name, email, password, avatar, position, isSignIn) => {
 		formData.append("email", email);
 		formData.append("name", name);
 		formData.append("password", password);
+		console.log("pass", password);
 		formData.append("returnSecureToken", true);
 		// for (var pair of formData.entries()) {
 		// 	console.log(pair[0] + ", " + pair[1]);
@@ -71,23 +72,20 @@ export const auth = (name, email, password, avatar, position, isSignIn) => {
 				message = response.data.message;
 				const data = response.data.auth;
 				const userData = response.data.user;
+				console.log(data.expires_in);
 				// expiration date in milliseconds
 				const expirationDate = new Date(new Date().getTime() + data.expires_in * 1000);
 				// need to save TO THE CACHE instead of localStorage
-				localStorage.setItem("token", data.access_token);
+
+				console.log(data);
+				console.log(data.provider_id);
+				const token = userData.provider_id ? data.access_token : "Bearer " + data.access_token;
+				console.log(token);
+				localStorage.setItem("token", token);
 				localStorage.setItem("expirationDate", expirationDate);
 				localStorage.setItem("id", userData.id);
 				dispatch(
-					authSuccess(
-						data.access_token,
-						userData.id,
-						userData.role,
-						email,
-						name,
-						userData.avatar,
-						position,
-						password
-					)
+					authSuccess(token, userData.id, userData.role, email, name, userData.avatar, position, password)
 				);
 				dispatch(checkAuthTimeout(data.expires_in));
 				if (response.data.status === "error") dispatch(authFail(response.data.message));

@@ -15,13 +15,15 @@ const footer = props => {
 							{"MetaHash"}
 						</Header>
 					</Grid> */}
-					<Grid item sm={8}>
+					<Grid item sm={8} xs={12}>
+						<div className={classes.Logo}>
 						<Logo />
+						</div>
 					</Grid>
 					<Hidden xsDown>
 						<Grid item sm={1} />
 					</Hidden>
-					<Grid item sm={2} xs={12}>
+					<Grid item sm={3} md={2} xs={12}>
 						<Social />
 					</Grid>
 					<Grid item xs={12}>

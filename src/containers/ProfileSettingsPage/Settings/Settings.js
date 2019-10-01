@@ -297,7 +297,7 @@ export class Settings extends Component {
 		axios
 			.post("/users", formData, {
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem("token")}`
+					Authorization: `${localStorage.getItem("token")}`
 				}
 			})
 			.then(res => {

@@ -49,7 +49,7 @@ const newsItem = props => {
 					</div>
 				</div>
 				<NavLink to={`/articles/${props.id}`}>
-					<Header h4 thin headerStyle={{ color: "#333333", lineHeight: "28px" }} mtb>
+					<Header h4 overflow thin headerStyle={{ color: "#333333", lineHeight: "28px" }} mtb>
 						{props.title}
 					</Header>
 					<span className={[ classes.Link, "accent" ].join(" ")}>{content.link[props.lang]} »</span>

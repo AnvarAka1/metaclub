@@ -8,8 +8,8 @@ const serverCard = props => {
 	const { lang } = props;
 	const content = {
 		region: [ "Регион", "Region" ],
-		role: [ "Роль нода", "Node role" ],
-		roi: [ "ROI Нода", "Node ROI" ],
+		role: [ "Роль", "Role" ],
+		roi: [ "ROI", "ROI" ],
 		delegators: [ "Основан из делегатов", "Founded from delegators" ]
 	};
 	return (
@@ -58,13 +58,13 @@ const serverCard = props => {
 
 						<td>
 							<Header h5 light>
-								{node_roi} #MHC
+								{node_roi}
 							</Header>
 						</td>
 
 						<td>
 							<Header h5 light>
-								{capitalization} #MHC
+								{capitalization}
 							</Header>
 						</td>
 					</tr>

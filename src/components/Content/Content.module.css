@@ -1,0 +1,31 @@
+.Content {
+	position: relative;
+}
+
+.Content h1,
+.Content h2,
+.Content h3,
+.Content h4,
+.Content h5,
+.Content h6 {
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+.Content h1 {
+}
+.Content h2 {
+}
+.Content h3 {
+}
+.Content h4 {
+}
+.Content h5 {
+}
+.Content h6 {
+}
+.Content p {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+.Content img {
+}

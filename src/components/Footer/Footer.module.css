@@ -12,4 +12,17 @@
     .Footer {
         padding: 30px 15px 15px
     }
+    .Logo img{
+        display: inline-block;
+        width: 170px
+    }
+}
+@media (max-width: 600px) {
+    .Logo{
+        text-align: center
+    }
+    .Logo img{
+        display: inline-block;
+        width: 150px
+    }
 }

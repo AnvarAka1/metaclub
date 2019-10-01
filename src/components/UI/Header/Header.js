@@ -20,7 +20,8 @@ const header = props => {
 		props.mb ? classes.MarginBottom : null,
 		props.mbBig ? classes.MarginBottomBig : null,
 		props.pb ? classes.PaddingBottom : null,
-		props.center ? classes.Center : null
+		props.center ? classes.Center : null,
+		props.overflow && classes.Overflow
 	];
 	const headerStyle = {
 		...props.headerStyle,

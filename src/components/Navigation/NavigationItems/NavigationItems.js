@@ -71,21 +71,20 @@ const navigationItems = props => {
 			</li>
 		);
 
-	const rightNav = props.vertical ? (
-		<Hidden mdUp>
-			<li style={{ flexFlow: "row", justifyContent: "center" }} className={classes.Buttons}>
-				{button}
-				{/* Language selector */}
-				<LangSelect lang={props.lang} langClicked={props.langClicked} />
-			</li>
-		</Hidden>
-	) : (
+	const rightNav = props.vertical ? // <Hidden mdUp>
+	// 	<li style={{ flexFlow: "row", justifyContent: "center" }} className={classes.Buttons}>
+	// 		{button}
+	// 		{/* Language selector */}
+	// 		<LangSelect lang={props.lang} langClicked={props.langClicked} />
+	// 	</li>
+	// </Hidden>
+	null : (
 		<li className={classes.Buttons}>
-			<Hidden smDown>
-				{button}
-				{/* Language selector */}
-				<LangSelect lang={props.lang} langClicked={props.langClicked} />
-			</Hidden>
+			{/* <Hidden smDown> */}
+			{button}
+			{/* Language selector */}
+			<LangSelect lang={props.lang} langClicked={props.langClicked} />
+			{/* </Hidden> */}
 			<Hidden mdUp>
 				<Hamburger clicked={props.drawerOpened} />
 			</Hidden>
@@ -123,18 +122,18 @@ const languageSelect = props => {
 		nav: [
 			{
 				title: [ "О проекте", "About Project", "UzAbout Project" ],
-				link: "/about"
+				link: "/"
 			},
 			{
 				title: [ "Как зарабатывать MHC?", "How to earn MHC?", "UzHow to get paid" ],
-				link: "/about#metahash"
+				link: "/#metahash"
 			},
 			{
 				title: [ "Калькулятор", "Calculator", "UzUzCalculator" ],
-				link: "/about#calculator"
+				link: "/#calculator"
 			},
-			{ title: [ "Ноды", "Nodes", "UzNodes" ], link: "/about#nodes" },
-			{ title: [ "Блог", "Blog", "UzArticles" ], link: "/about#articles" },
+			{ title: [ "Ноды", "Nodes", "UzNodes" ], link: "/#nodes" },
+			{ title: [ "Блог", "Blog", "UzArticles" ], link: "/#articles" },
 			{ title: [ "F.A.Q", "F.A.Q", "UzF.A.Q" ], link: "/faq" },
 			{ title: [ "Контакты", "Contacts", "UzContacts" ], link: "/contacts" }
 		],

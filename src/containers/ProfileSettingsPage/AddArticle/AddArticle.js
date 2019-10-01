@@ -99,7 +99,7 @@ export class AddArticle extends Component {
 		axios
 			.post("/articles/create", formData, {
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem("token")}`
+					Authorization: `${localStorage.getItem("token")}`
 				}
 			})
 			.then(res => {

@@ -60,7 +60,7 @@ export class Articles extends Component {
 		axios
 			.get("/articles/user", {
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem("token")}`
+					Authorization: `${localStorage.getItem("token")}`
 				}
 			})
 			.then(res => {
@@ -72,7 +72,8 @@ export class Articles extends Component {
 		axios
 			.get(`/articles/user?page=${id}`, {
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem("token")}`
+					Authorization: `${localStorage.getItem("token")}`
+					// provider_id: localStorage.getItem("provider_id")
 				}
 			})
 			.then(res => {
@@ -133,14 +134,14 @@ export class Articles extends Component {
 		axios
 			.delete(`/articles/${this.id}`, {
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem("token")}`
+					Authorization: `${localStorage.getItem("token")}`
 				}
 			})
 			.then(res => {
 				this.id = null;
 				return axios.get("/articles/user", {
 					headers: {
-						Authorization: `Bearer ${localStorage.getItem("token")}`
+						Authorization: `${localStorage.getItem("token")}`
 					}
 				});
 			})
@@ -184,7 +185,7 @@ export class Articles extends Component {
 		axios
 			.post(`/articles/${this.id}`, formData, {
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem("token")}`
+					Authorization: `${localStorage.getItem("token")}`
 				}
 			})
 			.then(res => {
@@ -192,7 +193,7 @@ export class Articles extends Component {
 				this.setState({ sent: true, loading: true });
 				return axios.get("/articles/user", {
 					headers: {
-						Authorization: `Bearer ${localStorage.getItem("token")}`
+						Authorization: `${localStorage.getItem("token")}`
 					}
 				});
 			})

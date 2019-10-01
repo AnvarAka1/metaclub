@@ -42,9 +42,9 @@ export class ProfileSettingsPage extends Component {
 			header: [ "Настройки", "Settings" ]
 		};
 		const buttons = [
-			{ id: 0, title: [ "Информация", "Information" ] },
-			{ id: 1, title: [ "Статьи", "Articles" ] },
-			{ id: 2, title: [ "Добавить статью", "Add article" ] }
+			{ id: 0, title: [ "Добавить статью", "Add article" ] },
+			{ id: 1, title: [ "Публикации", "Publications" ] },
+			{ id: 2, title: [ "Настройки", "Settings" ] }
 		];
 		const paths = buttons.map(button => {
 			return `${this.props.match.path}/${button.id}`;
@@ -77,8 +77,8 @@ export class ProfileSettingsPage extends Component {
 
 					<Switch>
 						<Route path={paths[1]} component={Articles} />
-						<Route path={paths[2]} component={AddArticle} />
-						<Route path={`${this.props.match.path}/`} component={Settings} />
+						<Route path={paths[2]} component={Settings} />
+						<Route path={`${this.props.match.path}/`} component={AddArticle} />
 					</Switch>
 				</Grid>
 			</Grid>

@@ -120,6 +120,7 @@ class AboutPage extends Component {
 			}, 3000);
 		}
 	}
+
 	getCurrencyFromServer = () => {
 		// get usd value from state
 	};
@@ -127,10 +128,14 @@ class AboutPage extends Component {
 		const array = [];
 		const keys = [ "MHC", "TUSD", "BTC", "ETH" ];
 		for (let i = 0; i < keys.length; i++) {
-			array.push({ key: keys[i], value: object[keys[i]] });
+			array.push({ key: keys[i], value: this.roundUp(object[keys[i]], 4) });
 		}
 		return array;
 	};
+	roundUp(num, precision) {
+		precision = Math.pow(10, precision);
+		return Math.ceil(num * precision) / precision;
+	}
 	rangeChangeHandlerTest = event => {
 		const value = event.target.value;
 		const calculator = { ...this.state.calculator };

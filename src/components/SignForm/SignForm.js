@@ -8,6 +8,7 @@ import Input from "../UI/Input/Input";
 import Spinner from "../Spinner/Spinner";
 import GoogleIcon from "../../assets/images/icons/google.png";
 import { NavLink } from "react-router-dom";
+// import GoogleLogin from "react-google-login";
 const signForm = props => {
 	const { isSignIn, signIn, signUp, lang } = props;
 	const content = {
@@ -19,7 +20,8 @@ const signForm = props => {
 		signInBtn: [ "Войти", "Sign in" ],
 		signUpBtn: [ "Зарегистрироваться", "Sign up" ],
 		message: [ "Выберите себе аватарку", "Choose your avatar" ],
-		alternativeHeader: [ "Либо войдите с помощью", "Or login with" ]
+		alternativeHeader: [ "Либо войдите с помощью", "Or login with" ],
+		agreement: [ "Условия пользовательского соглашения", "Terms of use agreement" ]
 	};
 	let sign = [];
 	sign = isSignIn ? signIn.slice() : signUp.slice();
@@ -47,16 +49,41 @@ const signForm = props => {
 	);
 	const socialLinks = (
 		<React.Fragment>
-			<Button flex white wide clicked={props.googleClicked} flatten>
-				<img src={GoogleIcon} className={classes.Google} alt="Google" />Google
-			</Button>
+			<a target="_blank" rel="noopener noreferrer" href={"http://api.metaclub.org/login/google"}>
+				<Button flex white wide clicked={props.googleClicked} flatten>
+					<img src={GoogleIcon} className={classes.Google} alt="Google" />Google
+				</Button>
+			</a>
 		</React.Fragment>
 	);
+	// const socialLinks1 = (
+	// 	<React.Fragment>
+	// 		{/* <GoogleLogin
+	// 			// clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+	// 			clientId="577775945538-b8slg5r441le79hi2606hm6gqh8a4sis.apps.googleusercontent.com"
+	// 			buttonText="Google"
+	// 			onSuccess={responseGoogle}
+	// 			onFailure={responseGoogle}
+	// 			cookiePolicy={"single_host_origin"}
+	// 		/> */}
+	// 	</React.Fragment>
+	// );
+	const beforeCheckboxes = sign.length - 3;
+	const agreement = !isSignIn && (
+		<Grid item xs={12}>
+			<a href="/agreement" rel="noopener noreferrer" target="_blank">
+				<Header mt color="#7146ce" h6>
+					{content.agreement[props.lang]}
+				</Header>
+			</a>
+		</Grid>
+	);
 	if (!props.loading) {
-		signForm = sign.map(sign => {
+		signForm = sign.map((sign, index) => {
 			return (
 				<Grid item key={sign.key} {...sign.elementConfig.grid}>
 					<Input changed={event => props.inputChanged(event, sign.key)} elementConfig={sign.elementConfig} />
+					{index === beforeCheckboxes && agreement}
 				</Grid>
 			);
 		});
@@ -93,6 +120,7 @@ const signForm = props => {
 			</Header>
 		</Grid>
 	) : null;
+
 	return (
 		<div className={classes.SignForm}>
 			<div className={classes.Buttons}>

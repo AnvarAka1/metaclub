@@ -5,7 +5,8 @@ import NewsItems from "../../components/NewsItems/NewsItems";
 import axios from "../../axios-db";
 import Spinner from "../../components/Spinner/Spinner";
 import { connect } from "react-redux";
-
+import Banner from "../../components/Banner/Banner";
+import Img from "../../assets/images/banner/banner.jpg";
 export class ArticlesPage extends Component {
 	catPagination = false;
 	catNumber = -1;
@@ -20,10 +21,12 @@ export class ArticlesPage extends Component {
 			}
 		],
 		articles: null,
-		loading: true
+		loading: true,
+		banner: null
 	};
 	componentDidMount() {
 		let totalArticles = null;
+
 		axios
 			.get("/articles")
 			.then(res => {
@@ -47,6 +50,12 @@ export class ArticlesPage extends Component {
 			.catch(err => {
 				console.log("Error ", err);
 			});
+		axios
+			.get("/banner")
+			.then(res => {
+				this.setState({ banner: res.data });
+			})
+			.catch(err => console.log(err));
 	}
 	categoryHandler = (event, id) => {
 		let cats = this.state.menu.slice();
@@ -75,7 +84,9 @@ export class ArticlesPage extends Component {
 				this.pagination = res.data.first_page_url;
 				this.setState({ articles: res.data });
 			})
-			.catch(err => console.log(err));
+			.catch(err => {
+				console.log(err);
+			});
 	};
 	articleHandler = (event, id) => {
 		event.preventDefault();
@@ -91,6 +102,12 @@ export class ArticlesPage extends Component {
 		});
 	};
 	render() {
+		const banner1 = {
+			link: "http://hello.html",
+			src: Img,
+			title: "Title"
+		};
+		let banner = this.state.banner ? <Banner banner={this.state.banner} /> : <Banner banner={banner1} />;
 		let newsItems = <Spinner />;
 		let menu = <Spinner />;
 		if (!this.state.loading) {
@@ -114,6 +131,7 @@ export class ArticlesPage extends Component {
 					<Grid container spacing={5}>
 						<Grid item sm={3} xs={12}>
 							{menu}
+							{banner}
 						</Grid>
 						<Grid item md={9} sm={9} xs={12}>
 							<Grid container spacing={3}>
