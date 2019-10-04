@@ -5,7 +5,7 @@ import * as actions from "../../store/actions/index";
 export class GoogleAccount extends Component {
 	componentDidMount() {
 		const query = queryString.parse(this.props.location.search);
-		console.log(query);
+		// console.log(query);
 		this.props.onAuth(query.name, query.email, null, null, null, true);
 	}
 	render() {

@@ -46,7 +46,7 @@ export class ArticlePage extends Component {
 		axios
 			.get(`/articles/${id}`)
 			.then(res => {
-				console.log(res.data);
+				// console.log(res.data);
 				article = res.data;
 				return axios.get(`/users/${res.data.user_id}`);
 			})
@@ -68,7 +68,7 @@ export class ArticlePage extends Component {
 				return axios.post(`/articles/view/create`, formData);
 			})
 			.then(res => {
-				console.log(res);
+				// console.log(res);
 			})
 			.catch(err => {
 				console.log("Error ", err);

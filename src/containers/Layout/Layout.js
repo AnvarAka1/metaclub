@@ -9,6 +9,7 @@ import SignForm from "../../components/SignForm/SignForm";
 import { connect } from "react-redux";
 import * as actions from "../../store/actions/index";
 // import axios from "../../axios-db";
+
 // import Spinner from "../../components/Spinner/Spinner";
 
 class Layout extends Component {
@@ -431,10 +432,13 @@ class Layout extends Component {
 			});
 		}
 	};
-	googleClickedHanlder = () => {};
 
-	responseGoogle = response => {
-		console.log(response);
+	responseGoogle = res => {
+		// console.log(res);
+		const userData = res.profileObj;
+		// const el = res.El;
+		const googleId = res.googleId;
+		this.props.onAuthGoogle(userData.givenName, userData.email, googleId);
 	};
 	render() {
 		const form = this.formLang();
@@ -514,6 +518,7 @@ const mapDispatchToProps = dispatch => {
 	return {
 		onAuth: (name, email, password, avatar, position, isSignup) =>
 			dispatch(actions.auth(name, email, password, avatar, position, isSignup)),
+		onAuthGoogle: (name, email, password) => dispatch(actions.authGoogle(name, email, password)),
 		onLogout: () => dispatch(actions.logout()),
 		onFormFlush: () => dispatch(actions.authFormFlush())
 	};

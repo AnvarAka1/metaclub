@@ -20,3 +20,8 @@
 	width: 18px;
 	margin-right: 6px;
 }
+.GoogleButton {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}

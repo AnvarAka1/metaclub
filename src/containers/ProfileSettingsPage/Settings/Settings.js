@@ -302,7 +302,7 @@ export class Settings extends Component {
 			})
 			.then(res => {
 				this.setState({ sent: true, isUpdating: false });
-				console.log(res.data);
+				// console.log(res.data);
 			})
 			.catch(err => {
 				console.log(err);

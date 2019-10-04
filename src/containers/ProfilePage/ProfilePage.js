@@ -31,7 +31,7 @@ export class ProfilePage extends Component {
 				return axios.get(`/articles/user/${profile.id}`);
 			})
 			.then(res => {
-				console.log(res.data);
+				// console.log(res.data);
 				articles = res.data;
 				this.setState({ profile: profile, articles: articles, loading: false });
 			})
@@ -52,7 +52,7 @@ export class ProfilePage extends Component {
 	};
 	pageClickHandler = (event, id) => {
 		event.preventDefault();
-		console.log(this.props.match.params.id);
+		// console.log(this.props.match.params.id);
 		axios.get(`/articles/user/${this.props.match.params.id}?page=${id}`).then(res => {
 			this.setState({ articles: res.data });
 		});

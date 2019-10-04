@@ -38,7 +38,7 @@ const comments = props => {
 		<div className={classes.Comments}>
 			{leaveComment}
 			<Paper blank comment>
-				{console.log("comments: ", comments)}
+				{/* {console.log("comments: ", comments)} */}
 				{comments.length ? comments : <Text mt>{content.noComments[props.lang]}</Text>}
 			</Paper>
 		</div>

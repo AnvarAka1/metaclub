@@ -6,9 +6,9 @@ import Button from "../UI/Button/Button";
 import Header from "../UI/Header/Header";
 import Input from "../UI/Input/Input";
 import Spinner from "../Spinner/Spinner";
-import GoogleIcon from "../../assets/images/icons/google.png";
+// import GoogleIcon from "../../assets/images/icons/google.png";
 import { NavLink } from "react-router-dom";
-// import GoogleLogin from "react-google-login";
+import GoogleLogin from "react-google-login";
 const signForm = props => {
 	const { isSignIn, signIn, signUp, lang } = props;
 	const content = {
@@ -47,27 +47,28 @@ const signForm = props => {
 			<Spinner />
 		</Grid>
 	);
-	const socialLinks = (
-		<React.Fragment>
-			<a target="_blank" rel="noopener noreferrer" href={"http://api.metaclub.org/login/google"}>
-				<Button flex white wide clicked={props.googleClicked} flatten>
-					<img src={GoogleIcon} className={classes.Google} alt="Google" />Google
-				</Button>
-			</a>
-		</React.Fragment>
-	);
 	// const socialLinks1 = (
 	// 	<React.Fragment>
-	// 		{/* <GoogleLogin
-	// 			// clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
-	// 			clientId="577775945538-b8slg5r441le79hi2606hm6gqh8a4sis.apps.googleusercontent.com"
-	// 			buttonText="Google"
-	// 			onSuccess={responseGoogle}
-	// 			onFailure={responseGoogle}
-	// 			cookiePolicy={"single_host_origin"}
-	// 		/> */}
+	// 		<a target="_blank" rel="noopener noreferrer" href={"http://api.metaclub.org/login/google"}>
+	// 			<Button flex white wide clicked={props.googleClicked} flatten>
+	// 				<img src={GoogleIcon} className={classes.Google} alt="Google" />Google
+	// 			</Button>
+	// 		</a>
 	// 	</React.Fragment>
 	// );
+	const socialLinks = (
+		<React.Fragment>
+			<GoogleLogin
+				className={classes.GoogleButton}
+				// clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+				clientId="577775945538-b8slg5r441le79hi2606hm6gqh8a4sis.apps.googleusercontent.com"
+				buttonText="Google"
+				onSuccess={props.responseGoogle}
+				onFailure={props.responseGoogle}
+				cookiePolicy={"single_host_origin"}
+			/>
+		</React.Fragment>
+	);
 	const beforeCheckboxes = sign.length - 3;
 	const agreement = !isSignIn && (
 		<Grid item xs={12}>

@@ -56,7 +56,7 @@ export const auth = (name, email, password, avatar, position, isSignIn) => {
 		formData.append("email", email);
 		formData.append("name", name);
 		formData.append("password", password);
-		console.log("pass", password);
+		// console.log("pass", password);
 		formData.append("returnSecureToken", true);
 		// for (var pair of formData.entries()) {
 		// 	console.log(pair[0] + ", " + pair[1]);
@@ -68,24 +68,77 @@ export const auth = (name, email, password, avatar, position, isSignIn) => {
 			.post(urls[+isSignIn], formData)
 			.then(response => {
 				// responseHolder = response;
-				console.log(response);
+				// console.log(response);
 				message = response.data.message;
 				const data = response.data.auth;
 				const userData = response.data.user;
-				console.log(data.expires_in);
+				// console.log(data.expires_in);
 				// expiration date in milliseconds
 				const expirationDate = new Date(new Date().getTime() + data.expires_in * 1000);
 				// need to save TO THE CACHE instead of localStorage
 
-				console.log(data);
-				console.log(data.provider_id);
+				// console.log(data);
+				// console.log(data.provider_id);
 				const token = userData.provider_id ? data.access_token : "Bearer " + data.access_token;
-				console.log(token);
+				// console.log(token);
 				localStorage.setItem("token", token);
 				localStorage.setItem("expirationDate", expirationDate);
 				localStorage.setItem("id", userData.id);
 				dispatch(
 					authSuccess(token, userData.id, userData.role, email, name, userData.avatar, position, password)
+				);
+				dispatch(checkAuthTimeout(data.expires_in));
+				if (response.data.status === "error") dispatch(authFail(response.data.message));
+			})
+			.catch(error => {
+				console.log(error);
+				dispatch(authFail(message));
+			});
+	};
+};
+export const authGoogle = (name, email, password) => {
+	email = email.trim();
+	name = name.trim();
+	return dispatch => {
+		// clear error
+		dispatch(authStart());
+		let formData = new FormData();
+		formData.append("email", email);
+		formData.append("name", name);
+		formData.append("password", password);
+		formData.append("returnSecureToken", true);
+		const url = "/login/google";
+		let message = null;
+		axios
+			.post(url, formData)
+			.then(response => {
+				// console.log(response);
+				message = response.data.message;
+				const data = response.data.auth;
+				const userData = response.data.user;
+				// console.log(data.expires_in);
+				// expiration date in milliseconds
+				const expirationDate = new Date(new Date().getTime() + data.expires_in * 1000);
+				// need to save TO THE CACHE instead of localStorage
+
+				// console.log(data);
+				// console.log(data.provider_id);
+				const token = userData.provider_id ? data.access_token : "Bearer " + data.access_token;
+				// console.log(token);
+				localStorage.setItem("token", token);
+				localStorage.setItem("expirationDate", expirationDate);
+				localStorage.setItem("id", userData.id);
+				dispatch(
+					authSuccess(
+						token,
+						userData.id,
+						userData.role,
+						email,
+						name,
+						userData.avatar,
+						userData.position,
+						password
+					)
 				);
 				dispatch(checkAuthTimeout(data.expires_in));
 				if (response.data.status === "error") dispatch(authFail(response.data.message));
@@ -114,7 +167,7 @@ export const authCheckState = () => {
 			.get(`/users/${id}`)
 			.then(res => {
 				avatar = res.data.avatar;
-				console.log(avatar + "sss");
+				// console.log(avatar + "sss");
 				if (!token) {
 					dispatch(logout());
 				} else {

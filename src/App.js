@@ -16,9 +16,7 @@ import * as actions from "./store/actions/index";
 import ForgotPassPage from "./containers/ForgotPassPage/ForgotPassPage";
 import ResetPassPage from "./containers/ResetPassPage/ResetPassPage";
 import AgreementPage from "./containers/AgreementPage/AgreementPage";
-import GoogleAccount from "./containers/GoogleAccount/GoogleAccount";
 
-// const cookies = new Cookies();
 class App extends Component {
 	constructor(props) {
 		super(props);
@@ -41,7 +39,6 @@ class App extends Component {
 				<Route path="/contacts" component={ContactsPage} />
 				<Route path="/nodes" component={NodesPage} />
 				<Route path="/agreement" component={AgreementPage} />
-				<Route path="/googleaccount" component={GoogleAccount} />
 				{!this.props.isAuthorized && <Route path="/forgot" component={ForgotPassPage} />}
 				{!this.props.isAuthorized && <Route path="/newpassword" component={ResetPassPage} />}
 				{this.props.isAuthorized && <Route path="/settings" component={ProfileSettingsPage} />}
