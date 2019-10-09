@@ -14,7 +14,6 @@ import localIpUrl from "local-ip-url";
 import Hidden from "@material-ui/core/Hidden";
 import Content from "../../components/Content/Content";
 import Banner from "../../components/Banner/Banner";
-import Img from "../../assets/images/banner/banner.jpg";
 
 export class ArticlePage extends Component {
 	state = {
@@ -34,7 +33,8 @@ export class ArticlePage extends Component {
 		comments: null,
 		lang: 0,
 		loading: true,
-		banner: null
+		banner: null,
+		bannerLoading: true
 	};
 
 	componentDidMount() {
@@ -73,10 +73,11 @@ export class ArticlePage extends Component {
 			.catch(err => {
 				console.log("Error ", err);
 			});
+		this.setState({ bannerLoading: true });
 		axios
 			.get("/banner")
 			.then(res => {
-				this.setState({ banner: res.data });
+				this.setState({ banner: res.data, bannerLoading: false });
 			})
 			.catch(err => console.log(err));
 	}
@@ -127,13 +128,10 @@ export class ArticlePage extends Component {
 		window.scrollTo({ top: "0" });
 	};
 	render() {
-		// let image = <Spinner />;
-		const banner1 = {
-			link: "http://hello.html",
-			src: Img,
-			title: "Title"
-		};
-		let banner = this.state.banner ? <Banner banner={this.state.banner} /> : <Banner banner={banner1} />;
+		let banner = null;
+		if (!this.state.bannerLoading) {
+			banner = <Banner banner={this.state.banner} />;
+		}
 		let article = null;
 		let profile = null;
 		let comments = null;

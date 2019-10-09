@@ -23,8 +23,7 @@ export class ForgotPassPage extends Component {
 				},
 				validation: {
 					required: true,
-					minChar: 6,
-					maxChar: 20
+					minChar: 6
 				},
 				isValid: false,
 				errMessage: "",

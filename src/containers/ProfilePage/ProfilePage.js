@@ -6,14 +6,14 @@ import axios from "../../axios-db";
 import Spinner from "../../components/Spinner/Spinner";
 import { connect } from "react-redux";
 import Banner from "../../components/Banner/Banner";
-import Img from "../../assets/images/banner/banner.jpg";
 export class ProfilePage extends Component {
 	state = {
 		profile: null,
 		articles: null,
 		lang: 0,
 		loading: true,
-		banner: null
+		banner: null,
+		bannerLoading: true
 	};
 
 	componentDidMount() {
@@ -38,10 +38,11 @@ export class ProfilePage extends Component {
 			.catch(err => {
 				console.log(err);
 			});
+		this.setState({ bannerLoading: true });
 		axios
 			.get("/banner")
 			.then(res => {
-				this.setState({ banner: res.data });
+				this.setState({ banner: res.data, bannerLoading: false });
 			})
 			.catch(err => console.log(err));
 	}
@@ -58,12 +59,10 @@ export class ProfilePage extends Component {
 		});
 	};
 	render() {
-		const banner1 = {
-			link: "http://hello.html",
-			src: Img,
-			title: "Title"
-		};
-		let banner = this.state.banner ? <Banner banner={this.state.banner} /> : <Banner banner={banner1} />;
+		let banner = null;
+		if (!this.state.bannerLoading) {
+			banner = <Banner banner={this.state.banner} />;
+		}
 		let profile = <Spinner />;
 		let articles = <Spinner />;
 		if (!this.state.loading) {
