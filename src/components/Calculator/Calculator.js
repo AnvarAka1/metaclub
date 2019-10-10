@@ -9,7 +9,7 @@ const calculator = props => {
 				<CalculatorCard
 					lang={props.lang}
 					currency={calc.currency}
-					percentage={calc.percentage}
+					percentage={props.calc.roi}
 					date={calc.date}
 				/>
 			</Grid>

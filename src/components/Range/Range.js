@@ -6,6 +6,10 @@ import "react-rangeslider/lib/index.css";
 import "./Range.css";
 const range = props => {
 	const left = `calc(${props.elementConfig.value / 10000}% - 40px)`;
+	const roundUp = (num, precision) => {
+		precision = Math.pow(10, precision);
+		return Math.ceil(num * precision) / precision;
+	};
 	return (
 		<div className={classes.RangeWrapper}>
 			<div className={classes.Range}>
@@ -17,7 +21,7 @@ const range = props => {
 					}}
 					className={[ classes.Box, classes.Left ].join(" ")}
 				>
-					{props.elementConfig.value} MHC = {props.mhc * props.elementConfig.value} USD
+					{props.elementConfig.value} MHC = {roundUp(props.mhc * props.elementConfig.value, 2)} USD
 				</div>
 				{/* <div style={{ background: "#D6D6D6" }} className={[ classes.Box, classes.Right ].join(" ")}>
 					{props.maxValue} USD = {props.mhc * props.maxValue} MHC

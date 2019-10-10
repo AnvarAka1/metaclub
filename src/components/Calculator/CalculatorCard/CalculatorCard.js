@@ -23,6 +23,7 @@ const calculatorCard = props => {
 				</tr>
 			);
 		});
+
 	return (
 		<div className={classes.CalculatorCard}>
 			<Card calc>
@@ -38,7 +39,7 @@ const calculatorCard = props => {
 				</table>
 				<div className={classes.Roi}>
 					<Text small>ROI</Text>
-					<Header h4>{props.percentage}</Header>
+					<Header h4>{props.percentage}%</Header>
 				</div>
 			</Card>
 		</div>

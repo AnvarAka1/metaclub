@@ -19,6 +19,9 @@ import { connect } from "react-redux";
 class AboutPage extends Component {
 	_isMounted = false;
 	mhc = null;
+	currencies = [];
+	currency1 = null;
+	period = [ 1, 7, 30, 365 ];
 	state = {
 		news: null,
 		calculator: {
@@ -37,11 +40,13 @@ class AboutPage extends Component {
 				},
 				value: 512
 			},
-			calcCard: null
+			calcCard: null,
+			roi: 0.58
 		},
 		copied: false,
 		serverCards: null,
-		loading: true
+		loading: true,
+		initialUpdate: false
 	};
 	componentDidMount() {
 		this._isMounted = true;
@@ -72,7 +77,10 @@ class AboutPage extends Component {
 				percentage: "+0.58 %"
 			}
 		];
+
 		let serverCards;
+
+		let currency = null;
 		axios
 			.get("/articles/last3")
 			.then(res => {
@@ -93,16 +101,40 @@ class AboutPage extends Component {
 			.then(res => {
 				if (this._isMounted) {
 					this.mhc = +res.data.data.MHC;
-					this.currency(res.data.data);
+					//this.currency(res.data.data);
+					currency = res.data.data;
+					this.currency1 = currency;
+					// for (let i = 0; i < calcCard.length; i++) {
+					// 	calcCard[i].currency = this.currency(res.data.data);
+					// }
+					// const calculator = {
+					// 	...this.state.calculator,
+					// 	calcCard: calcCard
+					// };
+					// if (this._isMounted) {
+					// 	this.setState({ serverCards: serverCards, calculator: calculator, loading: false });
+
+					// }
+					// axios to get ROI
+					const roi = 0.9;
+
+					this.currencies = this.currency(currency);
 					for (let i = 0; i < calcCard.length; i++) {
-						calcCard[i].currency = this.currency(res.data.data);
+						calcCard[i].currency = this.getProfit(roi, currency, this.period[i]);
 					}
 					const calculator = {
 						...this.state.calculator,
+						roi: roi,
 						calcCard: calcCard
 					};
+					// console.log(calcCard);
 					if (this._isMounted) {
-						this.setState({ serverCards: serverCards, calculator: calculator, loading: false });
+						this.setState({
+							serverCards: serverCards,
+							calculator: calculator,
+							loading: false,
+							initialUpdate: true
+						});
 					}
 				}
 			})
@@ -119,11 +151,41 @@ class AboutPage extends Component {
 				this.setState({ copied: false });
 			}, 3000);
 		}
+		if (this.state.initialUpdate) {
+			if (!this.state.loading) {
+				this.rangeChangeHandler(this.state.calculator.range.value);
+			}
+			this.setState({ initialUpdate: false });
+		}
 	}
 
-	getCurrencyFromServer = () => {
-		// get usd value from state
+	getProfit = (roi, currency, multiplier) => {
+		const revPercentage = roi + (roi - roi * 0.1);
+		const roiCoins = revPercentage * 100 / 1000;
+		const currencyArray = this.currency(currency);
+		console.log(currencyArray);
+		let values = [
+			{
+				key: currencyArray[0].key,
+				value: this.roundUp((currencyArray[0].value + currencyArray[0].value * roiCoins * 0.01) * multiplier, 4)
+			},
+			{
+				key: currencyArray[1].key,
+				value: this.roundUp((currencyArray[1].value + currencyArray[1].value * roiCoins * 0.01) * multiplier, 4)
+			},
+			{
+				key: currencyArray[2].key,
+				value: this.roundUp((currencyArray[2].value + currencyArray[2].value * roiCoins * 0.01) * multiplier, 4)
+			},
+			{
+				key: currencyArray[3].key,
+				value: this.roundUp((currencyArray[3].value + currencyArray[3].value * roiCoins * 0.01) * multiplier, 4)
+			}
+		];
+
+		return values;
 	};
+
 	currency = object => {
 		const array = [];
 		const keys = [ "MHC", "TUSD", "BTC", "ETH" ];
@@ -146,15 +208,44 @@ class AboutPage extends Component {
 		let calculator = { ...this.state.calculator };
 		calculator.range = { ...this.state.calculator.range, value: value };
 		calculator.input = { ...this.state.calculator.input, value: value };
+		let calcCard = this.state.calculator.calcCard.slice();
+
+		let currencies = calcCard.map((el, i) => {
+			const values = this.getProfit(this.state.calculator.roi, this.currency1, this.period[i]);
+			const currencyElements = el.currency.map((el, index) => {
+				return {
+					key: el.key,
+					value: this.roundUp(values[index].value * value, 4)
+				};
+			});
+			return currencyElements;
+		});
+		const newCalcCard = calcCard.map((el, index) => {
+			return { id: el.id, date: el.date, percentage: el.percentage, currency: currencies[index] };
+		});
+		calculator.calcCard = newCalcCard;
 		this.setState({ calculator: calculator });
 	};
 	inputChangedHandler = event => {
 		let value = event.target.value;
-		// value = value < 512 ? 512 : value;
-		// value = value > 1000000 ? 1000000 : value;
 		let calculator = { ...this.state.calculator };
 		calculator.input = { ...this.state.calculator.input, value: value };
+		let calcCard = this.state.calculator.calcCard.slice();
 
+		let currencies = calcCard.map((el, i) => {
+			const values = this.getProfit(this.state.calculator.roi, this.currency1, this.period[i]);
+			const currencyElements = el.currency.map((el, index) => {
+				return {
+					key: el.key,
+					value: this.roundUp(values[index].value * value, 4)
+				};
+			});
+			return currencyElements;
+		});
+		const newCalcCard = calcCard.map((el, index) => {
+			return { id: el.id, date: el.date, percentage: el.percentage, currency: currencies[index] };
+		});
+		calculator.calcCard = newCalcCard;
 		this.setState({ calculator: calculator });
 	};
 	buttonClickedHandler = event => {
