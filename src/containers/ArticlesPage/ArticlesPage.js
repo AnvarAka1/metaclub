@@ -6,6 +6,7 @@ import axios from "../../axios-db";
 import Spinner from "../../components/Spinner/Spinner";
 import { connect } from "react-redux";
 import Banner from "../../components/Banner/Banner";
+import localIpUrl from "local-ip-url";
 export class ArticlesPage extends Component {
 	catPagination = false;
 	catNumber = -1;
@@ -46,7 +47,12 @@ export class ArticlesPage extends Component {
 				}
 
 				this.setState({ menu: cats, loading: false });
+				const formData = new FormData();
+				formData.append("client_IP", localIpUrl("public"));
+				formData.append("user_agent", navigator.userAgent);
+				return axios.post(`/banner/view`, formData);
 			})
+			.then(res => {})
 			.catch(err => {
 				console.log("Error ", err);
 			});

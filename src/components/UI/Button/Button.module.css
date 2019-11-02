@@ -1,6 +1,6 @@
 .Button {
 	padding: 8px 14px 9px;
-	background-color: #7146ce;
+	background: #7146ce;
 	color: #fefefe;
 	outline: none;
 	border: none;
@@ -9,6 +9,14 @@
 	font-size: 14px;
 	display: inline-block;
 	transition: all .5s ease;
+}
+.Button:hover {
+	background: rgb(168, 127, 221);
+	color: #fff;
+}
+.Button:active {
+	background: #7146ce;
+	color: #fff;
 }
 .Button:disabled {
 	background-color: grey;
@@ -23,13 +31,27 @@
 	background: transparent;
 	color: #7146ce;
 }
-
+.White:hover {
+	color: #815bd3;
+	background: white;
+}
+.White:active {
+	background: #7146ce;
+	color: #fff;
+}
 .Grey {
 	color: #333333;
 	border: 1px solid #333;
 	background: transparent;
 }
-
+.Grey:hover {
+	color: #4d4b4b;
+	background: white;
+}
+.Grey:active {
+	color: #333333;
+	background: transparent;
+}
 .Flatten {
 	border-radius: 5px;
 }

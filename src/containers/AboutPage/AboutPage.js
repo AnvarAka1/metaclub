@@ -22,6 +22,7 @@ class AboutPage extends Component {
 	currencies = [];
 	currency1 = null;
 	period = [ 1, 7, 30, 365 ];
+
 	state = {
 		news: null,
 		calculator: {
@@ -104,17 +105,6 @@ class AboutPage extends Component {
 					//this.currency(res.data.data);
 					currency = res.data.data;
 					this.currency1 = currency;
-					// for (let i = 0; i < calcCard.length; i++) {
-					// 	calcCard[i].currency = this.currency(res.data.data);
-					// }
-					// const calculator = {
-					// 	...this.state.calculator,
-					// 	calcCard: calcCard
-					// };
-					// if (this._isMounted) {
-					// 	this.setState({ serverCards: serverCards, calculator: calculator, loading: false });
-
-					// }
 					// axios to get ROI
 					const roi = 0.9;
 
@@ -122,11 +112,13 @@ class AboutPage extends Component {
 					for (let i = 0; i < calcCard.length; i++) {
 						calcCard[i].currency = this.getProfit(roi, currency, this.period[i]);
 					}
+
 					const calculator = {
 						...this.state.calculator,
 						roi: roi,
 						calcCard: calcCard
 					};
+					console.log(calculator);
 					// console.log(calcCard);
 					if (this._isMounted) {
 						this.setState({
@@ -152,37 +144,40 @@ class AboutPage extends Component {
 			}, 3000);
 		}
 		if (this.state.initialUpdate) {
+			console.log("UPD");
 			if (!this.state.loading) {
 				this.rangeChangeHandler(this.state.calculator.range.value);
 			}
 			this.setState({ initialUpdate: false });
 		}
+		console.log(this.state.calculator);
 	}
 
 	getProfit = (roi, currency, multiplier) => {
-		const revPercentage = roi + (roi - roi * 0.1);
-		const roiCoins = revPercentage * 100 / 1000;
 		const currencyArray = this.currency(currency);
-		console.log(currencyArray);
+		// quantity of MHC
+		const numberOfMHC = (1 + 0.0019 * roi) * this.state.calculator.input.value - this.state.calculator.input.value;
+		const usd = numberOfMHC * currencyArray[0].value;
+
 		let values = [
 			{
 				key: currencyArray[0].key,
-				value: this.roundUp((currencyArray[0].value + currencyArray[0].value * roiCoins * 0.01) * multiplier, 4)
+				value: this.roundUp(numberOfMHC * multiplier, 4)
 			},
 			{
 				key: currencyArray[1].key,
-				value: this.roundUp((currencyArray[1].value + currencyArray[1].value * roiCoins * 0.01) * multiplier, 4)
+				value: usd / currencyArray[1].value * multiplier
 			},
 			{
 				key: currencyArray[2].key,
-				value: this.roundUp((currencyArray[2].value + currencyArray[2].value * roiCoins * 0.01) * multiplier, 4)
+				value: usd / currencyArray[2].value * multiplier
 			},
 			{
 				key: currencyArray[3].key,
-				value: this.roundUp((currencyArray[3].value + currencyArray[3].value * roiCoins * 0.01) * multiplier, 4)
+				value: usd / currencyArray[3].value * multiplier
 			}
 		];
-
+		// console.log(values);
 		return values;
 	};
 
@@ -215,37 +210,40 @@ class AboutPage extends Component {
 			const currencyElements = el.currency.map((el, index) => {
 				return {
 					key: el.key,
-					value: this.roundUp(values[index].value * value, 4)
+					value: values[index].value
 				};
 			});
 			return currencyElements;
 		});
+
 		const newCalcCard = calcCard.map((el, index) => {
 			return { id: el.id, date: el.date, percentage: el.percentage, currency: currencies[index] };
 		});
 		calculator.calcCard = newCalcCard;
+
 		this.setState({ calculator: calculator });
 	};
 	inputChangedHandler = event => {
 		let value = event.target.value;
 		let calculator = { ...this.state.calculator };
 		calculator.input = { ...this.state.calculator.input, value: value };
-		let calcCard = this.state.calculator.calcCard.slice();
+		// let calcCard = this.state.calculator.calcCard.slice();
 
-		let currencies = calcCard.map((el, i) => {
-			const values = this.getProfit(this.state.calculator.roi, this.currency1, this.period[i]);
-			const currencyElements = el.currency.map((el, index) => {
-				return {
-					key: el.key,
-					value: this.roundUp(values[index].value * value, 4)
-				};
-			});
-			return currencyElements;
-		});
-		const newCalcCard = calcCard.map((el, index) => {
-			return { id: el.id, date: el.date, percentage: el.percentage, currency: currencies[index] };
-		});
-		calculator.calcCard = newCalcCard;
+		// let currencies = calcCard.map((el, i) => {
+		// 	const values = this.getProfit(this.state.calculator.roi, this.currency1, this.period[i]);
+		// 	console.log(values);
+		// 	const currencyElements = el.currency.map((el, index) => {
+		// 		return {
+		// 			key: el.key,
+		// 			value: values[index].value
+		// 		};
+		// 	});
+		// 	return currencyElements;
+		// });
+		// const newCalcCard = calcCard.map((el, index) => {
+		// 	return { id: el.id, date: el.date, percentage: el.percentage, currency: currencies[index] };
+		// });
+		// calculator.calcCard = newCalcCard;
 		this.setState({ calculator: calculator });
 	};
 	buttonClickedHandler = event => {
@@ -258,6 +256,7 @@ class AboutPage extends Component {
 		calculator.range = { ...this.state.calculator.range, value: +value };
 		calculator.input = { ...this.state.calculator.input, value: +value };
 		this.setState({ calculator: calculator });
+		this.rangeChangeHandler(value);
 		// const value = this.state.calculator.input.value;
 	};
 	articleHandler = (event, id) => {
@@ -299,10 +298,13 @@ class AboutPage extends Component {
 		}
 		const content = {
 			first: {
-				header: [ "Революционер на криптовалютной отрасли", "Cryptocurrency Revolutionary" ],
+				header: [
+					"Про #MetaHashCoin, multiPoS майнинг, форженг, стейкинг",
+					"About #MetaHashCoin, multiPoS, mining, forging, staking"
+				],
 				text: [
-					"Это клуб для сообществу #MetaHash(MHC), Объединяющий Инвесторов, Программистов, Разработчиков и просто людей интересующей криптовалютный тематики.",
-					"This is a club for the #MetaHash (MHC) community, bringing together Investors, Programmers, Developers and just people interested in cryptocurrency topics."
+					"Это клуб для сообщества #MetaHash(MHC), Объединяющий Инвесторов, Программистов, Разработчиков и просто Людей, интересующихся криптовалютной тематикой.",
+					"This is a club for the #MetaHash (MHC) community, Bringing together Investors, Programmers, Developers and just People interested in cryptocurrency topics."
 				],
 				link: [ "Подробнее »", "More details »" ]
 			},
@@ -332,7 +334,7 @@ class AboutPage extends Component {
 								Blockchain <span className="accent">4.0</span>
 							</Header>
 							<Header h2 thin mtb>
-								<span className="accent">#MetaHash(MHC)</span> - {content.first.header[this.props.lang]}!{" "}
+								<span className="accent">Metaclub</span> - {content.first.header[this.props.lang]}!{" "}
 							</Header>
 							<Text mbBig part>
 								MetaClub - {content.first.text[this.props.lang]}{" "}

@@ -13,6 +13,8 @@ const signForm = props => {
 	const { isSignIn, signIn, signUp, lang } = props;
 	const content = {
 		login: [ "Войти", "Login" ],
+		or: [ "Или", "Or" ],
+		google: [ "Продолжить с Google", "Continue with Google" ],
 		reg: [ "Зарегистрироваться", "Register" ],
 		forgotPass: [ "Забыли пароль?", "Forgot password?" ],
 		sinHeader: [ "Авторизация", "Sign in" ],
@@ -21,48 +23,25 @@ const signForm = props => {
 		signUpBtn: [ "Зарегистрироваться", "Sign up" ],
 		message: [ "Выберите себе аватарку", "Choose your avatar" ],
 		alternativeHeader: [ "Либо войдите с помощью", "Or login with" ],
-		agreement: [ "Условия пользовательского соглашения", "Terms of use agreement" ]
+		agreement: [ "Условия пользовательского соглашения", "Terms of use agreement" ],
+		agreementSignIn: [ "Продолжая, вы соглашаетесь с", "By continuing, you agree with" ],
+		agreementLink: [ "Условиями использования Metaclub", "Terms of Metaclub usage" ]
 	};
 	let sign = [];
 	sign = isSignIn ? signIn.slice() : signUp.slice();
 
-	// const avatar = isSignIn ? null : (
-	// 	<Grid item xs={12}>
-	// 		<Input
-	// 			elementConfig={{
-	// 				message: content.message[props.lang],
-
-	// 				inputType: "file",
-	// 				isValid: true,
-	// 				config: {
-	// 					type: "file"
-	// 				}
-	// 			}}
-	// 			changed={props.imageChanged}
-	// 		/>
-	// 	</Grid>
-	// );
 	let signForm = (
 		<Grid item xs={12}>
 			<Spinner />
 		</Grid>
 	);
-	// const socialLinks1 = (
-	// 	<React.Fragment>
-	// 		<a target="_blank" rel="noopener noreferrer" href={"http://api.metaclub.org/login/google"}>
-	// 			<Button flex white wide clicked={props.googleClicked} flatten>
-	// 				<img src={GoogleIcon} className={classes.Google} alt="Google" />Google
-	// 			</Button>
-	// 		</a>
-	// 	</React.Fragment>
-	// );
+
 	const socialLinks = (
 		<React.Fragment>
 			<GoogleLogin
+				buttonText={content.google[props.lang]}
 				className={classes.GoogleButton}
-				// clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
 				clientId="577775945538-b8slg5r441le79hi2606hm6gqh8a4sis.apps.googleusercontent.com"
-				buttonText="Google"
 				onSuccess={props.responseGoogle}
 				onFailure={props.responseGoogle}
 				cookiePolicy={"single_host_origin"}
@@ -142,22 +121,38 @@ const signForm = props => {
 					{imageError}
 					{signForm}
 					{forgotPass}
-					<Hidden xsDown>
-						<Grid item sm={5} />
-					</Hidden>
+					{isSignIn ? null : (
+						<Hidden xsDown>
+							<Grid item sm={5} />
+						</Hidden>
+					)}
 
 					<Grid item xs={12} sm={7}>
 						{button}
 					</Grid>
+					{isSignIn ? (
+						<Grid item xs={12} sm={5}>
+							<Header h5 center color="grey">
+								{content.or[props.lang]}
+							</Header>
+						</Grid>
+					) : null}
 				</Grid>
 			</form>
 			{isSignIn ? (
-				<Grid container spacing={5}>
+				<Grid container spacing={3}>
 					<Grid item xs={12}>
-						<Header mtb h6 center color="#333">
-							{content.alternativeHeader[props.lang]}
-						</Header>
 						{socialLinks}
+					</Grid>
+					<Grid item xs={12}>
+						<Header h6 center normal>
+							{content.agreementSignIn[props.lang]}
+						</Header>
+						<a href="/agreement" rel="noopener noreferrer" target="_blank">
+							<Header center color="#7146ce" h6>
+								{content.agreementLink[props.lang]}
+							</Header>
+						</a>
 					</Grid>
 				</Grid>
 			) : null}

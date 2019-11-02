@@ -14,7 +14,7 @@ import localIpUrl from "local-ip-url";
 import Hidden from "@material-ui/core/Hidden";
 import Content from "../../components/Content/Content";
 import Banner from "../../components/Banner/Banner";
-
+// import localIpUrl from "local-ip-url";
 export class ArticlePage extends Component {
 	state = {
 		commentForm: {
@@ -68,8 +68,12 @@ export class ArticlePage extends Component {
 				return axios.post(`/articles/view/create`, formData);
 			})
 			.then(res => {
-				// console.log(res);
+				const formData = new FormData();
+				formData.append("client_IP", localIpUrl("public"));
+				formData.append("user_agent", navigator.userAgent);
+				return axios.post(`/banner/view`, formData);
 			})
+			.then(res => {})
 			.catch(err => {
 				console.log("Error ", err);
 			});

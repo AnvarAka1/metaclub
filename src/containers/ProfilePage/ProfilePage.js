@@ -6,6 +6,7 @@ import axios from "../../axios-db";
 import Spinner from "../../components/Spinner/Spinner";
 import { connect } from "react-redux";
 import Banner from "../../components/Banner/Banner";
+import localIpUrl from "local-ip-url";
 export class ProfilePage extends Component {
 	state = {
 		profile: null,
@@ -34,6 +35,10 @@ export class ProfilePage extends Component {
 				// console.log(res.data);
 				articles = res.data;
 				this.setState({ profile: profile, articles: articles, loading: false });
+				const formData = new FormData();
+				formData.append("client_IP", localIpUrl("public"));
+				formData.append("user_agent", navigator.userAgent);
+				return axios.post(`/banner/view`, formData);
 			})
 			.catch(err => {
 				console.log(err);

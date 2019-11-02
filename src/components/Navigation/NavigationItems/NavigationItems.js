@@ -28,7 +28,7 @@ const navigationItems = props => {
 	});
 	const button = props.isAuthorized ? (
 		<React.Fragment>
-			{!props.vertical ? (
+			<div className={classes.ButtonsAuthorized}>
 				<NavLink to="/settings">
 					<Button
 						key={navItems.button[1].title}
@@ -39,17 +39,16 @@ const navigationItems = props => {
 						{navItems.button[1].title}
 					</Button>
 				</NavLink>
-			) : null}
-
-			<Header
-				normal
-				color="#333"
-				clicked={props.logout}
-				h6
-				headerStyle={{ marginRight: "10px", cursor: "pointer" }}
-			>
-				{logout[props.lang]}
-			</Header>
+				<Header
+					normal
+					color="#333"
+					clicked={props.logout}
+					h6
+					headerStyle={{ marginRight: "10px", cursor: "pointer" }}
+				>
+					{logout[props.lang]}
+				</Header>
+			</div>
 		</React.Fragment>
 	) : (
 		<Button key={navItems.button[0].title} {...navItems.button[0].type} clicked={navItems.button[0].clicked}>
@@ -71,14 +70,7 @@ const navigationItems = props => {
 			</li>
 		);
 
-	const rightNav = props.vertical ? // <Hidden mdUp>
-	// 	<li style={{ flexFlow: "row", justifyContent: "center" }} className={classes.Buttons}>
-	// 		{button}
-	// 		{/* Language selector */}
-	// 		<LangSelect lang={props.lang} langClicked={props.langClicked} />
-	// 	</li>
-	// </Hidden>
-	null : (
+	const rightNav = props.vertical ? null : (
 		<li className={classes.Buttons}>
 			{/* <Hidden smDown> */}
 			{button}
